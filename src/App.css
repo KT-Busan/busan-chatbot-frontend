@@ -22,16 +22,16 @@ body {
     flex-direction: column;
     background-color: #ffffff;
     min-width: 0;
+    /* ▼▼▼ 수정: 여기서 스크롤을 제거합니다. ▼▼▼ */
+    /* overflow-y: auto; */
 }
 
 /* 사이드바 */
 .sidebar {
-    /* 사이드바가 유연하게 줄어들도록 수정 */
-    flex-grow: 0; /* 공간이 남아도 늘어나지 않음 */
-    flex-shrink: 1; /* 공간이 부족하면 줄어듦 */
-    flex-basis: 260px; /* 기본 너비는 260px */
-    min-width: 200px; /* 최소 너비는 200px로 제한 (더 이상 줄어들지 않음) */
-
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 260px;
+    min-width: 200px;
     background-color: #202123;
     color: white;
     display: flex;
@@ -96,12 +96,12 @@ body {
 .chat-window {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100%; /* ▼▼▼ 수정: 부모 요소의 전체 높이를 차지하도록 설정합니다. ▼▼▼ */
 }
 
 .chat-messages {
-    flex-grow: 1;
-    overflow-y: auto;
+    flex-grow: 1; /* ▼▼▼ 수정: 이 영역이 남은 공간을 모두 차지하도록 합니다. ▼▼▼ */
+    overflow-y: auto; /* ▼▼▼ 수정: 내용이 길어지면 이 영역만 스크롤됩니다. ▼▼▼ */
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
@@ -157,26 +157,13 @@ body {
     font-size: 1.1em;
 }
 
-.empty-chat-message {
-    text-align: center;
-    margin: auto;
-    color: #888;
-}
-
-.empty-chat-message h1 {
-    font-size: 2.5em;
-    background: linear-gradient(to bottom right, #0094d4, #0033a0, #e20074);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 800;
-    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
-}
-
 /* 채팅 입력창 */
 .chat-input-container {
     padding: 20px 40px;
     border-top: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    /* ▼▼▼ 수정: sticky 속성을 제거하고, flex-shrink를 추가합니다. ▼▼▼ */
+    flex-shrink: 0; /* 입력창 영역이 줄어들지 않도록 보장합니다. */
 }
 
 .chat-input-form {
@@ -212,4 +199,48 @@ body {
 
 .send-button:hover {
     background-color: #002270;
+}
+
+/* 초기 화면 및 카테고리 버튼 스타일 */
+.empty-chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto; /* ▼▼▼ 수정: 초기 화면을 세로 중앙에 가깝게 배치합니다. ▼▼▼ */
+    margin-bottom: auto;
+    width: 100%;
+    max-width: 768px;
+    align-self: center;
+    padding-bottom: 50px; /* 입력창과의 여백 확보 */
+}
+
+.empty-chat-container .bot-message {
+    align-self: stretch;
+    margin-bottom: 24px;
+}
+
+.category-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.category-btn {
+    background-color: #FFFFFF;
+    border: 1px solid #dcdcdc;
+    color: #333333;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 0.9em;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    height: 100%;
+}
+
+.category-btn:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
