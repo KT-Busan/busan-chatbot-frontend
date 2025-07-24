@@ -101,7 +101,7 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    padding-bottom: 10px; /* 하단 여백 감소 */
+    padding-bottom: 10px;
 }
 
 /* 헤더 */
@@ -168,21 +168,21 @@ body {
 /* 메시지 스타일 */
 .message {
     display: flex;
-    margin-bottom: 10px; /* 메시지 간 간격 감소 */
-    align-items: flex-start; /* 말풍선과 프로필 이미지 상단 정렬 */
-    padding: 0 20px; /* 좌우 패딩 유지 */
+    margin-bottom: 10px;
+    align-items: flex-start;
+    padding: 0 20px;
 }
 
 .message-content {
     display: flex;
-    flex-direction: column; /* 텍스트와 이미지 세로로 배치 (봇 메시지) */
+    flex-direction: column;
 }
 
 .message-bubble {
     padding: 10px 14px;
     border-radius: 18px;
     word-wrap: break-word;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* 살짝 그림자 */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* 사용자 메시지 */
@@ -191,13 +191,13 @@ body {
 }
 
 .user-message .message-content {
-    align-items: flex-end; /* 오른쪽 정렬 */
+    align-items: flex-end;
 }
 
 .user-message .message-bubble {
-    background-color: #DCF8C6; /* 카카오톡 연두색 */
+    background-color: #DCF8C6;
     color: #000;
-    border-radius: 10px 0 10px 10px; /* 오른쪽 뾰족하게 */
+    border-radius: 10px 0 10px 10px;
 }
 
 /* 봇 메시지 */
@@ -206,8 +206,8 @@ body {
 }
 
 .bot-message .message-content {
-    align-items: flex-start; /* 왼쪽 정렬 */
-    flex-direction: row; /* 이미지와 말풍선 가로로 배치 */
+    align-items: flex-start;
+    flex-direction: row;
 }
 
 .message-profile-pic {
@@ -215,13 +215,13 @@ body {
     height: 34px;
     border-radius: 50%;
     margin-right: 10px;
-    margin-top: 5px; /* 말풍선과 수직 정렬 */
+    margin-top: 5px;
 }
 
 .bot-message .message-bubble {
-    background-color: #f1f1f1; /* ▼▼▼ 흰색에서 연한 회색으로 수정 ▼▼▼ */
+    background-color: #f1f1f1;
     color: #000;
-    border-radius: 0 10px 10px 10px; /* 왼쪽 뾰족하게 */
+    border-radius: 0 10px 10px 10px;
 }
 
 .bot-message .message-bubble strong {
@@ -251,11 +251,25 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
     color: #333;
+    /* 이미지와 텍스트 정렬을 위한 flexbox 속성 추가 */
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 정렬 */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* 이미지와 텍스트 사이 간격 */
 }
 
 .main-menu-btn:hover {
     background-color: #e9e9e9;
 }
+
+/* 메인 메뉴 아이콘 스타일 추가 */
+.main-menu-icon {
+    width: 32px; /* 아이콘 크기 조정 */
+    height: 32px;
+    border-radius: 8px; /* 살짝 둥근 사각형 */
+}
+
 
 /* 추천 질문 */
 .quick-replies-container {
