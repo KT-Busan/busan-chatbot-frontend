@@ -4,25 +4,30 @@ import ChatInput from './ChatInput';
 import botProfileImage from '../assets/bot-profile.png';
 
 // 새로운 메인 메뉴 버튼
-const mainMenu = ['부산청년센터 대관 이용 수칙', '부산청년센터 장소 대여', '부산시 모집 중인 일자리 지원 사업',];
+const mainMenu = [
+    '부산청년센터 대관 이용 수칙',
+    '부산청년센터 장소 대여',
+    '현재 모집 중인 일자리 지원 사업',
+];
 
-// 새로운 하단 추천 질문 버튼
-const quickReplies = ['청년 센터 일정', '청년 센터 이용 수칙', '청년 센터 운영 시간', 'FAQ'];
+// 하단 버튼을 링크 데이터로 변경
+const quickLinks = [
+    {text: "부산경제진흥원 사이트 바로가기", url: "https://www.bepa.kr/kor/view.do?no=1670"},
+    {text: "부산청년플랫폼 사이트 바로가기", url: "https://young.busan.go.kr/policySupport/list.nm?menuCd=12"},
+    {text: "부산청년센터 사이트 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
+];
 
 // 중앙 정렬될 환영 메시지 컴포넌트
-const WelcomeScreen = () => (<div className="welcome-screen">
-    {/* 1. B-BOT 이름 위에 캐릭터 이미지 추가 */}
-    <img src={botProfileImage} alt="B-BOT Profile" className="welcome-profile-pic"/>
-
-    {/* 챗봇 이름과 영어 설명 */}
-    <strong className="gradient-text">B-BOT</strong>
-    <span className="gradient-text">For the Youth in Busan</span>
-
-    {/* 2. 한글 설명 문구 추가 */}
-    <p className="welcome-subtitle">
-        안녕하세요, 부산 청년을 위한 정책 지원 챗봇입니다. 무엇이든 물어보세요!
-    </p>
-</div>);
+const WelcomeScreen = () => (
+    <div className="welcome-screen">
+        <img src={botProfileImage} alt="B-BOT Profile" className="welcome-profile-pic"/>
+        <strong className="gradient-text">B-BOT</strong>
+        <span className="gradient-text">For the Youth in Busan</span>
+        <p className="welcome-subtitle">
+            안녕하세요, 부산 청년을 위한 정책 지원 챗봇입니다. 무엇이든 물어보세요!
+        </p>
+    </div>
+);
 
 function ChatWindow({chat, onSendMessage}) {
     const chatContainerRef = useRef(null);
@@ -37,45 +42,65 @@ function ChatWindow({chat, onSendMessage}) {
         onSendMessage(text);
     };
 
-    return (<div className="chat-window">
-        {chat.messages.length > 0 && (<header className="chat-header">
-            <img src={botProfileImage} alt="Bot Profile" className="header-profile-pic"/>
-            <div className="header-title">
-                <strong>B-BOT</strong>
-                <span>For the Youth in Busan</span>
-            </div>
-        </header>)}
-
-        <div className="chat-messages" ref={chatContainerRef}>
-            {chat.messages.length === 0 ? (<WelcomeScreen/>) : (chat.messages.map((msg, index) => (<div key={index}
-                                                                                                        className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}>
-                <div className="message-content">
-                    {msg.sender === 'bot' && (
-                        <img src={botProfileImage} alt="Bot Profile" className="message-profile-pic"/>)}
-                    <div className="message-bubble">
-                        <ReactMarkdown>{msg.text}</ReactMarkdown>
+    return (
+        <div className="chat-window">
+            {chat.messages.length > 0 && (
+                <header className="chat-header">
+                    <img src={botProfileImage} alt="Bot Profile" className="header-profile-pic"/>
+                    <div className="header-title">
+                        <strong>B-BOT</strong>
+                        <span>For the Youth in Busan</span>
                     </div>
-                </div>
-            </div>)))}
-        </div>
+                </header>
+            )}
 
-        {/* 3. 별도의 환영 메시지 버블은 이제 필요 없으므로 삭제 */}
-        <div className="main-menu-container">
-            {mainMenu.map((item, index) => (
-                <button key={index} className="main-menu-btn" onClick={() => handleButtonClick(item)}>
-                    <span>{item}</span>
-                </button>))}
-        </div>
+            <div className="chat-messages" ref={chatContainerRef}>
+                {chat.messages.length === 0 ? (
+                    <WelcomeScreen/>
+                ) : (
+                    chat.messages.map((msg, index) => (
+                        <div key={index}
+                             className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}>
+                            <div className="message-content">
+                                {msg.sender === 'bot' && (
+                                    <img src={botProfileImage} alt="Bot Profile" className="message-profile-pic"/>
+                                )}
+                                <div className="message-bubble">
+                                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
 
-        <div className="quick-replies-container">
-            {quickReplies.map((item, index) => (
-                <button key={index} className="quick-reply-btn" onClick={() => handleButtonClick(item)}>
-                    {item}
-                </button>))}
-        </div>
+            <div className="main-menu-container">
+                {mainMenu.map((item, index) => (
+                    <button key={index} className="main-menu-btn" onClick={() => handleButtonClick(item)}>
+                        <span>{item}</span>
+                    </button>
+                ))}
+            </div>
 
-        <ChatInput onSendMessage={onSendMessage}/>
-    </div>);
+            {/* 추천 질문(quickReplies)을 링크(quickLinks)로 변경 */}
+            <div className="quick-replies-container">
+                {quickLinks.map((link, index) => (
+                    // button을 a 태그로 변경
+                    <a
+                        key={index}
+                        href={link.url}
+                        target="_blank" // 새 탭에서 열기
+                        rel="noopener noreferrer" // 보안 설정
+                        className="quick-reply-link" // 새로운 스타일을 위한 클래스
+                    >
+                        {link.text}
+                    </a>
+                ))}
+            </div>
+
+            <ChatInput onSendMessage={onSendMessage}/>
+        </div>
+    );
 }
 
 export default ChatWindow;
