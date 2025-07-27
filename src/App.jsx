@@ -21,12 +21,14 @@ function App() {
     const [activeChatId, setActiveChatId] = useState(null);
     const [anonymousId] = useState(getAnonymousId());
 
+    const backendUrl = 'https://b-bot-backend.onrender.com';
+
     // (DB에서 기록 불러오는 useEffect는 이전과 동일)
     useEffect(() => {
         const fetchHistory = async () => {
             if (!anonymousId) return;
             try {
-                const response = await axios.get(`http://localhost:5001/api/history/${anonymousId}`);
+                const response = await axios.get(`https://b-bot-backend.onrender.com/api/history/${anonymousId}`);
                 const history = response.data;
                 if (history && Object.keys(history).length > 0) {
                     setChats(history);
@@ -69,7 +71,7 @@ function App() {
             }
         }
         try {
-            await axios.delete(`http://localhost:5001/api/chat/${chatIdToDelete}`);
+            await axios.delete(`https://b-bot-backend.onrender.com/api/chat/${chatIdToDelete}`);
         } catch (error) {
             console.error("채팅 삭제 실패:", error);
             setChats(originalChats);
@@ -99,7 +101,7 @@ function App() {
         });
 
         try {
-            const response = await axios.post('http://localhost:5001/api/chat', {
+            const response = await axios.post('https://b-bot-backend.onrender.com/api/chat', {
                 message: messageText,
                 anonymousId: anonymousId,
                 chatId: activeChatId,
