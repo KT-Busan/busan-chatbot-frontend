@@ -3,11 +3,11 @@ import ReactMarkdown from 'react-markdown';
 import ChatInput from './ChatInput';
 import botProfileImage from '../assets/bot-profile.png';
 
-// 새로운 메인 메뉴 버튼
+// 메인 메뉴 버튼 텍스트 수정
 const mainMenu = [
     '부산청년센터 대관 이용 수칙',
     '부산청년센터 장소 대여',
-    '현재 모집 중인 일자리 지원 사업',
+    '현재 모집 중인 일자리 지원 사업', // '부산시' -> '현재'로 텍스트 변경
 ];
 
 // 하단 버튼을 링크 데이터로 변경
@@ -66,7 +66,14 @@ function ChatWindow({chat, onSendMessage}) {
                                     <img src={botProfileImage} alt="Bot Profile" className="message-profile-pic"/>
                                 )}
                                 <div className="message-bubble">
-                                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                                    <ReactMarkdown
+                                        components={{
+                                            a: ({node, ...props}) => <a {...props} target="_blank"
+                                                                        rel="noopener noreferrer"/>
+                                        }}
+                                    >
+                                        {msg.text}
+                                    </ReactMarkdown>
                                 </div>
                             </div>
                         </div>
@@ -82,18 +89,16 @@ function ChatWindow({chat, onSendMessage}) {
                 ))}
             </div>
 
-            {/* 추천 질문(quickReplies)을 링크(quickLinks)로 변경 */}
             <div className="quick-replies-container">
                 {quickLinks.map((link, index) => (
-                    // button을 a 태그로 변경
                     <a
                         key={index}
                         href={link.url}
-                        target="_blank" // 새 탭에서 열기
-                        rel="noopener noreferrer" // 보안 설정
-                        className="quick-reply-link" // 새로운 스타일을 위한 클래스
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="quick-reply-link"
                     >
-                        {link.text}
+                        <span className="gradient-text">{link.text}</span>
                     </a>
                 ))}
             </div>

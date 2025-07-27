@@ -1,7 +1,14 @@
+@font-face {
+    font-family: 'Busan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/Busan.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 전체 레이아웃 */
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Busan', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #f7f7f8;
@@ -74,6 +81,7 @@ body {
     margin: 0;
 }
 
+/* 이전 채팅 항목 스타일 수정 */
 .chat-history-item {
     display: flex;
     justify-content: space-between;
@@ -90,6 +98,7 @@ body {
     background-color: #3e4247;
 }
 
+/* 활성화된 채팅 항목 그라데이션 수정 */
 .chat-history-item.active {
     background-image: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
 }
@@ -131,7 +140,8 @@ body {
     display: none;
 }
 
-/* 채팅창 */
+/* (이하 채팅창 관련 CSS는 이전과 동일) */
+
 .chat-window {
     display: flex;
     flex-direction: column;
@@ -155,8 +165,8 @@ body {
 }
 
 .header-profile-pic {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     margin-right: 16px;
 }
@@ -187,8 +197,8 @@ body {
 }
 
 .welcome-profile-pic {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     margin-bottom: 20px;
 }
@@ -236,21 +246,6 @@ body {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.message-bubble a {
-    font-weight: bold;
-    text-decoration: none;
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    transition: filter 0.2s ease;
-}
-
-.message-bubble a:hover {
-    filter: brightness(1.2);
-    text-decoration: underline;
-}
-
 .user-message {
     align-self: flex-end;
 }
@@ -275,8 +270,8 @@ body {
 }
 
 .message-profile-pic {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
     margin-top: 5px;
@@ -292,6 +287,21 @@ body {
     display: block;
     margin-bottom: 3px;
     font-size: 0.95em;
+}
+
+.message-bubble a {
+    font-weight: bold;
+    text-decoration: none;
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: filter 0.2s ease;
+}
+
+.message-bubble a:hover {
+    filter: brightness(1.2);
+    text-decoration: underline;
 }
 
 .main-menu-container {
@@ -328,34 +338,54 @@ body {
 .quick-replies-container {
     padding: 8px 20px;
     display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 8px;
     flex-shrink: 0;
-    justify-content: flex-start; /* 중앙 정렬을 왼쪽 정렬로 수정 */
 }
 
+/* ▼▼▼▼▼ 수정된 부분 ▼▼▼▼▼ */
+
+/* 소메뉴 링크 버튼 기본 스타일 */
 .quick-reply-link {
+    display: inline-block;
     background-color: #fff;
     border: 1px solid #dcdcdc;
     border-radius: 999px;
     padding: 8px 16px;
-    font-size: 0.9em;
-    font-weight: 500;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.2s, color 0.2s;
+    transition: all 0.2s ease;
+}
+
+/* 소메뉴 링크 버튼에 마우스를 올렸을 때 스타일 */
+.quick-reply-link:hover {
+    background-image: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    border-color: transparent;
+    color: white; /* 어두운 배경에는 흰색 글자가 더 잘 보입니다. */
+}
+
+/* 링크 안의 텍스트 스타일 */
+.quick-reply-link .gradient-text {
+    font-size: 0.85em;
+    font-weight: 500;
+    /* 기본 상태에서는 그라데이션 텍스트 유지 */
     background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    transition: color 0.2s ease;
 }
 
-.quick-reply-link:hover {
-    background-color: #f5f5f5;
+/* 링크에 마우스를 올렸을 때, 내부 텍스트 스타일 변경 */
+.quick-reply-link:hover .gradient-text {
+    background: none; /* 그라데이션 제거 */
     -webkit-background-clip: initial;
     background-clip: initial;
-    color: #333;
+    color: white; /* 요청하신 검은색 대신, 가독성을 위해 흰색으로 설정했습니다. */
 }
+
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 
 
 .chat-input-container {
@@ -399,9 +429,7 @@ body {
     background-color: #002270;
 }
 
-
-/* 수정된 미디어 쿼리 */
-@media (max-width: 1024px) or (max-aspect-ratio: 4/3) {
+@media (max-aspect-ratio: 4/3) {
     .sidebar {
         position: absolute;
         left: 0;
