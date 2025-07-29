@@ -1,10 +1,20 @@
 import React from 'react';
 
-// isCollapsed prop은 CSS 전용이므로 JS 로직에서는 사용되지 않습니다.
-function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat, isDarkMode, onToggleDarkMode}) {
+function Sidebar({
+                     chats,
+                     activeChatId,
+                     onNewChat,
+                     onSelectChat,
+                     onDeleteChat,
+                     isDarkMode,
+                     onToggleDarkMode,
+                     isCollapsed,
+                     isMobile,
+                     isVisible
+                 }) {
     /**
      * 삭제 버튼을 클릭했을 때 실행되는 함수
-     * 사용자에게 삭제 여부를 확인한 후, '확인'을 눌렀을 때만 삭제를 진행합니다.
+     * 사용자에게 삭제 여부를 확인한 후, '확인'을 눌렀을 때만 삭제를 진행
      * @param {Event} e - 클릭 이벤트 객체
      * @param {string} chatId - 삭제할 채팅의 ID
      * @param {string} chatTitle - 확인 메시지에 표시할 채팅 제목
@@ -23,16 +33,23 @@ function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat, is
         onToggleDarkMode(!isDarkMode);
     };
 
+    const sidebarClasses = [
+        'sidebar',
+        isCollapsed ? 'collapsed' : '',
+        isMobile ? 'mobile' : '',
+        !isVisible ? 'hidden' : ''
+    ].filter(Boolean).join(' ');
+
     return (
-        <aside className="sidebar">
-            {/* 햄버거 메뉴 아이콘 */}
-            <div className="hamburger-menu">
-                <span>☰</span>
-            </div>
+        <aside className={sidebarClasses}>
             <div className="sidebar-header">
                 <div className="sidebar-top">
-                    <button className="new-chat-btn" onClick={onNewChat}>
-                        + 새 채팅 시작하기
+                    <button
+                        className="new-chat-btn"
+                        onClick={onNewChat}
+                        title="새 채팅 시작하기"
+                    >
+                        {isCollapsed && !isMobile ? '✚' : '+ 새 채팅 시작하기'}
                     </button>
                     <button
                         className="theme-toggle-btn"
@@ -44,6 +61,7 @@ function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat, is
                     </button>
                 </div>
             </div>
+
             <nav className="chat-history">
                 <ul>
                     {chats.map((chat) => (
@@ -51,17 +69,20 @@ function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat, is
                             key={chat.id}
                             className={`chat-history-item ${chat.id === activeChatId ? 'active' : ''}`}
                             onClick={() => onSelectChat(chat.id)}
+                            title={isCollapsed && !isMobile ? chat.title : ''}
                         >
                             <span className="chat-title">
-                                {chat.title}
+                                {isCollapsed && !isMobile ?
+                                    chat.title.charAt(0).toUpperCase() :
+                                    chat.title
+                                }
                             </span>
                             <button
                                 className="delete-chat-btn"
-                                // 더 나은 확인 메시지를 위해 chat.title도 함께 전달
                                 onClick={(e) => handleDeleteClick(e, chat.id, chat.title)}
-                                title="대화 삭제" // 마우스를 올렸을 때 '대화 삭제' 툴팁 표시
+                                title="대화 삭제"
                             >
-                                ...
+                                {isCollapsed && !isMobile ? '×' : '...'}
                             </button>
                         </li>
                     ))}

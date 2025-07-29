@@ -36,6 +36,33 @@ const useDarkMode = () => {
     return [isDarkMode, setIsDarkMode];
 };
 
+// 사이드바 상태 관리 훅
+const useSidebarState = () => {
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            const newIsMobile = width <= 768;
+            setIsMobile(newIsMobile);
+
+            // PC에서 1200px 미만이면 사이드바 접기
+            if (width < 1200 && width > 768) {
+                setIsSidebarCollapsed(true);
+            } else if (width >= 1200) {
+                setIsSidebarCollapsed(false);
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return [isSidebarCollapsed, setIsSidebarCollapsed, isMobile];
+};
+
 // 환경에 따른 백엔드 URL 설정
 const getBackendUrl = () => {
     // 🚀 개발 중에는 이 줄 사용 (로컬 백엔드 연결)
@@ -59,7 +86,8 @@ function App() {
     const [activeChatId, setActiveChatId] = useState(null);
     const [anonymousId] = useState(getAnonymousId());
     const [isThinking, setIsThinking] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useDarkMode(); // 다크모드 상태 추가
+    const [isDarkMode, setIsDarkMode] = useDarkMode();
+    const [isSidebarCollapsed, setIsSidebarCollapsed, isMobile] = useSidebarState();
 
     const backendUrl = getBackendUrl();
 
@@ -130,6 +158,15 @@ function App() {
     // 채팅 선택
     const selectChat = (chatId) => {
         setActiveChatId(chatId);
+        // 모바일에서 채팅 선택 시 사이드바 닫기
+        if (isMobile) {
+            setIsSidebarCollapsed(true);
+        }
+    };
+
+    // 사이드바 토글
+    const toggleSidebar = () => {
+        setIsSidebarCollapsed(!isSidebarCollapsed);
     };
 
     // 메시지 전송 및 응답 처리
@@ -205,9 +242,18 @@ function App() {
     };
 
     const activeChat = chats[activeChatId];
+    const sidebarVisible = isMobile ? !isSidebarCollapsed : true;
 
     return (
         <div className="app-container">
+            {/* 모바일 오버레이 */}
+            {isMobile && !isSidebarCollapsed && (
+                <div
+                    className="sidebar-overlay"
+                    onClick={() => setIsSidebarCollapsed(true)}
+                />
+            )}
+
             <Sidebar
                 chats={Object.values(chats)}
                 activeChatId={activeChatId}
@@ -216,14 +262,21 @@ function App() {
                 onDeleteChat={deleteChat}
                 isDarkMode={isDarkMode}
                 onToggleDarkMode={setIsDarkMode}
+                isCollapsed={isSidebarCollapsed}
+                isMobile={isMobile}
+                isVisible={sidebarVisible}
             />
-            <main className="chat-main">
+
+            <main className={`chat-main ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
                 {activeChat ? (
                     <ChatWindow
                         chat={activeChat}
                         onSendMessage={handleSendMessage}
                         isThinking={isThinking}
                         isDarkMode={isDarkMode}
+                        onToggleSidebar={toggleSidebar}
+                        isSidebarCollapsed={isSidebarCollapsed}
+                        isMobile={isMobile}
                     />
                 ) : null}
             </main>
