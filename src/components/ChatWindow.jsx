@@ -3,14 +3,17 @@ import ReactMarkdown from 'react-markdown';
 import ChatInput from './ChatInput';
 import botProfileImage from '../assets/bot-profile.png';
 
-// 메인 메뉴 버튼 텍스트 수정
+// 백엔드 PREDEFINED_ANSWERS와 일치하도록 메인 메뉴 수정
 const mainMenu = [
-    '부산청년센터 대관 이용 수칙',
-    '부산청년센터 장소 대여',
-    '현재 모집 중인 일자리 지원 사업', // '부산시' -> '현재'로 텍스트 변경
+    '청년 채용관',
+    '청년 공간',
+    'Busan Jobs',
+    '청년 혜택 모아보기'
 ];
 
-// 하단 버튼을 링크 데이터로 변경
+// 추가 빠른 답변 버튼들 제거
+
+// 하단 링크들은 그대로 유지
 const quickLinks = [
     {text: "부산경제진흥원 사이트 바로가기", url: "https://www.bepa.kr/kor/view.do?no=1670"},
     {text: "부산청년플랫폼 사이트 바로가기", url: "https://young.busan.go.kr/policySupport/list.nm?menuCd=12"},
@@ -24,12 +27,13 @@ const WelcomeScreen = () => (
         <strong className="gradient-text">B-BOT</strong>
         <span className="gradient-text">For the Youth in Busan</span>
         <p className="welcome-subtitle">
-            안녕하세요, 부산 청년을 위한 정책 지원 챗봇입니다. 무엇이든 물어보세요!
+            안녕하세요! 부산 청년을 위한 정책 및 일자리 정보 전문가 B-BOT입니다.<br/>
+            채용정보, 지원사업, 청년센터 이용 등 무엇이든 물어보세요! 🚀
         </p>
     </div>
 );
 
-function ChatWindow({chat, onSendMessage}) {
+function ChatWindow({chat, onSendMessage, isThinking}) {
     const chatContainerRef = useRef(null);
 
     useEffect(() => {
@@ -66,14 +70,26 @@ function ChatWindow({chat, onSendMessage}) {
                                     <img src={botProfileImage} alt="Bot Profile" className="message-profile-pic"/>
                                 )}
                                 <div className="message-bubble">
-                                    <ReactMarkdown
-                                        components={{
-                                            a: ({node, ...props}) => <a {...props} target="_blank"
-                                                                        rel="noopener noreferrer"/>
-                                        }}
-                                    >
-                                        {msg.text}
-                                    </ReactMarkdown>
+                                    {/* 생각 중 메시지인지 확인 */}
+                                    {msg.isThinking ? (
+                                        <div className="thinking-indicator">
+                                            <span>B-BOT이 생각하고 있어요</span>
+                                            <div className="typing-dots">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <ReactMarkdown
+                                            components={{
+                                                a: ({node, ...props}) => <a {...props} target="_blank"
+                                                                            rel="noopener noreferrer"/>
+                                            }}
+                                        >
+                                            {msg.text}
+                                        </ReactMarkdown>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -81,6 +97,7 @@ function ChatWindow({chat, onSendMessage}) {
                 )}
             </div>
 
+            {/* 메인 메뉴 - 백엔드 PREDEFINED_ANSWERS와 일치 */}
             <div className="main-menu-container">
                 {mainMenu.map((item, index) => (
                     <button key={index} className="main-menu-btn" onClick={() => handleButtonClick(item)}>
@@ -89,6 +106,7 @@ function ChatWindow({chat, onSendMessage}) {
                 ))}
             </div>
 
+            {/* 외부 링크들 */}
             <div className="quick-replies-container">
                 {quickLinks.map((link, index) => (
                     <a
@@ -103,7 +121,7 @@ function ChatWindow({chat, onSendMessage}) {
                 ))}
             </div>
 
-            <ChatInput onSendMessage={onSendMessage}/>
+            <ChatInput onSendMessage={onSendMessage} disabled={isThinking}/>
         </div>
     );
 }
