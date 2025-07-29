@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 
-// disabled prop을 더 이상 받지 않음
-function ChatInput({onSendMessage}) {
+function ChatInput({onSendMessage, disabled = false}) {
     const [input, setInput] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // disabled 조건 없이, 입력값이 있으면 항상 전송
-        if (input.trim()) {
-            onSendMessage(input.trim());
-            setInput('');
-        }
+        // disabled 상태이거나 입력값이 없으면 전송하지 않음
+        if (disabled || !input.trim()) return;
+
+        onSendMessage(input.trim());
+        setInput('');
     };
 
     return (
@@ -21,11 +20,19 @@ function ChatInput({onSendMessage}) {
                     className="chat-input"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    // placeholder를 원래대로 되돌리고, disabled 속성을 제거
-                    placeholder="부산 청년 지원 전문가에게 무엇이든 물어보세요..."
+                    placeholder={
+                        disabled
+                            ? "B-BOT이 생각하고 있어요..."
+                            : "부산 청년 지원 전문가에게 무엇이든 물어보세요..."
+                    }
+                    disabled={disabled}
                 />
-                <button type="submit" className="send-button">
-                    전송
+                <button
+                    type="submit"
+                    className={`send-button ${disabled ? 'disabled' : ''}`}
+                    disabled={disabled}
+                >
+                    {disabled ? '생각 중...' : '전송'}
                 </button>
             </form>
         </div>

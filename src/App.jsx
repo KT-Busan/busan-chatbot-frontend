@@ -20,6 +20,7 @@ function App() {
     const [chats, setChats] = useState({});
     const [activeChatId, setActiveChatId] = useState(null);
     const [anonymousId] = useState(getAnonymousId());
+    const [isThinking, setIsThinking] = useState(false); // 생각 중 상태 추가
 
     const backendUrl = 'https://b-bot-backend.onrender.com';
 
@@ -44,7 +45,7 @@ function App() {
         fetchHistory();
     }, [anonymousId]);
 
-    // (createNewChat, deleteChat, selectChat, handleSendMessage 함수는 이전과 동일)
+    // (createNewChat, deleteChat, selectChat 함수는 이전과 동일)
     const createNewChat = (currentChats = chats) => {
         const newChatId = generateChatId();
         const newChat = {
@@ -83,9 +84,13 @@ function App() {
         setActiveChatId(chatId);
     };
 
+    // handleSendMessage 함수에 생각 중 상태 추가
     const handleSendMessage = async (messageText, options = {}) => {
-        if (!activeChatId) return;
+        if (!activeChatId || isThinking) return; // 생각 중일 때는 메시지 전송 방지
+
         const userMessage = {sender: 'user', text: messageText};
+
+        // 사용자 메시지 추가
         setChats(prevChats => {
             const chatToUpdate = {...prevChats[activeChatId]};
             chatToUpdate.messages = [...chatToUpdate.messages, userMessage];
@@ -100,33 +105,60 @@ function App() {
             return {[activeChatId]: chatToUpdate, ...otherChats};
         });
 
+        // 생각 중 상태 시작
+        setIsThinking(true);
+
+        // 생각 중 메시지 추가 (임시 메시지)
+        const thinkingMessage = {
+            sender: 'bot',
+            text: 'thinking...', // 특별한 마커
+            isThinking: true
+        };
+
+        setChats(prevChats => {
+            const chatToUpdate = {...prevChats[activeChatId]};
+            chatToUpdate.messages = [...chatToUpdate.messages, thinkingMessage];
+            const otherChats = {...prevChats};
+            delete otherChats[activeChatId];
+            return {[activeChatId]: chatToUpdate, ...otherChats};
+        });
+
         try {
             const response = await axios.post('https://b-bot-backend.onrender.com/api/chat', {
                 message: messageText,
                 anonymousId: anonymousId,
                 chatId: activeChatId,
             });
+
             const botMessage = {sender: 'bot', text: response.data.reply};
+
+            // 생각 중 메시지 제거하고 실제 응답 추가
             setChats(prevChats => {
                 const updatedChat = {...prevChats[activeChatId]};
-                updatedChat.messages = [...updatedChat.messages, botMessage];
+                // 마지막 메시지(생각 중 메시지) 제거하고 실제 응답 추가
+                updatedChat.messages = updatedChat.messages.slice(0, -1).concat(botMessage);
                 return {...prevChats, [activeChatId]: updatedChat};
             });
+
         } catch (error) {
             console.error("API 호출 오류:", error);
             const errorMessage = {sender: 'bot', text: '죄송합니다, 답변을 가져오는 데 실패했습니다.'};
+
+            // 생각 중 메시지 제거하고 에러 메시지 추가
             setChats(prevChats => {
                 const updatedChat = {...prevChats[activeChatId]};
-                updatedChat.messages = [...updatedChat.messages, errorMessage];
+                updatedChat.messages = updatedChat.messages.slice(0, -1).concat(errorMessage);
                 return {...prevChats, [activeChatId]: updatedChat};
             });
+        } finally {
+            // 생각 중 상태 종료
+            setIsThinking(false);
         }
     };
 
     const activeChat = chats[activeChatId];
 
     return (
-        // 더 이상 동적 클래스가 필요 없으므로 제거
         <div className="app-container">
             <Sidebar
                 chats={Object.values(chats)}
@@ -134,13 +166,13 @@ function App() {
                 onNewChat={() => createNewChat()}
                 onSelectChat={selectChat}
                 onDeleteChat={deleteChat}
-                // isCollapsed prop 전달을 제거
             />
             <main className="chat-main">
                 {activeChat ? (
                     <ChatWindow
                         chat={activeChat}
                         onSendMessage={handleSendMessage}
+                        isThinking={isThinking} // 생각 중 상태 전달
                     />
                 ) : null}
             </main>
