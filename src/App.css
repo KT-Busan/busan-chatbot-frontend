@@ -322,25 +322,48 @@ body {
 
 .main-menu-btn {
     flex: 1;
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
-    color: white;
-    border: none;
+    background: white;
+    border: 2px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
     border-radius: 12px;
     padding: 14px 8px;
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: 600;
     cursor: pointer;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, filter 0.2s ease;
+    transition: all 0.3s ease;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.main-menu-btn span {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease;
+}
+
 .main-menu-btn:hover {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: border-box;
     transform: scale(1.03);
     filter: brightness(1.1);
+}
+
+.main-menu-btn:hover span {
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: white;
+    -webkit-text-fill-color: white;
 }
 
 /* 추가 빠른 답변 버튼들 - 제거됨 */
@@ -388,6 +411,138 @@ body {
 /* 링크에 마우스를 올렸을 때, 내부 텍스트 스타일 변경 */
 .quick-reply-link:hover .gradient-text {
     color: white;
+}
+
+/* 서브 버튼 컨테이너 스타일 - 메시지 버블 내부용 */
+.sub-buttons-container {
+    margin: 16px 0 0 0;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+    border: none;
+}
+
+.sub-buttons-title {
+    font-size: 0.9em;
+    color: #6c757d;
+    margin: 0 0 12px 0;
+    text-align: left;
+    font-weight: 500;
+}
+
+.sub-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.sub-button {
+    background: white;
+    border: 2px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 0.85em;
+    font-weight: 500;
+    cursor: pointer;
+    color: #495057;
+    text-align: center;
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 80px;
+}
+
+.sub-button:hover {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: border-box;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* 링크 카드 스타일 */
+.link-card {
+    display: flex;
+    max-width: 400px;
+    margin: 8px 0;
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.link-card:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.link-card-image {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+}
+
+.link-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.link-card-content {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 80px;
+}
+
+.link-card-title {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #14171a;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.link-card-description {
+    font-size: 0.8em;
+    color: #657786;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.link-card-domain {
+    font-size: 0.75em;
+    color: #657786;
+    margin-top: auto;
+}
+
+.custom-markdown {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.custom-markdown > * {
+    margin: 0;
 }
 
 /* 생각 중 인디케이터 스타일 */
@@ -497,57 +652,232 @@ body {
 }
 
 /* 반응형 디자인 */
-@media (max-aspect-ratio: 4/3) {
+@media (max-width: 768px) {
+    /* 모바일에서 사이드바 완전히 숨기기 */
     .sidebar {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 60px;
-        padding: 10px 0;
-    }
-
-    .sidebar:hover {
-        width: 260px;
-        padding: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .sidebar .new-chat-btn,
-    .sidebar .chat-history {
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.1s ease, visibility 0.1s ease;
-    }
-
-    .sidebar:hover .new-chat-btn,
-    .sidebar:hover .chat-history {
-        opacity: 1;
-        visibility: visible;
-        transition-delay: 0.15s;
-    }
-
-    .hamburger-menu {
-        display: block;
-        font-size: 24px;
-        text-align: center;
-        padding: 10px 0;
-        cursor: default;
-    }
-
-    .sidebar:hover .hamburger-menu {
         display: none;
     }
 
     .chat-main {
-        margin-left: 60px;
+        margin-left: 0;
+        width: 100%;
     }
 
-    /* 모바일에서 메인 메뉴 버튼 크기 조정 */
+    /* 환영 화면 모바일 최적화 */
+    .welcome-screen {
+        padding: 20px;
+        padding-bottom: 30px;
+    }
+
+    .welcome-profile-pic {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 16px;
+    }
+
+    .welcome-screen strong.gradient-text {
+        font-size: 2.2em;
+        margin-bottom: 6px;
+    }
+
+    .welcome-screen span.gradient-text {
+        font-size: 1em;
+    }
+
+    .welcome-subtitle {
+        font-size: 0.9em;
+        line-height: 1.4;
+        margin-top: 12px;
+        padding: 0 10px;
+    }
+
+    /* 메인 메뉴 컨테이너 모바일 최적화 */
+    .main-menu-container {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px;
+    }
+
     .main-menu-btn {
-        font-size: 0.8em;
-        padding: 12px 6px;
+        width: 100%;
+        padding: 16px 20px;
+        font-size: 1em;
+        font-weight: 600;
+        white-space: normal;
+        text-overflow: initial;
+        overflow: visible;
+        border-radius: 16px;
     }
 
-    /* 모바일에서 빠른 답변 버튼들 - 제거됨 */
+    .main-menu-btn:hover {
+        background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+        transform: scale(1.03);
+        filter: brightness(1.1);
+    }
+
+    /* 외부 링크 컨테이너 모바일 최적화 */
+    .quick-replies-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+        align-items: stretch;
+    }
+
+    .quick-reply-link {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+        border-radius: 12px;
+        display: block;
+    }
+
+    .quick-reply-link .gradient-text {
+        font-size: 0.9em;
+        font-weight: 600;
+    }
+
+    /* 채팅 입력 모바일 최적화 */
+    .chat-input-container {
+        padding: 12px 15px;
+    }
+
+    .chat-input-form {
+        padding: 6px;
+        border-radius: 16px;
+    }
+
+    .chat-input {
+        padding: 12px 16px;
+        font-size: 1em;
+    }
+
+    .send-button {
+        padding: 10px 18px;
+        font-size: 0.9em;
+        border-radius: 12px;
+    }
+
+    /* 메시지 영역 모바일 최적화 */
+    .message {
+        padding: 0 15px;
+        margin-bottom: 12px;
+    }
+
+    .message-bubble {
+        padding: 12px 16px;
+        font-size: 0.95em;
+        line-height: 1.4;
+        border-radius: 16px;
+    }
+
+    .user-message .message-bubble {
+        border-radius: 16px 4px 16px 16px;
+    }
+
+    .bot-message .message-bubble {
+        border-radius: 4px 16px 16px 16px;
+    }
+
+    .message-profile-pic {
+        width: 36px;
+        height: 36px;
+        margin-right: 10px;
+        margin-top: 4px;
+    }
+
+    /* 채팅 헤더 모바일 최적화 */
+    .chat-header {
+        padding: 12px 15px;
+    }
+
+    .header-profile-pic {
+        width: 44px;
+        height: 44px;
+        margin-right: 12px;
+    }
+
+    .header-title strong {
+        font-size: 1em;
+    }
+
+    .header-title span {
+        font-size: 0.85em;
+    }
+
+    /* 링크 카드 모바일 최적화 */
+    .link-card {
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .link-card-image {
+        width: 70px;
+        height: 70px;
+    }
+
+    .link-card-content {
+        padding: 10px 12px;
+        min-height: 70px;
+    }
+
+    .link-card-title {
+        font-size: 0.85em;
+        -webkit-line-clamp: 2;
+    }
+
+    .link-card-description {
+        font-size: 0.75em;
+        -webkit-line-clamp: 2;
+    }
+
+    .link-card-domain {
+        font-size: 0.7em;
+    }
+
+    /* 생각 중 인디케이터 모바일 최적화 */
+    .thinking-indicator {
+        gap: 8px;
+        font-size: 0.9em;
+    }
+
+    .typing-dots span {
+        width: 6px;
+        height: 6px;
+    }
 }
+
+/* 작은 모바일 화면 (375px 이하) */
+@media (max-width: 375px) {
+    .welcome-screen strong.gradient-text {
+        font-size: 1.8em;
+    }
+
+    .welcome-screen span.gradient-text {
+        font-size: 0.9em;
+    }
+
+    .welcome-subtitle {
+        font-size: 0.85em;
+        padding: 0 5px;
+    }
+
+    .main-menu-btn {
+        padding: 14px 16px;
+        font-size: 0.95em;
+    }
+
+    .quick-reply-link {
+        padding: 10px 16px;
+    }
+
+    .quick-reply-link .gradient-text {
+        font-size: 0.85em;
+    }
+
+    .message-bubble {
+        font-size: 0.9em;
+        padding: 10px 14px;
+    }
+}
+
+/* 기존 aspect-ratio 미디어 쿼리 제거 */
