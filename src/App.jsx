@@ -17,6 +17,25 @@ const getAnonymousId = () => {
 // 채팅 ID 생성
 const generateChatId = () => `chat_${Date.now()}`;
 
+// 다크모드 커스텀 훅
+const useDarkMode = () => {
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const saved = localStorage.getItem('darkMode');
+        return saved ? JSON.parse(saved) : false;
+    });
+
+    useEffect(() => {
+        localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+        if (isDarkMode) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+    }, [isDarkMode]);
+
+    return [isDarkMode, setIsDarkMode];
+};
+
 // 환경에 따른 백엔드 URL 설정
 const getBackendUrl = () => {
     // 🚀 개발 중에는 이 줄 사용 (로컬 백엔드 연결)
@@ -40,6 +59,7 @@ function App() {
     const [activeChatId, setActiveChatId] = useState(null);
     const [anonymousId] = useState(getAnonymousId());
     const [isThinking, setIsThinking] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useDarkMode(); // 다크모드 상태 추가
 
     const backendUrl = getBackendUrl();
 
@@ -194,6 +214,8 @@ function App() {
                 onNewChat={() => createNewChat()}
                 onSelectChat={selectChat}
                 onDeleteChat={deleteChat}
+                isDarkMode={isDarkMode}
+                onToggleDarkMode={setIsDarkMode}
             />
             <main className="chat-main">
                 {activeChat ? (
@@ -201,6 +223,7 @@ function App() {
                         chat={activeChat}
                         onSendMessage={handleSendMessage}
                         isThinking={isThinking}
+                        isDarkMode={isDarkMode}
                     />
                 ) : null}
             </main>

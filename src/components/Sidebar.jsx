@@ -1,7 +1,7 @@
 import React from 'react';
 
 // isCollapsed prop은 CSS 전용이므로 JS 로직에서는 사용되지 않습니다.
-function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat}) {
+function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat, isDarkMode, onToggleDarkMode}) {
     /**
      * 삭제 버튼을 클릭했을 때 실행되는 함수
      * 사용자에게 삭제 여부를 확인한 후, '확인'을 눌렀을 때만 삭제를 진행합니다.
@@ -19,6 +19,10 @@ function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat}) {
         }
     };
 
+    const handleThemeToggle = () => {
+        onToggleDarkMode(!isDarkMode);
+    };
+
     return (
         <aside className="sidebar">
             {/* 햄버거 메뉴 아이콘 */}
@@ -26,9 +30,19 @@ function Sidebar({chats, activeChatId, onNewChat, onSelectChat, onDeleteChat}) {
                 <span>☰</span>
             </div>
             <div className="sidebar-header">
-                <button className="new-chat-btn" onClick={onNewChat}>
-                    + 새 채팅 시작하기
-                </button>
+                <div className="sidebar-top">
+                    <button className="new-chat-btn" onClick={onNewChat}>
+                        + 새 채팅 시작하기
+                    </button>
+                    <button
+                        className="theme-toggle-btn"
+                        onClick={handleThemeToggle}
+                        title={isDarkMode ? '라이트 모드로 변경' : '다크 모드로 변경'}
+                        aria-label={isDarkMode ? '라이트 모드로 변경' : '다크 모드로 변경'}
+                    >
+                        {isDarkMode ? '☀️' : '🌙'}
+                    </button>
+                </div>
             </div>
             <nav className="chat-history">
                 <ul>
