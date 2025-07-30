@@ -70,6 +70,61 @@ const bkicUamButtons = [
     '부산지식산업센터 바로가기'
 ];
 
+// 창업 지원 서비스 서브 버튼들
+const startupServiceButtons = [
+    '지역주도형 청년 일자리 사업',
+    '청년 로컬 크리에이터 레벨업 사업',
+    '청년 프로그램'
+];
+
+// 청년 혜택 모아보기 1단계 버튼들
+const youthBenefitsButtons = [
+    '나에게 맞는 지원 찾기',
+    '관심있는 분야만 보기',
+    '대상자별 지원 찾기',
+    '전체 사업 목록 보기'
+];
+
+// 나에게 맞는 지원 찾기 - 조건 선택 버튼들
+const supportFinderButtons = [
+    '대학생이에요',
+    '현재 무직이에요',
+    '고용보험 가입자에요',
+    '청년 구직자에요'
+];
+
+// 관심있는 분야만 보기 - 분야 선택 버튼들
+const interestFieldButtons = [
+    '문화/여가',
+    '교통',
+    '생활',
+    '주거',
+    '저축지원'
+];
+
+// 대상자별 지원 찾기 - 유형 선택 버튼들
+const targetGroupButtons = [
+    '대학생',
+    '청년',
+    '보호종료아동',
+    '기초수급자',
+    '장애인'
+];
+
+// 청년 채용관 서브 버튼들
+const youthRecruitmentButtons = [
+    '기업 채용',
+    '공공 채용',
+    '해외 채용'
+];
+
+// 부산 지역 목록
+const busanDistricts = [
+    '중구', '동구', '서구', '영도구', '부산진구', '동래구',
+    '연제구', '금정구', '북구', '사상구', '사하구', '강서구',
+    '남구', '해운대구', '수영구', '기장군'
+];
+
 const jobServiceButtons = [
     '부산 청끌기업 소개',
     'JOB 성장기업',
@@ -77,6 +132,18 @@ const jobServiceButtons = [
     '드림 옷장',
     '취업 연수생',
     '청년 프로그램'
+];
+
+// 지역 주도형 청년일자리사업 서브 버튼들
+const regionalYouthJobButtons = [
+    '자세히 알아보기',
+    '모집 공고 보러 가기'
+];
+
+// 드림 옷장 서브 버튼들
+const dreamClothesButtons = [
+    '드림 옷장 자세히 알아보기',
+    '드림 옷장 신청'
 ];
 
 const quickLinks = [
@@ -159,67 +226,86 @@ const SubButtons = ({buttons, onButtonClick, title}) => (
     </div>
 );
 
-// 커스텀 마크다운 렌더러
-const CustomMarkdown = ({children, onButtonClick}) => {
-    // 청년 공간 응답인지 확인
-    const isYouthSpaceResponse = children && children.includes('**청년 공간**에서는 부산 청년들을 위한 다양한 공간을 제공합니다');
+// 지역 선택 드롭다운 컴포넌트
+const DistrictSelector = ({onSelect, title, recruitmentType}) => {
+    const handleChange = (e) => {
+        const selectedDistrict = e.target.value;
+        if (selectedDistrict) {
+            onSelect(`${selectedDistrict}_${recruitmentType}`);
+        }
+    };
 
-    // Busan Jobs 응답인지 확인
-    const isBusanJobsResponse = children && children.includes('부산잡스(Busan Jobs)를 소개해드릴게요');
-
-    // 취업 서비스 응답인지 확인
-    const isJobServiceResponse = children && children.includes('부산잡스에서 제공하는 취업 서비스로는 총 6가지가 있습니다');
-
-    // 부산청년센터 상세 응답인지 확인
-    const isBusanYouthCenterResponse = children && children.includes('부산청년센터는 \'부산청년센터\'와 \'오름라운지\' 두 공간으로 운영되며');
-
-    // 부산청년센터 공간소개 응답인지 확인
-    const isBusanYouthCenterSpaceIntroResponse = children && children.includes('부산청년센터 공간을 소개해드릴게요');
-
-    // 부산청년센터 상세 공간 정보 응답인지 확인
-    const isBusanYouthCenterDetailResponse = children && children.includes('**부산청년센터**는 **3층 \'들락\'과 4층 \'날락\'**으로 나뉘며');
-
-    // 오름라운지 상세 공간 정보 응답인지 확인
-    const isOreumLoungeDetailResponse = children && children.includes('**오름라운지**는 **자율공간, 회의실, 서점, 창작소**로 크게 4가지로 나눠져요');
-
-    // 청년두드림카페 상세 응답인지 확인
-    const isYouthDoDreamResponse = children && children.includes('똑똑, 청년들의 꿈을 Do dream!');
-
-    // 소담스퀘어 부산 상세 응답인지 확인
-    const isSodamSquareResponse = children && children.includes('으랏차차 부산소상공인 여러분~');
-
-    // 부산지식산업센터 상세 응답인지 확인 (조건 완화)
-    const isBKICResponse = children && (
-        children.includes('BKIC 부산지식산업센터') ||
-        children.includes('부산지식산업센터는 부산광역시가 지원하고') ||
-        children.includes('도심형 멀티콤플렉스 산업단지')
+    return (
+        <div className="district-selector-container">
+            <p className="sub-buttons-title">{title}</p>
+            <select
+                className="district-selector"
+                onChange={handleChange}
+                defaultValue=""
+            >
+                <option value="" disabled>지역을 선택해주세요</option>
+                {busanDistricts.map((district, index) => (
+                    <option key={index} value={district}>
+                        {district}
+                    </option>
+                ))}
+            </select>
+        </div>
     );
+};
 
-    // 청년두드림카페 주요시설 소개 응답인지 확인
-    const isYouthDoDreamFacilityResponse = children && children.includes('**청년두드림센터**의 **주요시설**을 소개해드릴게요');
+// 해외 채용 국가 입력 컴포넌트
+const CountryInput = ({onSubmit, title}) => {
+    const [country, setCountry] = React.useState('');
 
-    // 소담스퀘어 부산 시설안내 응답인지 확인
-    const isSodamSquareFacilityResponse = children && children.includes('●** 라운지**');
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (country.trim()) {
+            onSubmit(country.trim());
+            setCountry('');
+        }
+    };
 
-    // 부산지식산업센터 금곡점 응답인지 확인
-    const isBKICGeumgokResponse = children && children.includes('**부산지식산업센터 금곡점**에 대한 정보입니다');
+    return (
+        <div className="country-input-container">
+            <p className="sub-buttons-title">{title}</p>
+            <form onSubmit={handleSubmit} className="country-input-form">
+                <input
+                    type="text"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    placeholder="예: 미국, 일본, 싱가포르..."
+                    className="country-input"
+                />
+                <button type="submit" className="country-submit-btn">
+                    검색
+                </button>
+            </form>
+        </div>
+    );
+};
 
-    // 부산지식산업센터 우암점 응답인지 확인
-    const isBKICUamResponse = children && children.includes('**부산지식산업센터 우암점**에 대한 정보입니다');
+// 커스텀 마크다운 렌더러 - 마커 기반으로 단순화
+const CustomMarkdown = ({children, onButtonClick}) => {
+    // 마커를 제거한 텍스트를 가져오는 함수
+    const removeMarker = (text) => {
+        return text.replace(/\[[\w_]+\]/g, '');
+    };
 
     // 링크를 감지하고 썸네일 카드로 변환
     const renderWithLinkCards = (text) => {
+        const cleanText = removeMarker(text);
         const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
         const parts = [];
         let lastIndex = 0;
         let match;
 
-        while ((match = linkRegex.exec(text)) !== null) {
+        while ((match = linkRegex.exec(cleanText)) !== null) {
             // 링크 앞의 텍스트 추가
             if (match.index > lastIndex) {
                 parts.push(
                     <ReactMarkdown key={`text-${lastIndex}`}>
-                        {text.slice(lastIndex, match.index)}
+                        {cleanText.slice(lastIndex, match.index)}
                     </ReactMarkdown>
                 );
             }
@@ -246,10 +332,10 @@ const CustomMarkdown = ({children, onButtonClick}) => {
         }
 
         // 남은 텍스트 추가
-        if (lastIndex < text.length) {
+        if (lastIndex < cleanText.length) {
             parts.push(
                 <ReactMarkdown key={`text-${lastIndex}`}>
-                    {text.slice(lastIndex)}
+                    {cleanText.slice(lastIndex)}
                 </ReactMarkdown>
             );
         }
@@ -260,260 +346,350 @@ const CustomMarkdown = ({children, onButtonClick}) => {
                     a: ({node, ...props}) => <a {...props} target="_blank" rel="noopener noreferrer"/>
                 }}
             >
-                {text}
+                {cleanText}
             </ReactMarkdown>
         );
     };
 
+    // 마커 기반 조건 확인
+    if (!children) return null;
+
+    // 청년 공간 마커
+    if (children.includes('[YOUTH_SPACE]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={youthSpaceButtons}
+                    onButtonClick={onButtonClick}
+                    title="아래의 버튼을 클릭하여 어떤 공간이 있는지 확인해보세요"
+                />
+            </div>
+        );
+    }
+
+    // 청년 채용관 마커
+    if (children.includes('[YOUTH_RECRUITMENT]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={youthRecruitmentButtons}
+                    onButtonClick={onButtonClick}
+                    title="관심 있는 채용 유형을 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 기업 채용 지역 선택 마커
+    if (children.includes('[COMPANY_RECRUITMENT]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <DistrictSelector
+                    onSelect={onButtonClick}
+                    title="지역을 선택해주세요"
+                    recruitmentType="기업"
+                />
+            </div>
+        );
+    }
+
+    // 공공 채용 지역 선택 마커
+    if (children.includes('[PUBLIC_RECRUITMENT]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <DistrictSelector
+                    onSelect={onButtonClick}
+                    title="지역을 선택해주세요"
+                    recruitmentType="공공"
+                />
+            </div>
+        );
+    }
+
+    // 해외 채용 국가 입력 마커
+    if (children.includes('[OVERSEAS_RECRUITMENT]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <CountryInput
+                    onSubmit={(country) => onButtonClick(`해외_${country}`)}
+                    title="관심 있는 국가를 입력해주세요"
+                />
+            </div>
+        );
+    }
+
+    // Busan Jobs 마커
+    if (children.includes('[BUSAN_JOBS]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={busanJobsButtons}
+                    onButtonClick={onButtonClick}
+                    title="관심 있는 서비스를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 취업 서비스 마커
+    if (children.includes('[JOB_SERVICES]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={jobServiceButtons}
+                    onButtonClick={onButtonClick}
+                    title="관심 있는 서비스를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 창업 서비스 마커
+    if (children.includes('[STARTUP_SERVICES]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={startupServiceButtons}
+                    onButtonClick={onButtonClick}
+                    title="관심 있는 서비스를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 청년 혜택 모아보기 마커
+    if (children.includes('[YOUTH_BENEFITS]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={youthBenefitsButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 방식을 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 나에게 맞는 지원 찾기 마커
+    if (children.includes('[MY_SUPPORT_FINDER]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={supportFinderButtons}
+                    onButtonClick={onButtonClick}
+                    title="해당하는 조건을 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 관심있는 분야만 보기 마커
+    if (children.includes('[INTEREST_FIELD]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={interestFieldButtons}
+                    onButtonClick={onButtonClick}
+                    title="관심 있는 분야를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 대상자별 지원 찾기 마커
+    if (children.includes('[TARGET_GROUP_FINDER]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={targetGroupButtons}
+                    onButtonClick={onButtonClick}
+                    title="해당하는 유형을 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 부산청년센터 마커
+    if (children.includes('[BUSAN_YOUTH_CENTER]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={busanYouthCenterButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 정보를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 부산청년센터 공간소개 마커
+    if (children.includes('[BUSAN_YOUTH_CENTER_SPACE_INTRO]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={busanYouthCenterSpaceButtons}
+                    onButtonClick={onButtonClick}
+                    title="궁금한 공간을 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 부산청년센터 상세 마커
+    if (children.includes('[BUSAN_YOUTH_CENTER_DETAIL]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <ExternalLinkButton
+                    url="https://young.busan.go.kr/bycenter/index.nm?menuCd=131"
+                    text="[부산청년센터] 공간소개 바로가기"
+                />
+            </div>
+        );
+    }
+
+    // 오름라운지 상세 마커
+    if (children.includes('[OREUM_LOUNGE_DETAIL]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <ExternalLinkButton
+                    url="https://young.busan.go.kr/bycenter/index.nm?menuCd=155"
+                    text="[오름라운지] 공간소개 바로가기"
+                />
+            </div>
+        );
+    }
+
+    // 청년두드림카페 마커
+    if (children.includes('[YOUTH_DODREAM]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={youthDoDreamButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 정보를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 청년두드림카페 시설 마커
+    if (children.includes('[YOUTH_DODREAM_FACILITY]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <ExternalLinkButton
+                    url="https://www.busanjob.net/08_wyou/wyou10.asp#a"
+                    text="[청년두드림센터] 홈페이지 바로가기"
+                />
+            </div>
+        );
+    }
+
+    // 소담스퀘어 부산 마커
+    if (children.includes('[SODAM_SQUARE]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={sodamSquareButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 정보를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 부산지식산업센터 마커
+    if (children.includes('[BKIC]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={bkicButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 센터를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 부산지식산업센터 금곡점 마커
+    if (children.includes('[BKIC_GEUMGOK]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={bkicGeumgokButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 서비스를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 부산지식산업센터 우암점 마커
+    if (children.includes('[BKIC_UAM]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={bkicUamButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 서비스를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 지역 주도형 청년일자리사업 마커
+    if (children.includes('[REGIONAL_YOUTH_JOB]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={regionalYouthJobButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 정보를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 드림 옷장 마커
+    if (children.includes('[DREAM_CLOTHES]')) {
+        return (
+            <div className="custom-markdown">
+                <ReactMarkdown>{removeMarker(children)}</ReactMarkdown>
+                <SubButtons
+                    buttons={dreamClothesButtons}
+                    onButtonClick={onButtonClick}
+                    title="원하는 서비스를 선택해주세요"
+                />
+            </div>
+        );
+    }
+
+    // 기본 렌더링 (마커가 없는 경우)
     return (
         <div className="custom-markdown">
-            {isYouthSpaceResponse ? (
-                <>
-                    <ReactMarkdown>
-                        🏢 **청년 공간**에서는 부산 청년들을 위한 다양한 공간을 제공합니다!
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={youthSpaceButtons}
-                        onButtonClick={onButtonClick}
-                        title="아래의 버튼을 클릭하여 어떤 공간이 있는지 확인해보세요"
-                    />
-                </>
-            ) : isBusanJobsResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`부산잡스(Busan Jobs)를 소개해드릴게요. 부산잡스는 부산 청년을 위한 일자리 탐색 서비스예요. 부산시의 다양한 기업을 소개하며 공공기관 행정 체험, 다양한 청년 활동 프로그램을 운영하고 있어요.
-
-B-Bot은 부산 청년의 꿈과 희망이 모두 이루어지길 응원하고 있습니다!
-
-부산잡스에서 제공하는 서비스로는 취업 지원, 창업 지원이 있어요. 어떤 부분이 더 궁금한가요?`}
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={busanJobsButtons}
-                        onButtonClick={onButtonClick}
-                        title="관심 있는 서비스를 선택해주세요"
-                    />
-                </>
-            ) : isJobServiceResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`부산잡스에서 제공하는 취업 서비스로는 총 6가지가 있습니다.
-
-**1. 부산 청끌기업 소개**
-• 청년의 눈높이에 부합하며, 청년이 일하고 싶어하는 기업. 이것을 청년이 끌리는 기업, 청끌 기업이라고 합니다.
-• 현재 110개의 청끌 기업이 있어요.
-
-**2. JOB 성장기업**
-• 청년 친화 구인기업을 발굴하고 기업 정보를 제공해드려요.
-• 현재 237개의 JOB 성장기업이 있어요.
-
-**3. 지역 주도형 청년 일자리 사업**
-• 만 39세 이하 청년의 부산 정착을 위한 일자리와 임금, 창업지원금을 제공합니다.
-
-**4. 드림 옷장**
-• 구직 청년을 위해 면접 정장 무료 대여 서비스를 제공합니다.
-• 만 15세~만39세 주소가 부산인 취업 준비 청년이라면 누구든 이용 가능!
-
-**5. 취업 연수생**
-• 부산 거주 미취업 청년을 대상으로 공공기관에서 일정 기간 행정 체험을 할 수 있습니다.
-
-**6. 청년 프로그램**
-• 부산 청년들에게 다양한 경험을 지원하는 프로그램을 보여줍니다.
-
-6가지 메뉴 중 어느 것에 대해 더 알아보고 싶은가요?`}
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={jobServiceButtons}
-                        onButtonClick={onButtonClick}
-                        title="관심 있는 서비스를 선택해주세요"
-                    />
-                </>
-            ) : isBusanYouthCenterResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`부산청년센터는 '부산청년센터'와 '오름라운지' 두 공간으로 운영되며, 청년이라면 누구나 회의, 스터디, 행사 등 다양한 목적에 맞춰 공간을 대관하실 수 있어요.
-
-📍 **부산청년센터**: 부산광역시 중구 자갈치해안로 52, 3,4층
-📍 **오름라운지**: 부산광역시 중구 중앙대로 17 A67
-
-📌 일부 공간은 청년 대상 행사일 경우에만 대관이 가능하니 참고해 주세요.
-📌 또한, 종교나 정치 활동과 같은 목적은 사용이 불가합니다.`}
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={busanYouthCenterButtons}
-                        onButtonClick={onButtonClick}
-                        title="원하는 정보를 선택해주세요"
-                    />
-                </>
-            ) : isBusanYouthCenterSpaceIntroResponse ? (
-                <>
-                    <ReactMarkdown>
-                        부산청년센터 공간을 소개해드릴게요! 어떤 공간이 궁금하신가요?
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={busanYouthCenterSpaceButtons}
-                        onButtonClick={onButtonClick}
-                        title="궁금한 공간을 선택해주세요"
-                    />
-                </>
-            ) : isBusanYouthCenterDetailResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`**부산청년센터**는 **3층 '들락'과 4층 '날락'**으로 나뉘며, 필요에 따라 공간을 선택하실 수 있어요.
-
-📍 **3층 들락**
-● **모락마루** (15명 이내): 회의와 공유주방이 함께 있는 소규모 모임 공간
-● **이야기마루 1·2** (10명 이내): 회의 또는 화상 회의용
-● **만날마루** (50명 이내): 대형 강연이나 워크숍에 적합한 개방형 공간
-
-📍 **4층 날락**
-● **우당탕 다목적실** (40명 이내): 강의나 발표 등 중형 행사에 적합
-● **이야기마루 3** (10명 이내): 회의 및 화상 회의 가능
-● **함께마루** (6명 이내): 소규모 스터디나 팀 회의`}
-                    </ReactMarkdown>
-                    <ExternalLinkButton
-                        url="https://young.busan.go.kr/bycenter/index.nm?menuCd=131"
-                        text="[부산청년센터] 공간소개 바로가기"
-                    />
-                </>
-            ) : isOreumLoungeDetailResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`**오름라운지**는 **자율공간, 회의실, 서점, 창작소**로 크게 4가지로 나눠져요.
-**오름라운지**는 **부산청년리빙랩 띵두 & 뿌리**라고도 불러요.
-
-● **자율공간** (50명 이내): 넓은 공간이 필요한 행사에 적합한 공간
-● **회의실 2·3** (10명 이내): 독립된 회의 공간이 필요한 모임에 적합
-● **서점** (15명 이내): 예약없이 자유롭게 찾아와서 이용 가능한 스터디룸
-● **창작소** (6명 이내): 독립된 회의 공간이 필요한 모임에 적합`}
-                    </ReactMarkdown>
-                    <ExternalLinkButton
-                        url="https://young.busan.go.kr/bycenter/index.nm?menuCd=155"
-                        text="[오름라운지] 공간소개 바로가기"
-                    />
-                </>
-            ) : isYouthDoDreamResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`똑똑, 청년들의 꿈을 Do dream!
-**청년두드림센터**는 청년을 위한 공유공간이에요!
-스터디, 회의, 문화활동 등 다양한 모임을 위한 커뮤니티 공간을 무료로 대여할 수 있어요.😊
-
-📍 위치: 부산 부산진구 가야대로 772, 롯데백화점 별관 2층
-⏰ 운영시간: 월~금 10:00 ~ 21:00 / 토 10:00 ~ 19:00
-📞 전화번호: 051-600-1350`}
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={youthDoDreamButtons}
-                        onButtonClick={onButtonClick}
-                        title="원하는 정보를 선택해주세요"
-                    />
-                </>
-            ) : isSodamSquareResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`으랏차차 부산소상공인 여러분~
-**소담스퀘어 부산**은 급변하는 디지털전환에 어려움을 겪고 있는 소상공인 여러분을 위한 **라이브커머스 맞춤형 지원 공간**입니다.
-온라인 판로진출 교육부터 상세페이지제작, 라이브커머스, 장비 및 스튜디오 대여 등 '디지털비즈니스'의 토탈 솔루션을 제공합니다.😊
-
-📍 위치: 부산광역시 동구 부산진성공원로23 KT남부산지사 18층
-⏰ 운영시간: 월~금 10:00 ~ 18:00, 12:00 ~ 13:00 휴게시 / 토~일: 정기휴무
-📞 전화번호: 051-600-1367`}
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={sodamSquareButtons}
-                        onButtonClick={onButtonClick}
-                        title="원하는 정보를 선택해주세요"
-                    />
-                </>
-            ) : isYouthDoDreamFacilityResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`**청년두드림센터**의 **주요시설**을 소개해드릴게요.
-
-● 대회의실
-● 휴식공간
-● 소회의실
-● 상담실
-● 열린공간
-● 부산 청년JOB 성장 카페
-
-🔍 홈페이지에 들어가셔서 아래로 스크롤하시면 공간별 대관 시간과 수용 인원을 확인할 수 있어요!
-👀 각 공간 소개 안에 있는 'VR보기' 버튼을 누르면, 해당 공간을 미리 둘러볼 수도 있답니다.`}
-                    </ReactMarkdown>
-                    <ExternalLinkButton
-                        url="https://www.busanjob.net/08_wyou/wyou10.asp#a"
-                        text="[청년두드림센터] 홈페이지 바로가기"
-                    />
-                </>
-            ) : isSodamSquareFacilityResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`●** 라운지**
-👉 방문자 휴식과 커뮤니티 교류를 위한 열린 소통 공간 (https://www.bssodam.or.kr/kor/05_facilty/faci_07.php)
-
-● **공유 오피스**
-👉 입주자 간 협업과 독립 업무가 모두 가능한 소상공인 맞춤형 사무 공간 (https://www.bssodam.or.kr/kor/05_facilty/faci_06.php)
-
-● **편집실**
-👉 영상 편집과 콘텐츠 후반 작업을 위한 장비가 구비된 작업 공간 (https://www.bssodam.or.kr/kor/05_facilty/faci_05.php)
-
-● **녹음실**
-👉 음성 콘텐츠, 나레이션, 더빙 작업에 적합한 고음질 전용 녹음 공간 (https://www.bssodam.or.kr/kor/05_facilty/faci_04.php)
-
-● **1인 미디어 스튜디오**
-👉 1인 크리에이터를 위한 조명·촬영·송출 시스템이 갖춰진 방송 제작 공간 (https://www.bssodam.or.kr/kor/05_facilty/faci_03.php)
-
-● **뷰티 스튜디오**
-👉 뷰티 관련 라이브커머스, 촬영, 뷰티 시연이 가능한 전용 공간 (https://www.bssodam.or.kr/kor/05_facilty/faci_02.php)
-
-● **쿠킹 스튜디오**
-👉 라이브 방송이나 요리 콘텐츠 제작이 가능한 조리 전문 촬영 공간 (https://www.bssodam.or.kr/kor/05_facilty/faci_01.php)`}
-                    </ReactMarkdown>
-                </>
-            ) : isBKICGeumgokResponse ? (
-                <>
-                    <ReactMarkdown>
-                        **부산지식산업센터 금곡점**에 대한 정보입니다.
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={bkicGeumgokButtons}
-                        onButtonClick={onButtonClick}
-                        title="원하는 서비스를 선택해주세요"
-                    />
-                </>
-            ) : isBKICUamResponse ? (
-                <>
-                    <ReactMarkdown>
-                        **부산지식산업센터 우암점**에 대한 정보입니다.
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={bkicUamButtons}
-                        onButtonClick={onButtonClick}
-                        title="원하는 서비스를 선택해주세요"
-                    />
-                </>
-            ) : isBKICResponse ? (
-                <>
-                    <ReactMarkdown>
-                        {`**BKIC 부산지식산업센터**는 부산광역시가 지원하고 부산경제진흥원이 운영하는 도심형 멀티콤플렉스 산업단지입니다.
-
-📍 **부산지식산업센터 금곡**: 부산광역시 북구 효열로 111번길(부산광역시 북구 금곡동 812-8번지)
-⏰ 운영시간: 평일 09:00 ~ 17:59 | 주말미운영 | 점심 미운영
-📞 대표 전화: 051-717-3658
-
-📍 **부산지식산업센터 우암**: 부산광역시 남구 신선로 2(부산광역시 남구 우암동 301)
-⏰ 운영시간: 평일 09:00 ~ 17:59 | 주말미운영 | 점심 12:00 ~ 12:59
-📞 대표 전화: 051-600-1837~8`}
-                    </ReactMarkdown>
-                    <SubButtons
-                        buttons={bkicButtons}
-                        onButtonClick={onButtonClick}
-                        title="원하는 센터를 선택해주세요"
-                    />
-                </>
-            ) : (
-                renderWithLinkCards(children)
-            )}
+            {renderWithLinkCards(children)}
         </div>
     );
 };
@@ -569,73 +745,41 @@ function ChatWindow({
             return;
         }
 
-        // 공간소개 버튼 클릭 시 특별 처리
-        if (text === '공간소개') {
+        if (text === '자세히 알아보기') {
+            window.open('https://busanjob.net/08_wyou/wyou01_0.asp', '_blank');
+            return;
+        }
+
+        if (text === '모집 공고 보러 가기') {
+            window.open('https://busanjob.net/08_wyou/wyou01_2_1.asp', '_blank');
+            return;
+        }
+
+        if (text === '드림 옷장 자세히 알아보기') {
+            window.open('https://busanjob.net/08_wyou/wyou08_1.asp', '_blank');
+            return;
+        }
+
+        if (text === '드림 옷장 신청') {
+            window.open('https://busanjob.net/08_wyou/wyou08_2_write.asp', '_blank');
+            return;
+        }
+
+        // 지역별 채용 정보 처리
+        if (text.includes('_기업') || text.includes('_공공')) {
             onSendMessage(text);
             return;
         }
 
-        // 주요시설 소개 버튼 클릭 시 특별 처리
-        if (text === '주요시설 소개') {
-            onSendMessage(text);
+        // 해외 채용 처리
+        if (text.startsWith('해외_')) {
+            const country = text.substring(3);
+            // 해외 채용은 예시 답변으로 처리
+            onSendMessage(`${country} 채용 정보(상위 3개) 결과입니다.\n\n예시 답변입니다.\n더 많은 해외 채용 정보를 찾으시나요? [더보기](https://www.busanjob.net/01_emif/emif01.asp)`);
             return;
         }
 
-        // 시설안내 버튼 클릭 시 특별 처리
-        if (text === '시설안내') {
-            onSendMessage(text);
-            return;
-        }
-
-        // 부산지식산업센터 금곡점 상세 정보
-        if (text === '부산지식산업센터 금곡점') {
-            onSendMessage(text);
-            return;
-        }
-
-        // 부산지식산업센터 우암점 상세 정보
-        if (text === '부산지식산업센터 우암점') {
-            onSendMessage(text);
-            return;
-        }
-
-        // 부산청년센터 상세 정보
-        if (text === '부산청년센터 상세') {
-            const detailMessage = {
-                sender: 'bot',
-                text: `**부산청년센터**는 **3층 '들락'과 4층 '날락'**으로 나뉘며, 필요에 따라 공간을 선택하실 수 있어요.
-
-📍 **3층 들락**
-● **모락마루** (15명 이내): 회의와 공유주방이 함께 있는 소규모 모임 공간
-● **이야기마루 1·2** (10명 이내): 회의 또는 화상 회의용
-● **만날마루** (50명 이내): 대형 강연이나 워크숍에 적합한 개방형 공간
-
-📍 **4층 날락**
-● **우당탕 다목적실** (40명 이내): 강의나 발표 등 중형 행사에 적합
-● **이야기마루 3** (10명 이내): 회의 및 화상 회의 가능
-● **함께마루** (6명 이내): 소규모 스터디나 팀 회의`
-            };
-            onSendMessage(text);
-            return;
-        }
-
-        // 오름라운지 상세 정보
-        if (text === '오름라운지 상세') {
-            const detailMessage = {
-                sender: 'bot',
-                text: `**오름라운지**는 **자율공간, 회의실, 서점, 창작소**로 크게 4가지로 나눠져요.
-**오름라운지**는 **부산청년리빙랩 띵두 & 뿌리**라고도 불러요.
-
-● **자율공간** (50명 이내): 넓은 공간이 필요한 행사에 적합한 공간
-● **회의실 2·3** (10명 이내): 독립된 회의 공간이 필요한 모임에 적합
-● **서점** (15명 이내): 예약없이 자유롭게 찾아와서 이용 가능한 스터디룸
-● **창작소** (6명 이내): 독립된 회의 공간이 필요한 모임에 적합`
-            };
-            onSendMessage(text);
-            return;
-        }
-
-        // 일반적인 버튼 클릭 처리
+        // 일반적인 버튼 클릭 처리 - 모든 버튼을 onSendMessage로 전달
         onSendMessage(text);
     };
 
