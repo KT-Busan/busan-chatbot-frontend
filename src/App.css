@@ -809,6 +809,121 @@ body {
     box-shadow: 0 4px 12px var(--sub-button-hover-shadow);
 }
 
+/* 청년 채용관 관련 CSS 스타일 */
+
+/* 지역 선택 드롭다운 스타일 */
+.district-selector-container {
+    margin: 16px 0 0 0;
+    padding: 16px;
+    background: var(--welcome-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.district-selector {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--sub-button-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-family: inherit;
+}
+
+.district-selector:focus {
+    outline: none;
+    border-color: var(--border-color-hover);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.district-selector:hover {
+    border-color: var(--border-color-hover);
+}
+
+.district-selector option {
+    padding: 8px;
+    font-size: 16px;
+    background-color: var(--sub-button-bg);
+    color: var(--text-primary);
+}
+
+/* 국가 입력 컴포넌트 스타일 */
+.country-input-container {
+    margin: 16px 0 0 0;
+    padding: 16px;
+    background: var(--welcome-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.country-input-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.country-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--sub-button-bg);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.country-input:focus {
+    outline: none;
+    border-color: var(--border-color-hover);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.country-input::placeholder {
+    color: var(--text-tertiary);
+    font-style: italic;
+}
+
+.country-submit-btn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.country-submit-btn:hover {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.country-submit-btn:active {
+    transform: translateY(0);
+}
+
 /* 링크 카드 스타일 */
 .link-card {
     display: flex;
@@ -1041,6 +1156,7 @@ body {
     font-weight: 500;
     transition: all 0.2s ease;
     box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    font-family: inherit;
 }
 
 .send-button:hover {
@@ -1286,6 +1402,24 @@ body {
         width: 6px;
         height: 6px;
     }
+
+    /* 모바일용 청년 채용관 스타일 */
+    .country-input-form {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .country-submit-btn {
+        width: 100%;
+    }
+
+    .district-selector {
+        font-size: 16px; /* iOS에서 줌 방지 */
+    }
+
+    .country-input {
+        font-size: 16px; /* iOS에서 줌 방지 */
+    }
 }
 
 /* 중간 화면 크기 (769px ~ 1199px) - 사이드바 접힌 상태 */
@@ -1375,4 +1509,33 @@ body {
         font-size: 0.7em;
         min-height: 28px;
     }
+}
+
+/* 다크 모드에서 청년 채용관 컴포넌트 스타일 */
+[data-theme="dark"] .district-selector-container,
+[data-theme="dark"] .country-input-container {
+    background: var(--welcome-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .district-selector,
+[data-theme="dark"] .country-input {
+    background-color: var(--sub-button-bg);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .district-selector:focus,
+[data-theme="dark"] .country-input:focus {
+    border-color: var(--border-color-hover);
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+}
+
+[data-theme="dark"] .country-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+[data-theme="dark"] .district-selector option {
+    background-color: var(--sub-button-bg);
+    color: var(--text-primary);
 }
