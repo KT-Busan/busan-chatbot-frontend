@@ -1,0 +1,312 @@
+/* 부산 지도 컴포넌트 스타일 */
+.busan-map-container {
+    background: var(--welcome-bg);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px 0;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.map-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.map-header h3 {
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.map-header p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.map-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.busan-map-svg {
+    width: 100%;
+    max-width: 800px; /* 700px에서 800px로 증가 */
+    height: auto;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f0f8ff 0%, #e8f4fd 100%);
+    box-shadow: 0 4px 16px var(--shadow-light);
+}
+
+.region-polygon {
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.region-polygon:hover {
+    opacity: 1;
+}
+
+.region-marker {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    cursor: pointer;
+    /* 호버 시 변화 없음 - 오직 폴리곤 색상만 변경 */
+}
+
+.region-name-text {
+    font-family: inherit;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    user-select: none;
+}
+
+.hover-tooltip {
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.space-count {
+    font-family: inherit;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+.map-tooltip {
+    display: none; /* 툴팁 완전 제거 */
+}
+
+.map-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: var(--sub-button-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85em;
+    color: var(--text-secondary);
+}
+
+.legend-circle {
+    border-radius: 50%;
+    background: #007bff;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.legend-circle.small {
+    width: 8px;
+    height: 8px;
+}
+
+.legend-circle.medium {
+    width: 14px;
+    height: 14px;
+}
+
+.legend-circle.large {
+    width: 20px;
+    height: 20px;
+}
+
+.regions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px; /* 8px에서 6px로 줄임 */
+    margin-top: 16px;
+}
+
+.region-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 6px; /* 12px 8px에서 8px 6px로 줄임 */
+    background: var(--sub-button-bg);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    box-shadow: 0 2px 6px var(--shadow-light);
+    color: var(--text-primary);
+    min-height: 50px; /* 최소 높이 설정으로 버튼 크기 통일 */
+}
+
+.region-button:hover,
+.region-button.hovered {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.region-button .region-name {
+    font-size: 0.85em; /* 0.9em에서 0.85em로 줄임 */
+    font-weight: 600;
+    margin-bottom: 2px; /* 4px에서 2px로 줄임 */
+    color: inherit;
+}
+
+.region-button .region-count {
+    font-size: 0.75em; /* 0.8em에서 0.75em로 줄임 */
+    opacity: 0.8;
+    color: inherit;
+}
+
+.region-button:hover .region-name,
+.region-button.hovered .region-name,
+.region-button:hover .region-count,
+.region-button.hovered .region-count {
+    color: white;
+    opacity: 1;
+}
+
+/* 다크모드 대응 */
+[data-theme="dark"] .busan-map-svg {
+    background: linear-gradient(135deg, #1e1e2e 0%, #252540 100%);
+}
+
+[data-theme="dark"] .map-tooltip {
+    background: var(--message-bot-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .region-name-text {
+    fill: white;
+}
+
+/* 환영 화면의 지도 섹션 */
+.welcome-map-section {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 700px; /* 600px에서 700px로 증가 */
+}
+
+.welcome-screen .busan-map-container {
+    margin: 0;
+    background: rgba(248, 249, 255, 0.9);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 8px 32px var(--shadow-light);
+}
+
+[data-theme="dark"] .welcome-screen .busan-map-container {
+    background: rgba(30, 30, 46, 0.9);
+    border-color: var(--border-color);
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .busan-map-container {
+        padding: 16px;
+        margin: 12px 0;
+    }
+
+    .map-header h3 {
+        font-size: 1.1em;
+    }
+
+    .map-header p {
+        font-size: 0.85em;
+    }
+
+    .busan-map-svg {
+        max-width: 100%;
+    }
+
+    .map-legend {
+        gap: 12px;
+        padding: 10px;
+        flex-wrap: wrap;
+    }
+
+    .legend-item {
+        font-size: 0.8em;
+    }
+
+    .regions-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px; /* 6px에서 4px로 줄임 */
+    }
+
+    .region-button {
+        padding: 6px 4px; /* 10px 6px에서 6px 4px로 줄임 */
+        min-height: 45px; /* 모바일에서 더 작게 */
+    }
+
+    .region-button .region-name {
+        font-size: 0.8em; /* 0.85em에서 0.8em로 줄임 */
+    }
+
+    .region-button .region-count {
+        font-size: 0.7em; /* 0.75em에서 0.7em로 줄임 */
+    }
+
+    .map-tooltip {
+        font-size: 0.85em;
+        padding: 6px 10px;
+        top: auto;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .region-name-text {
+        font-size: 9px !important;
+    }
+}
+
+/* 작은 모바일 화면 (375px 이하) */
+@media (max-width: 375px) {
+    .busan-map-container {
+        padding: 12px;
+    }
+
+    .map-header h3 {
+        font-size: 1em;
+    }
+
+    .map-header p {
+        font-size: 0.8em;
+    }
+
+    .regions-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3px; /* 4px에서 3px로 줄임 */
+    }
+
+    .region-button {
+        padding: 6px 3px; /* 8px 4px에서 6px 3px로 줄임 */
+        min-height: 40px; /* 더 작게 */
+    }
+
+    .region-button .region-name {
+        font-size: 0.75em; /* 0.8em에서 0.75em로 줄임 */
+    }
+
+    .region-button .region-count {
+        font-size: 0.65em; /* 0.7em에서 0.65em로 줄임 */
+    }
+
+    .map-legend {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .legend-item {
+        font-size: 0.75em;
+    }
+
+    .region-name-text {
+        font-size: 8px !important;
+    }
+}

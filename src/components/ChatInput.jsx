@@ -26,7 +26,7 @@ function ChatInput({onSendMessage, disabled = false}) {
                     placeholder={
                         disabled
                             ? "B-BOT이 생각하고 있어요..." // 비활성화 상태일 때 플레이스홀더
-                            : "부산 청년 지원 전문가에게 무엇이든 물어보세요..." // 일반 상태일 때 플레이스홀더
+                            : "부산 청년 공간에 대해 무엇이든 물어보세요..." // 일반 상태일 때 플레이스홀더
                     }
                     disabled={disabled} // 봇이 응답 중일 때 입력 비활성화
                 />

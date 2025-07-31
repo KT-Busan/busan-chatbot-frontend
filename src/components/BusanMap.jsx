@@ -1,0 +1,264 @@
+import React, {useState, useEffect} from 'react';
+import './BusanMap.css';
+
+// 실제 부산청년플랫폼의 정확한 지역별 좌표 데이터 (지역 크기와 텍스트 위치 조정)
+const BUSAN_REGIONS = {
+    '중구': {
+        count: 4,
+        coords: "188,263,179,271,182,281,188,287,198,281,206,272,197,265",
+        center: {x: 192, y: 274},
+        fontSize: 10, // 작은 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '서구': {
+        count: 1,
+        coords: "172,239,165,246,163,256,173,267,175,275,176,282,174,295,172,308,176,319,179,326,182,320,184,298,186,289,183,281,181,272,187,266,188,254,185,244",
+        center: {x: 175, y: 282},
+        fontSize: 11, // 중간 크기 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '동구': {
+        count: 2,
+        coords: "194,240,185,244,187,257,188,264,195,265,202,268,206,262,213,259,215,249,214,239,205,234,197,229,192,234",
+        center: {x: 201, y: 247},
+        fontSize: 10, // 작은 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '영도구': {
+        count: 1,
+        coords: "204,273,194,282,189,287,196,296,208,306,218,312,232,323,242,324,247,317,241,309,234,304,239,296,227,287,217,276",
+        center: {x: 218, y: 300},
+        fontSize: 11, // 중간 크기 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '부산진구': {
+        count: 7,
+        coords: "176,191,196,181,203,194,211,196,217,205,226,207,230,216,226,225,220,232,213,237,203,235,195,230,193,239,185,245,174,240,178,227,173,223,173,208,181,203",
+        center: {x: 201, y: 216},
+        fontSize: 12, // 큰 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '동래구': {
+        count: 1,
+        coords: "211,158,203,168,197,180,204,187,212,189,222,182,231,183,244,191,253,193,253,181,250,171,236,168,224,160",
+        center: {x: 227, y: 175},
+        fontSize: 11, // 중간 크기 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '남구': {
+        count: 2,
+        coords: "215,238,214,248,214,258,218,271,223,271,231,273,236,280,245,280,251,276,262,277,267,270,265,254,258,243,246,238,243,229,242,222,231,220,225,227,217,231",
+        center: {x: 241, y: 250},
+        fontSize: 11, // 중간 크기 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '북구': {
+        count: 3,
+        coords: "191,108,181,105,171,110,168,123,166,139,159,146,155,151,160,162,159,172,149,183,167,189,176,192,187,188,198,179,207,161,212,158,202,152,200,140,199,130,195,122,200,114,200,105",
+        center: {x: 180, y: 148},
+        fontSize: 12, // 큰 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '해운대구': {
+        count: 2,
+        coords: "275,133,275,142,273,147,271,153,259,159,255,167,248,171,252,179,252,190,256,198,265,207,269,217,270,223,279,223,288,225,297,219,310,219,318,215,325,210,329,202,330,195,325,184,319,181,311,188,305,181,299,180,289,175,289,166,298,157,292,150,287,142,285,136",
+        center: {x: 290, y: 179},
+        fontSize: 13, // 큰 지역
+        textOffset: {x: -5, y: 0} // 경계선에서 약간 왼쪽으로
+    },
+    '사하구': {
+        count: 2,
+        coords: "131,250,126,258,115,266,110,278,108,289,115,293,124,289,131,286,128,303,133,324,138,337,143,343,152,341,151,328,149,318,152,315,157,324,164,328,165,319,163,307,165,298,172,296,177,288,175,280,175,271,170,262,164,253,152,254,145,263,139,256",
+        center: {x: 142, y: 296},
+        fontSize: 11, // 중간 크기 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '금정구': {
+        count: 1,
+        coords: "230,83,223,90,217,95,213,90,205,94,200,103,200,113,194,123,198,132,199,144,203,152,210,157,220,159,230,167,241,170,249,171,256,167,258,160,268,154,275,144,276,134,270,124,258,123,259,113,258,102,260,93,259,86,247,81,238,82",
+        center: {x: 238, y: 127},
+        fontSize: 13, // 큰 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '강서구': {
+        count: 0,
+        coords: "155,150,144,155,133,156,116,158,102,167,94,163,87,166,75,168,67,175,63,184,68,193,72,202,63,206,66,214,69,222,67,233,61,226,62,216,53,217,44,219,38,225,29,225,17,224,4,225,9,239,21,251,32,250,36,259,40,267,36,276,27,279,26,288,19,297,5,305,-1,321,1,338,12,361,23,382,32,392,45,391,54,377,59,359,61,335,60,319,68,315,80,319,93,323,104,312,109,297,108,283,116,267,129,257,132,242,132,224,140,200,150,186,160,173,159,160",
+        center: {x: 79, y: 271},
+        fontSize: 14, // 가장 큰 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '연제구': {
+        count: 1,
+        coords: "196,179,200,193,212,197,217,205,227,207,229,217,228,223,235,219,240,207,241,200,250,201,257,199,254,190,241,188,231,182,217,182,209,189",
+        center: {x: 226, y: 196},
+        fontSize: 10, // 작은 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '수영구': {
+        count: 3,
+        coords: "242,199,239,207,237,215,229,220,239,223,245,228,245,239,252,243,259,244,255,230,265,230,272,222,267,211,258,200,249,202",
+        center: {x: 252, y: 221},
+        fontSize: 10, // 작은 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '사상구': {
+        count: 2,
+        coords: "151,185,139,199,129,222,130,244,131,251,139,258,144,263,151,260,153,254,162,254,165,244,175,239,177,230,174,222,174,207,182,202,178,193,165,188",
+        center: {x: 154, y: 225},
+        fontSize: 11, // 중간 크기 지역
+        textOffset: {x: 0, y: 0}
+    },
+    '기장군': {
+        count: 0,
+        coords: "365,92,368,77,370,69,378,69,388,73,399,72,403,65,397,52,389,46,380,41,382,32,376,27,381,22,376,12,365,1,351,1,343,6,325,4,312,4,314,13,316,21,305,32,293,31,284,26,273,23,262,25,263,36,257,44,258,53,249,62,247,72,245,80,252,84,261,88,258,101,260,110,258,123,271,125,276,134,285,138,287,145,296,154,290,166,289,175,295,181,306,182,308,188,315,188,323,180,325,187,329,197,342,198,354,200,358,190,354,177,351,165,358,152,363,134,364,114",
+        center: {x: 324, y: 100},
+        fontSize: 14, // 가장 큰 지역
+        textOffset: {x: -10, y: 5} // 경계선에서 벗어나게 조정
+    }
+};
+
+const BusanMap = ({onRegionClick, spacesData}) => {
+    const [hoveredRegion, setHoveredRegion] = useState(null);
+    const [regions, setRegions] = useState(BUSAN_REGIONS);
+
+    // 실제 크롤링 데이터로 지역별 개수 업데이트
+    useEffect(() => {
+        if (spacesData && spacesData.length > 0) {
+            const updatedRegions = {...BUSAN_REGIONS};
+
+            // 각 지역별 청년공간 개수 초기화
+            Object.keys(updatedRegions).forEach(region => {
+                updatedRegions[region].count = 0;
+            });
+
+            // 각 지역별 청년공간 개수 계산
+            spacesData.forEach(space => {
+                const region = space.region;
+                if (updatedRegions[region]) {
+                    updatedRegions[region].count++;
+                }
+            });
+
+            setRegions(updatedRegions);
+        }
+    }, [spacesData]);
+
+    const handleRegionClick = (regionName) => {
+        onRegionClick(regionName);
+    };
+
+    return (
+        <div className="busan-map-container">
+            <div className="map-header">
+                <h3>🗺️ 부산 청년공간 지도</h3>
+                <p>지역을 클릭하면 해당 지역의 청년공간을 확인할 수 있어요!</p>
+            </div>
+
+            <div className="map-wrapper">
+                {/* 실제 부산청년플랫폼 지도 이미지 기반 SVG */}
+                <svg
+                    className="busan-map-svg"
+                    viewBox="0 0 410 400"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    {/* 배경 바다색 */}
+                    <rect width="410" height="400" fill="#e6f3ff" opacity="0.3"/>
+
+                    {/* 각 지역별 폴리곤 (실제 좌표 사용) */}
+                    {Object.entries(regions).map(([regionName, data]) => (
+                        <g key={regionName}>
+                            {/* 지역 경계선 (polygon) */}
+                            <polygon
+                                points={data.coords}
+                                fill={hoveredRegion === regionName ? '#ffebf0' : '#f0f8ff'}
+                                stroke={hoveredRegion === regionName ? '#ff6b9d' : '#4a90e2'}
+                                strokeWidth="1.5"
+                                className="region-polygon"
+                                onMouseEnter={() => setHoveredRegion(regionName)}
+                                onMouseLeave={() => setHoveredRegion(null)}
+                                onClick={() => handleRegionClick(regionName)}
+                            />
+
+                            {/* 지역 이름 - 지역 크기에 맞는 폰트 크기 */}
+                            <text
+                                x={data.center.x + (data.textOffset?.x || 0)}
+                                y={data.center.y + (data.textOffset?.y || 0)}
+                                textAnchor="middle"
+                                fontSize={data.fontSize}
+                                fontWeight="600"
+                                fill="#2d3748"
+                                className="region-name-text"
+                            >
+                                {regionName}
+                            </text>
+                        </g>
+                    ))}
+
+                    {/* 호버 툴팁 */}
+                    {hoveredRegion && (
+                        <g className="hover-tooltip">
+                            <rect
+                                x={regions[hoveredRegion].center.x + 15}
+                                y={regions[hoveredRegion].center.y - 25}
+                                width="35"
+                                height="20"
+                                fill="rgba(0, 0, 0, 0.8)"
+                                stroke="white"
+                                strokeWidth="1"
+                                rx="4"
+                            />
+                            <text
+                                x={regions[hoveredRegion].center.x + 32.5}
+                                y={regions[hoveredRegion].center.y - 12}
+                                textAnchor="middle"
+                                fontSize="11"
+                                fontWeight="bold"
+                                fill="white"
+                            >
+                                {regions[hoveredRegion].count}개
+                            </text>
+                        </g>
+                    )}
+                </svg>
+
+                {/* 호버 툴팁 제거 */}
+            </div>
+
+            {/* 범례 */}
+            <div className="map-legend">
+                <div className="legend-item">
+                    <div className="legend-circle small"></div>
+                    <span>0-2개</span>
+                </div>
+                <div className="legend-item">
+                    <div className="legend-circle medium"></div>
+                    <span>3-5개</span>
+                </div>
+                <div className="legend-item">
+                    <div className="legend-circle large"></div>
+                    <span>6개 이상</span>
+                </div>
+            </div>
+
+            {/* 지역 목록 (클릭 가능) - 가나다순 4x4 배열 */}
+            <div className="regions-grid">
+                {Object.entries(regions)
+                    .sort(([a], [b]) => a.localeCompare(b, 'ko-KR')) // 가나다순 정렬
+                    .map(([regionName, data]) => (
+                        <button
+                            key={regionName}
+                            className={`region-button ${hoveredRegion === regionName ? 'hovered' : ''}`}
+                            onClick={() => handleRegionClick(regionName)}
+                            onMouseEnter={() => setHoveredRegion(regionName)}
+                            onMouseLeave={() => setHoveredRegion(null)}
+                        >
+                            <span className="region-name">{regionName}</span>
+                            <span className="region-count">{data.count}개</span>
+                        </button>
+                    ))}
+            </div>
+        </div>
+    );
+};
+
+export default BusanMap;
