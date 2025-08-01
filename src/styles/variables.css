@@ -1,0 +1,92 @@
+/* 다크모드 CSS 변수 시스템 */
+:root {
+    /* 라이트 테마 변수 */
+    --bg-primary: #f7f7f8;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8f9ff;
+    --bg-quaternary: #f0f4ff;
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --text-tertiary: #a0aec0;
+    --border-color: rgba(0, 123, 255, 0.1);
+    --border-color-hover: #007bff;
+    --sidebar-bg: #2c2f33;
+    --sidebar-text: #ffffff;
+    --sidebar-hover: #3e4247;
+    --sidebar-button-bg: rgba(255, 255, 255, 0.1);
+    --sidebar-button-hover: rgba(255, 255, 255, 0.2);
+    --message-user-bg: linear-gradient(135deg, #007bff 0%, #4facfe 100%);
+    --message-bot-bg: rgba(255, 255, 255, 0.95);
+    --message-bot-border: rgba(0, 123, 255, 0.1);
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --input-form-bg: #ffffff;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+    --welcome-bg: rgba(248, 249, 255, 0.8);
+    --sub-button-bg: #ffffff;
+    --sub-button-hover-shadow: rgba(0, 123, 255, 0.25);
+    --link-card-bg: rgba(255, 255, 255, 0.95);
+    --thinking-text: #718096;
+    --hamburger-bg: rgba(0, 123, 255, 0.1);
+    --hamburger-hover-bg: rgba(0, 123, 255, 0.2);
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] {
+    /* 다크 테마 변수 */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #1e1e2e;
+    --bg-quaternary: #252540;
+    --text-primary: #ffffff;
+    --text-secondary: #b4b4b4;
+    --text-tertiary: #888888;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-color-hover: #4facfe;
+    --sidebar-bg: #0f0f0f;
+    --sidebar-text: #ffffff;
+    --sidebar-hover: #1a1a1a;
+    --sidebar-button-bg: rgba(255, 255, 255, 0.05);
+    --sidebar-button-hover: rgba(255, 255, 255, 0.15);
+    --message-user-bg: linear-gradient(135deg, #007bff 0%, #4facfe 100%);
+    --message-bot-bg: rgba(45, 45, 45, 0.95);
+    --message-bot-border: rgba(255, 255, 255, 0.1);
+    --input-bg: rgba(45, 45, 45, 0.9);
+    --input-form-bg: #2d2d2d;
+    --shadow-light: rgba(0, 0, 0, 0.3);
+    --shadow-medium: rgba(0, 0, 0, 0.5);
+    --welcome-bg: rgba(30, 30, 46, 0.8);
+    --sub-button-bg: #2d2d2d;
+    --sub-button-hover-shadow: rgba(79, 172, 254, 0.25);
+    --link-card-bg: rgba(45, 45, 45, 0.95);
+    --thinking-text: #b4b4b4;
+    --hamburger-bg: rgba(79, 172, 254, 0.1);
+    --hamburger-hover-bg: rgba(79, 172, 254, 0.2);
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* 애니메이션 변수 */
+:root {
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    --border-radius-small: 8px;
+    --border-radius-medium: 12px;
+    --border-radius-large: 16px;
+    --border-radius-round: 50%;
+
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 20px;
+    --spacing-2xl: 24px;
+
+    --font-size-xs: 0.75em;
+    --font-size-sm: 0.85em;
+    --font-size-md: 0.9em;
+    --font-size-lg: 1em;
+    --font-size-xl: 1.1em;
+    --font-size-2xl: 1.2em;
+}
