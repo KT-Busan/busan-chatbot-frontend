@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import Sidebar from './components/sidebar/Sidebar'; // 경로 수정
-import ChatWindow from './components/chat/ChatWindow'; // 경로 수정
+import Sidebar from './components/sidebar/Sidebar';
+import ChatWindow from './components/chat/ChatWindow';
 import {useDarkMode} from './hooks/useDarkMode';
 import {useSidebarState} from './hooks/useSidebarState';
 import {
@@ -12,7 +12,6 @@ import {
     classNames
 } from './utils/helpers';
 
-// 스타일 가져오기
 import './styles/variables.css';
 import './styles/globals.css';
 import './styles/components/chat.css';
@@ -21,7 +20,6 @@ import './styles/components/ui.css';
 import './styles/components/map.css';
 import './styles/responsive.css';
 
-// 메인 App 컴포넌트
 function App() {
     const [chats, setChats] = useState({});
     const [activeChatId, setActiveChatId] = useState(null);
@@ -29,18 +27,15 @@ function App() {
     const [isThinking, setIsThinking] = useState(false);
     const [spacesData, setSpacesData] = useState([]);
 
-    // 커스텀 훅 사용
     const [isDarkMode, setIsDarkMode] = useDarkMode();
     const {isSidebarCollapsed, setIsSidebarCollapsed, isMobile, toggleSidebar} = useSidebarState();
 
     const backendUrl = getBackendUrl();
 
-    // 콘솔에 현재 사용 중인 백엔드 URL 출력 (디버깅용)
     useEffect(() => {
         console.log(`🚀 Backend URL: ${backendUrl}`);
     }, [backendUrl]);
 
-    // 앱 시작 시 채팅 히스토리 로딩
     useEffect(() => {
         const fetchHistory = async () => {
             if (!anonymousId) return;
@@ -65,7 +60,6 @@ function App() {
         fetchHistory();
     }, [anonymousId, backendUrl]);
 
-    // 새 채팅 생성 함수
     const createNewChat = (currentChats = chats) => {
         const newChatId = generateChatId();
         const newChat = {
@@ -79,7 +73,6 @@ function App() {
         setActiveChatId(newChatId);
     };
 
-    // 채팅 삭제 함수
     const deleteChat = async (chatIdToDelete) => {
         const originalChats = {...chats};
         const newChats = {...originalChats};
@@ -105,7 +98,6 @@ function App() {
         }
     };
 
-    // 채팅 선택 함수
     const selectChat = (chatId) => {
         setActiveChatId(chatId);
         if (isMobile) {
@@ -113,13 +105,11 @@ function App() {
         }
     };
 
-    // 메시지 전송 및 봇 응답 처리 함수
     const handleSendMessage = async (messageText, options = {}) => {
         if (!activeChatId || isThinking) return;
 
         const userMessage = {sender: 'user', text: messageText};
 
-        // 사용자 메시지를 채팅에 추가
         setChats(prevChats => {
             const chatToUpdate = {...prevChats[activeChatId]};
             chatToUpdate.messages = [...chatToUpdate.messages, userMessage];
@@ -139,7 +129,6 @@ function App() {
 
         setIsThinking(true);
 
-        // 생각 중 표시용 임시 메시지 추가
         const thinkingMessage = {
             sender: 'bot',
             text: 'thinking...',
