@@ -1,0 +1,333 @@
+/* 청년 공간 상세 검색 컴포넌트 스타일 */
+.space-detail-search {
+    background: var(--welcome-bg);
+    border-radius: 16px;
+    padding: 25px;
+    margin: 16px 0;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.search-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.search-header h3 {
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.search-header p {
+    color: var(--text-secondary);
+    margin: 0 0 5px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* 검색 필터 컨테이너 */
+.search-filters-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 15px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+
+.filter-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-section label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 0.9em;
+}
+
+.filter-select {
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    min-width: 140px;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--border-color-hover);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.search-detail-btn {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap;
+    min-height: 48px;
+}
+
+.search-detail-btn:hover:not(:disabled) {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.search-detail-btn:disabled {
+    background: var(--text-tertiary);
+    cursor: not-allowed;
+    filter: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 검색 상태 영역 */
+.search-status {
+    margin-bottom: 20px;
+}
+
+.selected-conditions {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.selected-conditions h4 {
+    color: var(--text-primary);
+    margin: 0 0 15px 0;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.selected-conditions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.selected-conditions li {
+    color: var(--text-secondary);
+    margin: 8px 0;
+    font-size: 0.9em;
+}
+
+.searching-status {
+    text-align: center;
+    padding: 20px;
+}
+
+.searching-status .loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--border-color-hover);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+.searching-status p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.9em;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 검색 결과 영역 */
+.search-results {
+    margin-top: 20px;
+}
+
+.results-header h4 {
+    color: var(--text-primary);
+    margin: 0 0 20px 0;
+    font-weight: 600;
+    font-size: 1.1em;
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    color: white;
+    border-radius: 8px;
+}
+
+.results-list {
+    margin-bottom: 25px;
+}
+
+.result-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.2s ease;
+}
+
+.result-item:hover {
+    box-shadow: 0 4px 12px var(--shadow-light);
+    transform: translateY(-1px);
+}
+
+.space-header h5 {
+    color: var(--text-primary);
+    margin: 0 0 15px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-bottom: 2px solid;
+    border-image: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) 1;
+    padding-bottom: 8px;
+}
+
+.space-details p {
+    color: var(--text-secondary);
+    margin: 8px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.space-details a {
+    color: var(--border-color-hover);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.space-details a:hover {
+    text-decoration: underline;
+}
+
+/* 추천 섹션 */
+.recommendation-section {
+    text-align: center;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.recommendation-section p {
+    color: var(--text-secondary);
+    margin: 0 0 15px 0;
+    font-size: 0.9em;
+}
+
+.random-recommend-btn,
+.new-search-btn {
+    background: var(--sub-button-bg);
+    border: 2px solid transparent;
+    background-image: linear-gradient(var(--sub-button-bg), var(--sub-button-bg)), linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    color: var(--text-primary);
+    margin: 0 8px;
+}
+
+.random-recommend-btn:hover,
+.new-search-btn:hover {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: border-box;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    color: white;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .space-detail-search {
+        padding: 20px;
+    }
+
+    .search-filters-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .filter-select {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .search-detail-btn {
+        width: 100%;
+        padding: 15px 20px;
+    }
+
+    .recommendation-section {
+        padding: 15px;
+    }
+
+    .random-recommend-btn,
+    .new-search-btn {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .space-detail-search {
+        padding: 16px;
+    }
+
+    .search-header h3 {
+        font-size: 1.1em;
+    }
+
+    .search-header p {
+        font-size: 0.85em;
+    }
+
+    .filter-select {
+        padding: 10px 12px;
+        font-size: 0.85em;
+    }
+
+    .search-detail-btn {
+        padding: 12px 16px;
+        font-size: 0.85em;
+    }
+
+    .result-item {
+        padding: 15px;
+    }
+
+    .space-header h5 {
+        font-size: 1em;
+    }
+
+    .space-details p {
+        font-size: 0.85em;
+    }
+}

@@ -32,15 +32,16 @@ const BusanMap = ({onRegionClick, spacesData}) => {
     };
 
     return (
-        <div className="busan-map-container">
+        <div className="busan-map-container enlarged">
             <div className="map-header">
-                <h3>🗺️ 부산 청년공간 지도</h3>
-                <p>지역을 클릭하면 해당 지역의 청년공간을 확인할 수 있어요!</p>
+                <h3>🗺️ 부산 청년 공간 지도</h3>
+                <p>지도에서 원하는 구/군을 클릭하거나, 아래 목록에서 선택해보세요.</p>
+                <p>각 지역별 청년공간 개수를 한눈에 확인할 수 있어요!</p>
             </div>
 
             <div className="map-wrapper">
                 <svg
-                    className="busan-map-svg"
+                    className="busan-map-svg enlarged"
                     viewBox="0 0 410 400"
                     xmlns="http://www.w3.org/2000/svg"
                 >
@@ -101,22 +102,6 @@ const BusanMap = ({onRegionClick, spacesData}) => {
                         </g>
                     )}
                 </svg>
-            </div>
-
-            {/* 범례 */}
-            <div className="map-legend">
-                <div className="legend-item">
-                    <div className="legend-circle small"></div>
-                    <span>0-2개</span>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-circle medium"></div>
-                    <span>3-5개</span>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-circle large"></div>
-                    <span>6개 이상</span>
-                </div>
             </div>
 
             {/* 지역 목록 (클릭 가능) - 가나다순 4x4 배열 */}

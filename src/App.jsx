@@ -18,6 +18,7 @@ import './styles/components/chat.css';
 import './styles/components/sidebar.css';
 import './styles/components/ui.css';
 import './styles/components/map.css';
+import './styles/components/space-detail-search.css';
 import './styles/responsive.css';
 
 function App() {
@@ -144,13 +145,79 @@ function App() {
         });
 
         try {
-            const response = await axios.post(`${backendUrl}/api/chat`, {
-                message: messageText,
-                anonymousId: anonymousId,
-                chatId: activeChatId,
-            });
+            // 각 버튼별 처리 로직
+            let botReply = '';
 
-            const botMessage = {sender: 'bot', text: response.data.reply};
+            // 메인 메뉴 버튼 처리
+            if (messageText === '행정구역별 확인하기') {
+                botReply = `[REGION_MAP]`;
+            } else if (messageText === '키워드별 확인하기') {
+                botReply = `[KEYWORD_BUTTONS]`;
+            } else if (messageText === '청년 공간 프로그램 확인하기') {
+                botReply = `[PROGRAM_REGIONS]`;
+            } else if (messageText === '청년 공간 상세') {
+                botReply = `[SPACE_DETAIL_SEARCH]`;
+            }
+            // 키워드 버튼 클릭 처리
+            else if (['스터디/회의', '교육/강연', '모임/커뮤니티', '진로/창업', '문화/창작', '작업/창작실', '휴식/놀이', '행사/이벤트'].includes(messageText)) {
+                // 예시 데이터 (실제로는 백엔드에서 받아올 예정)
+                botReply = `${messageText}로 찾은 공간입니다!
+
+1️⃣ 부산청년센터 – 회의실 부산진구
+2️⃣ 해운대청년공간 – 스터디룸 해운대구  
+3️⃣ 사상청년창작소 – 모임공간 사상구
+
+📌 공간 상세 내용은
+👉 "청년 공간 상세" 버튼을 눌러 확인하거나,
+👉 공간명을 입력해서 직접 확인해보세요!`;
+            }
+            // 지역별 프로그램 클릭 처리
+            else if (messageText.includes('프로그램')) {
+                const region = messageText.replace(' 프로그램', '');
+                // 예시 데이터 (실제로는 백엔드에서 받아올 예정)
+                botReply = `📍 ${region} 청년공간 프로그램 안내(마감 임박순)
+
+1️⃣ ${region} 창업 멘토링 프로그램
+• 장소: ${region} 청년센터
+• 신청기간: 2025.01.15 ~ 2025.02.10
+🔗 https://example.com/program1
+
+2️⃣ ${region} 네트워킹 모임
+• 장소: ${region} 청년공간
+• 신청기간: 2025.01.20 ~ 2025.02.15  
+🔗 https://example.com/program2
+
+3️⃣ ${region} 취업 준비 워크샵
+• 장소: ${region} 커뮤니티센터
+• 신청기간: 2025.01.25 ~ 2025.02.20
+🔗 https://example.com/program3
+
+📌 전체 프로그램은 [청년 공간 프로그램](https://young.busan.go.kr)에서 더 확인할 수 있어요.`;
+            }
+            // 랜덤 추천 버튼 클릭 처리
+            else if (messageText === '✨ 랜덤 추천') {
+                // 예시 랜덤 공간 데이터 (실제로는 백엔드에서 받아올 예정)
+                botReply = `🎲 랜덤으로 추천해드릴게요!
+
+1️⃣ 연제청년문화공간 – 다목적홀
+• 📍 위치 : 연제구 중앙대로 1001 
+• 👥 인원 : 최대 25명
+• 🧰 특징 : 문화행사 및 공연 적합 | 음향장비, 조명시설 구비 | 유료(일일 50,000원)
+• 🔗 링크 : https://example.com/yeonje
+
+💡 다른 공간이 궁금하시면 다시 랜덤 추천을 눌러보세요!`;
+            }
+            // 기타 메시지는 백엔드 API 호출
+            else {
+                const response = await axios.post(`${backendUrl}/api/chat`, {
+                    message: messageText,
+                    anonymousId: anonymousId,
+                    chatId: activeChatId,
+                });
+                botReply = response.data.reply;
+            }
+
+            const botMessage = {sender: 'bot', text: botReply};
 
             setChats(prevChats => {
                 const updatedChat = {...prevChats[activeChatId]};
