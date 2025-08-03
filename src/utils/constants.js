@@ -1,16 +1,28 @@
-// 메인 메뉴 버튼 목록 (청년 공간 특화)
+// 메인 메뉴 버튼 목록 (수정됨)
 export const MAIN_MENU = [
-    '지역별 확인하기',
+    '행정구역별 확인하기',
     '키워드별 확인하기',
     '청년 공간 프로그램 확인하기',
-    '청년 공간 예약'
+    '청년 공간 상세'
 ];
 
-// 하단 고정 외부 링크 목록
+// 하단 고정 외부 링크 목록 (순서 변경됨)
 export const QUICK_LINKS = [
-    {text: "부산청년플랫폼 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
-    {text: "부산청년센터 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
     {text: "부산경제진흥원 바로가기", url: "https://www.bepa.kr/kor/view.do?no=1670"},
+    {text: "부산청년센터 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
+    {text: "부산청년플랫폼 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
+];
+
+// 키워드별 확인하기 버튼 목록 (새로 추가)
+export const KEYWORD_BUTTONS = [
+    '스터디/회의',
+    '교육/강연',
+    '모임/커뮤니티',
+    '진로/창업',
+    '문화/창작',
+    '작업/창작실',
+    '휴식/놀이',
+    '행사/이벤트'
 ];
 
 // 부산 16개 지역 목록 (프로그램용) - 가나다순 정렬
