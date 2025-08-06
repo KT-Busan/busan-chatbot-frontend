@@ -7,6 +7,16 @@ export default defineConfig(({ command }) => {
   const config = {
     plugins: [react()],
     base: '/', // 개발 서버(npm run dev)에서는 기본 경로를 사용
+    server: {
+      port: 5173,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:5001',
+          changeOrigin: true,
+          secure: false,
+        }
+      }
+    }
   }
 
   // 'build' 명령어 (배포용)일 때만 base 경로를 변경합니다.

@@ -109,6 +109,26 @@ function App() {
     const handleSendMessage = async (messageText, options = {}) => {
         if (!activeChatId || isThinking) return;
 
+        // 봇 응답만 표시하는 특별한 경우 처리
+        if (messageText.startsWith('__BOT_RESPONSE__')) {
+            const botReplyText = messageText.replace('__BOT_RESPONSE__', '');
+
+            // 봇 메시지만 추가 (사용자 메시지는 추가하지 않음)
+            const botMessage = {sender: 'bot', text: botReplyText};
+
+            setChats(prevChats => {
+                const chatToUpdate = {...prevChats[activeChatId]};
+                chatToUpdate.messages = [...chatToUpdate.messages, botMessage];
+
+                const otherChats = {...prevChats};
+                delete otherChats[activeChatId];
+                return {[activeChatId]: chatToUpdate, ...otherChats};
+            });
+
+            return; // 여기서 종료
+        }
+
+        // 일반적인 메시지 처리 (기존 로직)
         const userMessage = {sender: 'user', text: messageText};
 
         setChats(prevChats => {
@@ -183,20 +203,7 @@ function App() {
                 });
                 botReply = response.data.reply;
             }
-            // 랜덤 추천 버튼 클릭 처리
-            else if (messageText === '✨ 랜덤 추천') {
-                // 예시 랜덤 공간 데이터 (실제로는 백엔드에서 받아올 예정)
-                botReply = `🎲 랜덤으로 추천해드릴게요!
-
-1️⃣ 연제청년문화공간 – 다목적홀
-• 📍 위치 : 연제구 중앙대로 1001 
-• 👥 인원 : 최대 25명
-• 🧰 특징 : 문화행사 및 공연 적합 | 음향장비, 조명시설 구비 | 유료(일일 50,000원)
-• 🔗 링크 : https://example.com/yeonje
-
-💡 다른 공간이 궁금하시면 다시 랜덤 추천을 눌러보세요!`;
-            }
-            // 기타 메시지는 백엔드 API 호출
+            // 조건별 검색이나 랜덤 추천 등 모든 다른 메시지는 백엔드 API 호출
             else {
                 const response = await axios.post(`${backendUrl}/api/chat`, {
                     message: messageText,
@@ -216,7 +223,6 @@ function App() {
 
         } catch (error) {
             console.error("API 호출 오류:", error);
-            console.error(`Backend URL: ${backendUrl}`);
 
             const errorMessage = {
                 sender: 'bot',
