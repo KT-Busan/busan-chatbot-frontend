@@ -139,7 +139,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             console.log('🔍 검색 요청:', searchMessage);
 
             const isGitHubPages = window.location.hostname.includes('github.io');
-            const backendUrl = 'https://kt-bot-backend.onrender.com'; // Render 백엔드 URL
+            const backendUrl = 'https://b-bot-backend.onrender.com'; // Render 백엔드 URL
 
             let apiUrl;
             if (isGitHubPages || !window.location.hostname.includes('localhost')) {

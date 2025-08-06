@@ -20,7 +20,7 @@ export const getBackendUrl = () => {
     }
 
     console.log('🌐 프로덕션 환경');
-    return 'https://kt-bot-backend.onrender.com';
+    return 'https://b-bot-backend.onrender.com';
 };
 
 export const removeMarker = (text) => {
