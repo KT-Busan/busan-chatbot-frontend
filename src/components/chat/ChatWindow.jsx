@@ -14,7 +14,8 @@ function ChatWindow({
                         onToggleSidebar,
                         isSidebarCollapsed,
                         isMobile,
-                        spacesData
+                        spacesData,
+                        anonymousId
                     }) {
     const chatContainerRef = useRef(null);
 
@@ -63,6 +64,7 @@ function ChatWindow({
                             message={msg}
                             onButtonClick={handleButtonClick}
                             spacesData={spacesData}
+                            anonymousId={anonymousId}
                         />
                     ))
                 )}

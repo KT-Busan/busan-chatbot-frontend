@@ -331,3 +331,342 @@
         font-size: 0.85em;
     }
 }
+
+/* 기존 CSS 파일 맨 아래에 다음 스타일들을 추가하세요 */
+
+/* ===== 상세 보기 모드 추가 스타일 ===== */
+
+/* 모드 탭 스타일 */
+.mode-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.mode-tab {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.mode-tab:hover {
+    color: var(--border-color-hover);
+    background: var(--welcome-bg);
+}
+
+.mode-tab.active {
+    color: var(--border-color-hover);
+    border-bottom-color: var(--border-color-hover);
+    background: var(--welcome-bg);
+    font-weight: 600;
+}
+
+/* 데이터 카운트 배지 */
+.data-count {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    color: white !important;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.8em !important;
+    font-weight: 600;
+}
+
+/* 상세 모드 검색 컨트롤 */
+.search-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--border-color-hover);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.region-filter {
+    min-width: 120px;
+}
+
+.region-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.9em;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.region-select:focus {
+    outline: none;
+    border-color: var(--border-color-hover);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* 공간 그리드 스타일 */
+.spaces-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.space-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.space-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.space-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--shadow-light);
+    border-color: var(--border-color-hover);
+}
+
+.space-card:hover::before {
+    transform: scaleX(1);
+}
+
+.space-card-header {
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.space-card-header h4 {
+    margin: 0 0 4px 0;
+    color: var(--text-primary);
+    font-size: 1.05em;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.space-name {
+    color: var(--border-color-hover);
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.space-card-content {
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    line-height: 1.4;
+}
+
+.space-location {
+    margin: 0 0 8px 0;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.85em;
+}
+
+.space-intro-short {
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    font-size: 0.8em;
+}
+
+.space-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.keyword-tag {
+    background: var(--welcome-bg);
+    color: var(--text-primary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7em;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+}
+
+/* 결과 없음 스타일 */
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px dashed var(--border-color);
+}
+
+.no-results p {
+    margin: 0 0 8px 0;
+    font-size: 0.9em;
+}
+
+/* 검색 푸터 */
+.search-footer {
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 16px;
+}
+
+.result-count {
+    margin: 4px 0;
+    color: var(--text-secondary);
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+.usage-tip {
+    background: var(--welcome-bg);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-top: 8px;
+    display: inline-block;
+    font-size: 0.8em;
+}
+
+.usage-tip strong {
+    color: var(--border-color-hover);
+}
+
+/* 로딩 스타일 */
+.loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.loading p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* 모바일 대응 - 상세 모드 */
+@media (max-width: 768px) {
+    .mode-tabs {
+        flex-direction: column;
+        margin-bottom: 16px;
+    }
+
+    .mode-tab {
+        flex: none;
+        margin-bottom: 2px;
+        border-radius: 6px;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+    }
+
+    .mode-tab.active {
+        border-left-color: var(--border-color-hover);
+        border-bottom-color: transparent;
+    }
+
+    .search-controls {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .search-controls > * {
+        width: 100%;
+    }
+
+    .spaces-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .space-card {
+        padding: 14px;
+    }
+
+    .space-card-header h4 {
+        font-size: 1em;
+    }
+
+    .search-footer {
+        padding-top: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .space-card {
+        padding: 12px;
+    }
+
+    .space-card-header {
+        margin-bottom: 10px;
+    }
+
+    .space-card-header h4 {
+        font-size: 0.95em;
+    }
+
+    .space-name {
+        font-size: 0.8em;
+    }
+
+    .space-intro-short {
+        font-size: 0.75em;
+    }
+
+    .keyword-tag {
+        font-size: 0.65em;
+        padding: 1px 4px;
+    }
+}

@@ -3,7 +3,7 @@ import CustomMarkdown from '../ui/CustomMarkdown';
 import ThinkingIndicator from './ThinkingIndicator';
 import botProfileImage from '../../assets/bot-profile.png';
 
-const MessageBubble = ({message, onButtonClick, spacesData}) => {
+const MessageBubble = ({message, onButtonClick, spacesData, anonymousId}) => {
     const {sender, text, isThinking} = message;
 
     return (
@@ -21,6 +21,7 @@ const MessageBubble = ({message, onButtonClick, spacesData}) => {
                         <CustomMarkdown
                             onButtonClick={onButtonClick}
                             spacesData={spacesData}
+                            anonymousId={anonymousId}
                         >
                             {text}
                         </CustomMarkdown>

@@ -6,7 +6,7 @@ import ProgramRegionButtons from '../ui/ProgramRegionButtons';
 import SpaceDetailSearch from '../ui/SpaceDetailSearch';
 import {removeMarker} from '../../utils/helpers';
 
-const CustomMarkdown = ({children, onButtonClick, spacesData}) => {
+const CustomMarkdown = ({children, onButtonClick, spacesData, anonymousId}) => {
     // children이 없으면 null 반환
     if (!children) return null;
 
@@ -37,7 +37,10 @@ const CustomMarkdown = ({children, onButtonClick, spacesData}) => {
     // 청년 공간 상세 검색 마커 확인 및 상세 검색 컴포넌트 표시
     if (children.includes('[SPACE_DETAIL_SEARCH]')) {
         return (
-            <SpaceDetailSearch onButtonClick={onButtonClick}/>
+            <SpaceDetailSearch
+                onButtonClick={onButtonClick}
+                anonymousId={anonymousId}
+            />
         );
     }
 
