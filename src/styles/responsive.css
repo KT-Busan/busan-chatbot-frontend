@@ -1,4 +1,3 @@
-/* 큰 화면에서 메인 버튼 1줄 배치 */
 @media (min-width: 800px) {
     .main-menu-container {
         flex-wrap: nowrap;
@@ -10,7 +9,6 @@
     }
 }
 
-/* 모바일 및 반응형 디자인 */
 @media (max-width: 768px) {
     .chat-main {
         margin-left: 0;
@@ -209,7 +207,6 @@
         height: 6px;
     }
 
-    /* 프로그램 지역 버튼 모바일 대응 */
     .regions-grid-4x4 {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
@@ -221,7 +218,6 @@
         min-height: 45px;
     }
 
-    /* 지도 컴포넌트 모바일 대응 */
     .busan-map-container {
         padding: var(--spacing-lg);
         margin: var(--spacing-md) 0;
@@ -272,7 +268,6 @@
     }
 }
 
-/* 중간 화면 크기 (769px ~ 1199px) - 사이드바 접힌 상태 */
 @media (min-width: 769px) and (max-width: 1199px) {
     .chat-main {
         margin-left: 60px;
@@ -292,7 +287,6 @@
     }
 }
 
-/* 큰 화면 (1200px 이상) - 사이드바 펼친 상태 */
 @media (min-width: 1200px) {
     .chat-main {
         margin-left: 260px;
@@ -316,7 +310,6 @@
     }
 }
 
-/* 작은 모바일 화면 (375px 이하) */
 @media (max-width: 375px) {
     .welcome-screen strong.gradient-text {
         font-size: 1.8em;
@@ -371,7 +364,6 @@
         min-height: 40px;
     }
 
-    /* 지도 관련 */
     .busan-map-container {
         padding: var(--spacing-md);
     }

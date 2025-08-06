@@ -113,7 +113,7 @@ function App() {
         if (messageText.startsWith('__BOT_RESPONSE__')) {
             const botReplyText = messageText.replace('__BOT_RESPONSE__', '');
 
-            // 봇 메시지만 추가 (사용자 메시지는 추가하지 않음)
+            // 봇 메시지만 추가
             const botMessage = {sender: 'bot', text: botReplyText};
 
             setChats(prevChats => {
@@ -125,10 +125,10 @@ function App() {
                 return {[activeChatId]: chatToUpdate, ...otherChats};
             });
 
-            return; // 여기서 종료
+            return;
         }
 
-        // 일반적인 메시지 처리 (기존 로직)
+        // 일반적인 메시지 처리
         const userMessage = {sender: 'user', text: messageText};
 
         setChats(prevChats => {
@@ -165,7 +165,6 @@ function App() {
         });
 
         try {
-            // 각 버튼별 처리 로직
             let botReply = '';
 
             // 메인 메뉴 버튼 처리
@@ -185,7 +184,7 @@ function App() {
                 });
                 botReply = response.data.reply;
             }
-            // 지역별 프로그램 클릭 처리 - 실제 API 호출
+            // 지역별 프로그램 클릭 처리
             else if (messageText.includes('프로그램')) {
                 const response = await axios.post(`${backendUrl}/api/chat`, {
                     message: messageText,
@@ -194,7 +193,7 @@ function App() {
                 });
                 botReply = response.data.reply;
             }
-            // 지역 클릭 처리 (16개 구/군) - 실제 API 호출
+            // 지역 클릭 처리(16개 구/군)
             else if (['중구', '서구', '동구', '영도구', '부산진구', '동래구', '연제구', '금정구', '북구', '사상구', '사하구', '강서구', '남구', '해운대구', '수영구', '기장군'].includes(messageText)) {
                 const response = await axios.post(`${backendUrl}/api/chat`, {
                     message: messageText,
