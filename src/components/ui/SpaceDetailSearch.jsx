@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../../styles/components/space-detail-search.css';
 
 const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
-    // 기존 예약 기능 상태들
+    // 기존 예약 기능 상태
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedCapacity, setSelectedCapacity] = useState('');
     const [selectedPurpose, setSelectedPurpose] = useState('');
@@ -11,7 +11,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
     const [searchResults, setSearchResults] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
 
-    // 새로 추가: 상세 보기 기능 상태들
+    // 상세 보기 기능 상태
     const [mode, setMode] = useState('reservation'); // 'reservation' 또는 'detail'
     const [spacesData, setSpacesData] = useState([]);
     const [filteredSpaces, setFilteredSpaces] = useState([]);
@@ -122,7 +122,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setSearchResults(null);
 
         try {
-            // 조건을 문자열로 조합하여 백엔드에 전송
             const searchConditions = [];
             if (selectedRegion) searchConditions.push(`지역=${selectedRegion}`);
             if (selectedCapacity) searchConditions.push(`인원=${selectedCapacity}`);
@@ -139,24 +138,28 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
 
             console.log('🔍 검색 요청:', searchMessage);
 
-            // 백엔드 API 호출
-            const response = await axios.post('/api/chat', requestData, {
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const backendUrl = 'https://kt-bot-backend.onrender.com'; // Render 백엔드 URL
+
+            let apiUrl;
+            if (isGitHubPages || !window.location.hostname.includes('localhost')) {
+                apiUrl = `${backendUrl}/api/chat`;
+            } else {
+                apiUrl = '/api/chat';
+            }
+
+            console.log('📡 사용할 API URL:', apiUrl);
+
+            const response = await axios.post(apiUrl, requestData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                timeout: 30000,
             });
 
             console.log('📥 백엔드 응답:', response.data);
 
             if (response.data && response.data.reply) {
-                // 검색 결과를 봇 응답으로 표시하기 위해 특별한 형태로 전송
-                // 사용자 메시지는 보내지 않고, 봇 응답만 직접 표시
-                const botResponseMessage = {
-                    sender: 'bot',
-                    text: response.data.reply
-                };
-
-                // 부모 컴포넌트로 봇 응답을 직접 전달
                 onButtonClick('__BOT_RESPONSE__' + response.data.reply);
 
                 setSearchResults({
@@ -174,12 +177,18 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
 
         } catch (error) {
             console.error('❌ 검색 중 오류:', error);
+            console.error('❌ 요청 URL:', error.config?.url);
 
             let errorMessage = '검색 중 오류가 발생했습니다.';
-            if (error.response?.status === 400) {
-                errorMessage = `요청 데이터 오류 (400): ${error.response.data.error || '알 수 없는 오류'}`;
+
+            if (error.code === 'ECONNABORTED') {
+                errorMessage = '요청 시간이 초과되었습니다. Render 서버가 깨어나는 중일 수 있습니다.';
+            } else if (error.response?.status === 404) {
+                errorMessage = 'API 엔드포인트를 찾을 수 없습니다. 백엔드 서버를 확인해주세요.';
             } else if (error.response?.status === 500) {
                 errorMessage = '서버 내부 오류가 발생했습니다.';
+            } else if (!error.response) {
+                errorMessage = '백엔드 서버에 연결할 수 없습니다. 서버 상태를 확인해주세요.';
             }
 
             setSearchResults({
@@ -200,31 +209,53 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setIsSearching(true);
 
         try {
-            const response = await axios.post('/api/chat', {
+            const finalAnonymousId = anonymousId || `temp_user_${Date.now()}`;
+
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const backendUrl = 'https://kt-bot-backend.onrender.com';
+
+            let apiUrl;
+            if (isGitHubPages || !window.location.hostname.includes('localhost')) {
+                apiUrl = `${backendUrl}/api/chat`;
+            } else {
+                apiUrl = '/api/chat';
+            }
+
+            const response = await axios.post(apiUrl, {
                 message: '✨ 랜덤 추천',
-                anonymousId: anonymousId,
-                chatId: `random_${Date.now()}` // 임시 채팅 ID
+                anonymousId: finalAnonymousId,
+                chatId: `random_${Date.now()}`
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                timeout: 30000,
             });
 
             if (response.data && response.data.reply) {
-                // 랜덤 추천 결과를 채팅으로 전송
-                onButtonClick(response.data.reply);
+                onButtonClick('__BOT_RESPONSE__' + response.data.reply);
 
                 setSearchResults({
                     success: true,
-                    message: '랜덤 추천 결과를 채팅으로 전송했습니다!',
+                    message: '랜덤 추천 결과를 표시했습니다!',
                     isRandom: true
                 });
-                setShowConditions(false); // 랜덤 추천 시에는 조건 숨김
+                setShowConditions(false);
             } else {
                 throw new Error('랜덤 추천 응답을 받지 못했습니다.');
             }
 
         } catch (error) {
             console.error('랜덤 추천 중 오류:', error);
+
+            let errorMessage = '랜덤 추천 중 오류가 발생했습니다.';
+            if (error.code === 'ECONNABORTED') {
+                errorMessage = '요청 시간이 초과되었습니다. 서버가 준비 중일 수 있습니다.';
+            }
+
             setSearchResults({
                 success: false,
-                message: '랜덤 추천 중 오류가 발생했습니다. 다시 시도해주세요.',
+                message: errorMessage,
                 isRandom: true
             });
         } finally {
@@ -241,7 +272,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setIsSearching(false);
     };
 
-    // 새로 추가: 상세 정보 포맷팅
+    // 상세 정보 포맷팅
     const formatSpaceDetail = (space) => {
         const parent_facility = space.parent_facility || '정보없음';
         const space_name = space.space_name || '정보없음';
@@ -270,13 +301,13 @@ ${introduction}
 ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
     };
 
-    // 새로 추가: 공간 클릭 시 상세 정보를 채팅으로 전송
+    // 공간 클릭 시 상세 정보를 채팅으로 전송
     const handleSpaceClick = (space) => {
         const detailMessage = formatSpaceDetail(space);
         onButtonClick(detailMessage);
     };
 
-    // 지역 목록 생성 (상세 모드용)
+    // 지역 목록 생성(상세 모드용)
     const detailRegions = mode === 'detail' ?
         ['전체', ...new Set(spacesData.map(space => space.location))].sort() : [];
 
@@ -298,7 +329,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                 </button>
             </div>
 
-            {/* 예약 모드 (기존 기능) */}
+            {/* 예약 모드(기존 기능) */}
             {mode === 'reservation' && (
                 <>
                     <div className="search-header">
@@ -415,7 +446,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                 </>
             )}
 
-            {/* 상세 모드 (새로 추가) */}
+            {/* 상세 모드(새로 추가) */}
             {mode === 'detail' && (
                 <>
                     <div className="search-header">

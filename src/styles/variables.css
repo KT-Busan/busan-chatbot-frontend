@@ -1,6 +1,5 @@
 /* 다크모드 CSS 변수 시스템 */
 :root {
-    /* 라이트 테마 변수 */
     --bg-primary: #f7f7f8;
     --bg-secondary: #ffffff;
     --bg-tertiary: #f8f9ff;
@@ -33,7 +32,6 @@
 }
 
 [data-theme="dark"] {
-    /* 다크 테마 변수 */
     --bg-primary: #1a1a1a;
     --bg-secondary: #2d2d2d;
     --bg-tertiary: #1e1e2e;
@@ -65,7 +63,6 @@
     --overlay-bg: rgba(0, 0, 0, 0.7);
 }
 
-/* 애니메이션 변수 */
 :root {
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;

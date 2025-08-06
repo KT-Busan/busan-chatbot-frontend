@@ -8,10 +8,9 @@
     transition: all 0.3s ease;
 }
 
-/* 확대된 지도 컨테이너 */
 .busan-map-container.enlarged {
-    padding: 35px; /* 30px에서 35px로 확대 */
-    margin: 25px 0; /* 20px에서 25px로 확대 */
+    padding: 35px;
+    margin: 25px 0;
 }
 
 .map-header {
@@ -32,7 +31,6 @@
     font-size: 0.9em;
 }
 
-/* 지도 사용 안내 문구 */
 .map-instruction {
     background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
     color: white;
@@ -59,10 +57,9 @@
     box-shadow: 0 4px 16px var(--shadow-light);
 }
 
-/* 확대된 지도 SVG */
 .busan-map-svg.enlarged {
-    max-width: 1000px; /* 900px에서 1000px로 더 확대 */
-    min-height: 500px; /* 450px에서 500px로 높이 확대 */
+    max-width: 1000px;
+    min-height: 500px;
 }
 
 .region-polygon {
@@ -153,7 +150,6 @@
     opacity: 1;
 }
 
-/* 키워드 섹션 스타일 */
 .keyword-section {
     background: var(--welcome-bg);
     border-radius: 16px;
@@ -182,7 +178,6 @@
     line-height: 1.4;
 }
 
-/* 프로그램 지역 섹션 스타일 */
 .program-region-section {
     background: var(--welcome-bg);
     border-radius: 16px;
@@ -316,7 +311,6 @@
     background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
 }
 
-/* 환영 화면의 지도 섹션 */
 .welcome-map-section {
     margin-top: 24px;
     width: 100%;
@@ -335,7 +329,6 @@
     border-color: var(--border-color);
 }
 
-/* 모바일 대응 */
 @media (max-width: 768px) {
     .busan-map-container {
         padding: 16px;
@@ -365,7 +358,7 @@
 
     .busan-map-svg.enlarged {
         max-width: 100%;
-        min-height: 400px; /* 350px에서 400px로 확대 */
+        min-height: 400px;
     }
 
     .map-legend {
@@ -396,7 +389,6 @@
         font-size: 9px !important;
     }
 
-    /* 키워드 버튼 모바일 대응 */
     .keyword-section {
         padding: 20px;
     }
@@ -412,7 +404,6 @@
         font-size: 0.8em;
     }
 
-    /* 프로그램 지역 모바일 대응 */
     .program-region-section {
         padding: 20px;
     }
@@ -429,7 +420,6 @@
     }
 }
 
-/* 작은 모바일 화면 (375px 이하) */
 @media (max-width: 375px) {
     .busan-map-container {
         padding: 12px;
@@ -453,7 +443,7 @@
     }
 
     .busan-map-svg.enlarged {
-        min-height: 350px; /* 300px에서 350px로 확대 */
+        min-height: 350px;
     }
 
     .regions-grid {
@@ -483,7 +473,6 @@
         font-size: 8px !important;
     }
 
-    /* 키워드 버튼 작은 모바일 대응 */
     .keyword-section {
         padding: 16px;
     }
@@ -499,7 +488,6 @@
         font-size: 0.75em;
     }
 
-    /* 프로그램 지역 작은 모바일 대응 */
     .program-region-section {
         padding: 16px;
     }
