@@ -18,6 +18,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [detailSelectedRegion, setDetailSelectedRegion] = useState('전체');
     const [loading, setLoading] = useState(false);
+    const [loadError, setLoadError] = useState(null); // 🔥 추가: 누락된 상태
 
     // 랜덤 추천 상태 관리
     const [showRandomResult, setShowRandomResult] = useState(false);
@@ -76,38 +77,55 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         }
     }, [spacesData, searchTerm, detailSelectedRegion, mode]);
 
+    const getBackendUrl = () => {
+        const hostname = window.location.hostname;
+        console.log('🔍 현재 호스트:', hostname);
+
+        // GitHub Pages 또는 배포 환경에서는 항상 Render 백엔드 사용
+        if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
+            console.log('🌐 GitHub Pages - Render 백엔드 사용');
+            return 'https://b-bot-backend.onrender.com';
+        }
+
+        // 로컬 개발 환경
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            console.log('🏠 로컬 개발 환경');
+            return 'http://localhost:5001';
+        }
+
+        // 기본값: 프로덕션 백엔드
+        console.log('🌐 기본 프로덕션 환경');
+        return 'https://b-bot-backend.onrender.com';
+    };
+
     const loadSpacesData = async () => {
         setLoading(true);
+        setLoadError(null);
+
         try {
-            // 백엔드 API 호출로 변경
-            const response = await axios.get('/api/spaces/busan-youth');
-            if (response.data && response.data.success) {
-                setSpacesData(response.data.data || []);
-                setFilteredSpaces(response.data.data || []);
-                console.log(`✅ ${response.data.count}개 청년공간 데이터 로드 완료`);
+            const backendUrl = getBackendUrl();
+            console.log('🔗 백엔드 URL:', backendUrl);
+
+            // 백엔드 API 호출
+            console.log('📡 백엔드 API 호출 시도...');
+            const response = await axios.get(`${backendUrl}/api/spaces/busan-youth`, {
+                timeout: 15000
+            });
+
+            if (response.data && response.data.success && response.data.data) {
+                setSpacesData(response.data.data);
+                setFilteredSpaces(response.data.data);
+                console.log(`✅ 백엔드에서 ${response.data.count}개 데이터 로드 성공`);
+                return;
             } else {
-                throw new Error('API 응답 형식 오류');
+                throw new Error('백엔드 응답 형식 오류');
             }
+
         } catch (error) {
-            console.error('데이터 로드 오류:', error);
+            console.error('❌ 데이터 로드 실패:', error);
+            setLoadError(`데이터 로드 실패: ${error.message}`);
             setSpacesData([]);
             setFilteredSpaces([]);
-
-            // 백엔드 연결 실패 시 프론트엔드 fallback
-            try {
-                console.log('🔄 Fallback: JSON 파일에서 직접 로드 시도...');
-                const fallbackResponse = await fetch('/config/spaces_busan_youth.json');
-                if (fallbackResponse.ok) {
-                    const result = await fallbackResponse.json();
-                    if (result.spaces_busan_youth) {
-                        setSpacesData(result.spaces_busan_youth || []);
-                        setFilteredSpaces(result.spaces_busan_youth || []);
-                        console.log(`✅ Fallback으로 ${result.spaces_busan_youth.length}개 데이터 로드`);
-                    }
-                }
-            } catch (fallbackError) {
-                console.error('Fallback도 실패:', fallbackError);
-            }
         } finally {
             setLoading(false);
         }
@@ -315,15 +333,6 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
     };
 
     // 🔥 수정: 지역 목록 생성 - 전체를 맨 위에 고정하고 나머지는 가나다순 정렬
-    const detailRegions = mode === 'detail' ?
-        ['전체', ...new Set(spacesData.map(space => space.location))]
-            .filter(region => region !== '전체') // 혹시 중복 제거
-            .sort((a, b) => {
-                if (a === '전체') return -1;
-                if (b === '전체') return 1;
-                return a.localeCompare(b, 'ko');
-            }) : [];
-    // 실제로는 전체가 이미 앞에 있으므로 나머지만 정렬
     const sortedDetailRegions = mode === 'detail' ?
         ['전체', ...Array.from(new Set(spacesData.map(space => space.location))).sort((a, b) => a.localeCompare(b, 'ko'))] : [];
 
@@ -498,16 +507,21 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                 </>
             )}
 
-            {/* 상세 모드(새로 추가) */}
+            {/* 🔥 수정: 상세 모드 - 이미지와 같은 2열 그리드 레이아웃으로 변경 */}
             {mode === 'detail' && (
                 <>
                     <div className="search-header">
                         <h3>🏢 부산 청년 공간 상세 정보</h3>
                         <p>원하는 공간을 클릭하면 상세 정보를 확인할 수 있습니다!</p>
-                        {/* 🔥 수정: 간단한 한 줄 텍스트로 변경 */}
+                        {/* 🔥 수정: 청년 공간 개수를 더 눈에 띄게 표시 */}
                         {spacesData.length > 0 && (
-                            <p style={{margin: '8px 0', color: 'var(--text-secondary)', fontSize: '0.9em'}}>
-                                총 {spacesData.length}개의 청년 공간이 존재합니다!
+                            <p style={{
+                                margin: '12px 0',
+                                color: 'var(--border-color-hover)',
+                                fontSize: '1em',
+                                fontWeight: '600'
+                            }}>
+                                총 <strong>{spacesData.length}개</strong>의 청년 공간이 존재합니다!
                             </p>
                         )}
                     </div>
@@ -515,6 +529,10 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                     {loading ? (
                         <div className="loading">
                             <p>🔄 청년 공간 데이터를 불러오는 중...</p>
+                        </div>
+                    ) : loadError ? (
+                        <div className="loading">
+                            <p>❌ {loadError}</p>
                         </div>
                     ) : (
                         <>
@@ -543,30 +561,39 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                                 </div>
                             </div>
 
-                            {/* 검색 결과 */}
+                            {/* 🔥 수정: 검색 결과를 이미지와 같은 2열 그리드 레이아웃으로 변경 */}
                             <div className="spaces-list">
                                 {filteredSpaces.length > 0 ? (
-                                    <div className="spaces-grid">
+                                    <div className="spaces-grid-detail">
                                         {filteredSpaces.map((space, index) => (
                                             <div
                                                 key={index}
-                                                className="space-card"
+                                                className="space-card-detail"
                                                 onClick={() => handleSpaceClick(space)}
                                             >
-                                                <div className="space-card-header">
-                                                    <h4>{space.parent_facility}</h4>
-                                                    <span className="space-name">{space.space_name}</span>
+                                                <div className="space-card-detail-header">
+                                                    <h4 className="space-facility-name">{space.parent_facility}</h4>
+                                                    <div className="space-region-badge">{space.location}</div>
                                                 </div>
-                                                <div className="space-card-content">
-                                                    <p className="space-location">📍 {space.location}</p>
-                                                    <p className="space-intro-short">{space.introduction?.slice(0, 80)}...</p>
-                                                    {space.keywords && (
-                                                        <div className="space-keywords">
-                                                            {space.keywords.slice(0, 3).map((keyword, idx) => (
-                                                                <span key={idx} className="keyword-tag">{keyword}</span>
+
+                                                <div className="space-card-detail-content">
+                                                    {/* 🔥 새로 추가: 키워드 태그들을 상단에 배치 */}
+                                                    {space.keywords && space.keywords.length > 0 && (
+                                                        <div className="space-keywords-detail">
+                                                            {space.keywords.map((keyword, idx) => (
+                                                                <span key={idx} className="keyword-tag-detail">
+                                                                    {keyword}
+                                                                </span>
                                                             ))}
                                                         </div>
                                                     )}
+
+                                                    {/* 🔥 수정: 공간 소개를 더 간결하게 표시 */}
+                                                    <p className="space-intro-detail">
+                                                        {space.introduction && space.introduction.length > 100
+                                                            ? space.introduction.substring(0, 100) + "..."
+                                                            : space.introduction || "청년들을 위한 다양한 활동을 지원하는 공간입니다."}
+                                                    </p>
                                                 </div>
                                             </div>
                                         ))}
