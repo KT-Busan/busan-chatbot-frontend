@@ -26,9 +26,17 @@ function ChatWindow({
         }
     }, [chat.messages]);
 
-    // 버튼 클릭 처리 함수
+    // 🔥 수정: 버튼 클릭 처리 함수 - 새로운 봇 응답 처리 방식
     const handleButtonClick = (text) => {
-        onSendMessage(text);
+        // __BOT_RESPONSE__ 접두사가 있는 경우 봇 응답만 표시
+        if (text.startsWith('__BOT_RESPONSE__')) {
+            const botResponse = text.replace('__BOT_RESPONSE__', '');
+            // 봇 응답만 추가 (isBotResponseOnly = true)
+            onSendMessage(botResponse, true);
+        } else {
+            // 일반적인 경우: 사용자 메시지 + 봇 응답
+            onSendMessage(text);
+        }
     };
 
     return (

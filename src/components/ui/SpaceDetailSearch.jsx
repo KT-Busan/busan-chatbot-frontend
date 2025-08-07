@@ -19,9 +19,13 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
     const [detailSelectedRegion, setDetailSelectedRegion] = useState('전체');
     const [loading, setLoading] = useState(false);
 
+    // 랜덤 추천 상태 관리
+    const [showRandomResult, setShowRandomResult] = useState(false);
+
+    // 🔥 수정: 지역을 가나다순으로 정렬
     const regions = [
-        '중구', '서구', '동구', '영도구', '부산진구', '동래구', '연제구', '금정구',
-        '북구', '사상구', '사하구', '강서구', '남구', '해운대구', '수영구', '기장군'
+        '강서구', '금정구', '기장군', '남구', '동구', '동래구', '부산진구', '북구',
+        '사상구', '사하구', '서구', '수영구', '연제구', '영도구', '중구', '해운대구'
     ];
 
     const capacities = [
@@ -31,15 +35,16 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         {value: '상관없음', icon: '❓', label: '상관없음'}
     ];
 
+    // 🔥 수정: 목적을 가나다순으로 정렬 (맨 위 "목적 선택"은 그대로)
     const purposes = [
-        {value: '스터디/회의', icon: '📝', label: '스터디/회의'},
         {value: '교육/강연', icon: '🎤', label: '교육/강연'},
-        {value: '커뮤니티', icon: '👥', label: '커뮤니티'},
-        {value: '진로/창업', icon: '🚀', label: '진로/창업'},
         {value: '문화/창작', icon: '🎨', label: '문화/창작'},
+        {value: '스터디/회의', icon: '📝', label: '스터디/회의'},
         {value: '작업/창작실', icon: '🛠', label: '작업/창작실'},
-        {value: '휴식/놀이', icon: '🧘', label: '휴식/놀이'},
-        {value: '행사/이벤트', icon: '🎪', label: '행사/이벤트'}
+        {value: '진로/창업', icon: '🚀', label: '진로/창업'},
+        {value: '커뮤니티', icon: '👥', label: '커뮤니티'},
+        {value: '행사/이벤트', icon: '🎪', label: '행사/이벤트'},
+        {value: '휴식/놀이', icon: '🧘', label: '휴식/놀이'}
     ];
 
     // 상세 모드일 때 데이터 로드
@@ -120,6 +125,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setShowConditions(true);
         setIsSearching(true);
         setSearchResults(null);
+        setShowRandomResult(false); // 검색 시 랜덤 결과 숨기기
 
         try {
             const searchConditions = [];
@@ -205,6 +211,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         }
     };
 
+    // 랜덤 추천 기능을 독립적인 API 호출로 수정
     const handleRandomRecommendation = async () => {
         setIsSearching(true);
 
@@ -212,7 +219,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             const finalAnonymousId = anonymousId || `temp_user_${Date.now()}`;
 
             const isGitHubPages = window.location.hostname.includes('github.io');
-            const backendUrl = 'https://kt-bot-backend.onrender.com';
+            const backendUrl = 'https://b-bot-backend.onrender.com';
 
             let apiUrl;
             if (isGitHubPages || !window.location.hostname.includes('localhost')) {
@@ -235,12 +242,10 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             if (response.data && response.data.reply) {
                 onButtonClick('__BOT_RESPONSE__' + response.data.reply);
 
-                setSearchResults({
-                    success: true,
-                    message: '랜덤 추천 결과를 표시했습니다!',
-                    isRandom: true
-                });
-                setShowConditions(false);
+                // 랜덤 추천 후 추가 랜덤 추천 버튼 표시
+                setShowRandomResult(true);
+                setSearchResults(null); // 기존 검색 결과 숨기기
+                setShowConditions(false); // 조건 표시 숨기기
             } else {
                 throw new Error('랜덤 추천 응답을 받지 못했습니다.');
             }
@@ -270,6 +275,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setShowConditions(false);
         setSearchResults(null);
         setIsSearching(false);
+        setShowRandomResult(false); // 랜덤 결과도 리셋
     };
 
     // 상세 정보 포맷팅
@@ -301,15 +307,25 @@ ${introduction}
 ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
     };
 
-    // 공간 클릭 시 상세 정보를 채팅으로 전송
+    // 공간 클릭 시 봇 응답만 표시 (사용자 메시지로 표시하지 않음)
     const handleSpaceClick = (space) => {
         const detailMessage = formatSpaceDetail(space);
-        onButtonClick(detailMessage);
+        // __BOT_RESPONSE__ 접두사를 추가해서 봇 응답으로만 표시
+        onButtonClick('__BOT_RESPONSE__' + detailMessage);
     };
 
-    // 지역 목록 생성(상세 모드용)
+    // 🔥 수정: 지역 목록 생성 - 전체를 맨 위에 고정하고 나머지는 가나다순 정렬
     const detailRegions = mode === 'detail' ?
-        ['전체', ...new Set(spacesData.map(space => space.location))].sort() : [];
+        ['전체', ...new Set(spacesData.map(space => space.location))]
+            .filter(region => region !== '전체') // 혹시 중복 제거
+            .sort((a, b) => {
+                if (a === '전체') return -1;
+                if (b === '전체') return 1;
+                return a.localeCompare(b, 'ko');
+            }) : [];
+    // 실제로는 전체가 이미 앞에 있으므로 나머지만 정렬
+    const sortedDetailRegions = mode === 'detail' ?
+        ['전체', ...Array.from(new Set(spacesData.map(space => space.location))).sort((a, b) => a.localeCompare(b, 'ko'))] : [];
 
     return (
         <div className="space-detail-search">
@@ -338,7 +354,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                         <p>대관 가능 여부와 링크도 함께 확인할 수 있어요.</p>
                     </div>
 
-                    {!showConditions && !searchResults && (
+                    {!showConditions && !searchResults && !showRandomResult && (
                         <div className="search-filters-container">
                             <div className="filter-section">
                                 <label>지역 선택</label>
@@ -395,6 +411,17 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                                     🔎 검색 결과 보기
                                 </button>
                             </div>
+
+                            {/* 랜덤 추천 버튼을 검색 전에도 표시 - 키워드 버튼과 동일한 스타일 */}
+                            <div className="filter-section">
+                                <button
+                                    className="random-recommend-btn-main"
+                                    onClick={handleRandomRecommendation}
+                                    disabled={isSearching}
+                                >
+                                    🎲 랜덤 추천
+                                </button>
+                            </div>
                         </div>
                     )}
 
@@ -418,6 +445,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                         </div>
                     )}
 
+                    {/* 조건별 검색 결과 표시 + 항상 랜덤 추천 버튼 포함 */}
                     {searchResults && (
                         <div className="search-results">
                             <div className="results-header">
@@ -427,12 +455,36 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
 
                             <div className="recommendation-section">
                                 <p>다른 공간을 보고싶다면?</p>
+                                <div className="action-buttons">
+                                    <button
+                                        className="random-recommend-btn"
+                                        onClick={handleRandomRecommendation}
+                                        disabled={isSearching}
+                                    >
+                                        🎲 랜덤 추천
+                                    </button>
+                                    <button
+                                        className="new-search-btn"
+                                        onClick={resetSearch}
+                                    >
+                                        🔄 새로 검색하기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 랜덤 추천 결과 후 추가 랜덤 추천 버튼 섹션 */}
+                    {showRandomResult && (
+                        <div className="additional-random-section">
+                            <p>💡 다른 랜덤 공간이 궁금하시다면?</p>
+                            <div style={{display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap'}}>
                                 <button
-                                    className="random-recommend-btn"
+                                    className="additional-random-btn"
                                     onClick={handleRandomRecommendation}
                                     disabled={isSearching}
                                 >
-                                    ✨ 랜덤 추천
+                                    🎲 다시 랜덤 추천
                                 </button>
                                 <button
                                     className="new-search-btn"
@@ -452,8 +504,11 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                     <div className="search-header">
                         <h3>🏢 부산 청년 공간 상세 정보</h3>
                         <p>원하는 공간을 클릭하면 상세 정보를 확인할 수 있습니다!</p>
+                        {/* 🔥 수정: 간단한 한 줄 텍스트로 변경 */}
                         {spacesData.length > 0 && (
-                            <p className="data-count">총 <strong>{spacesData.length}개</strong>의 청년 공간 정보</p>
+                            <p style={{margin: '8px 0', color: 'var(--text-secondary)', fontSize: '0.9em'}}>
+                                총 {spacesData.length}개의 청년 공간이 존재합니다!
+                            </p>
                         )}
                     </div>
 
@@ -481,7 +536,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                                         onChange={(e) => setDetailSelectedRegion(e.target.value)}
                                         className="region-select"
                                     >
-                                        {detailRegions.map(region => (
+                                        {sortedDetailRegions.map(region => (
                                             <option key={region} value={region}>{region}</option>
                                         ))}
                                     </select>
