@@ -106,7 +106,7 @@ function App() {
         }
     };
 
-    // 🔥 수정: 봇 응답만 표시하는 기능 및 청년 프로그램 답변 제거
+    // 🔥 수정: 봇 응답만 표시하는 기능 및 청년 프로그램 확인하기 추가
     const handleSendMessage = async (messageText, isBotResponseOnly = false) => {
         if (!activeChatId || isThinking) return;
 
@@ -171,8 +171,12 @@ function App() {
             } else if (messageText === '청년 공간 상세') {
                 botReply = `[SPACE_DETAIL_SEARCH]`;
             }
-            // 🔥 수정: 청년 공간 프로그램 확인하기 제거 (더 이상 프로그램 답변 안 함)
-            else if (['스터디/회의', '교육/강연', '모임/커뮤니티', '진로/창업', '문화/창작', '작업/창작실', '휴식/놀이', '행사/이벤트'].includes(messageText)) {
+            // 🔥 새로 추가: 청년 공간 프로그램 확인하기 버튼 처리
+            else if (messageText === '청년 공간 프로그램 확인하기') {
+                botReply = `[PROGRAM_REGIONS]`;
+            }
+            // 키워드 버튼 처리 (청년 공간만)
+            else if (['📝스터디/회의', '🎤교육/강연', '👥커뮤니티', '🚀진로/창업', '🎨문화/창작', '🛠작업/창작실', '🧘휴식/놀이', '🎪행사/이벤트'].includes(messageText)) {
                 const response = await axios.post(`${backendUrl}/api/chat`, {
                     message: messageText,
                     anonymousId: anonymousId,
@@ -180,7 +184,15 @@ function App() {
                 });
                 botReply = response.data.reply;
             }
-                // 🔥 수정: 프로그램 관련 메시지는 처리하지 않음 (청년 공간만 처리)
+            // 🔥 새로 추가: 프로그램 지역 버튼 처리 (지역명 + " 프로그램" 형태)
+            else if (messageText.endsWith(' 프로그램')) {
+                const response = await axios.post(`${backendUrl}/api/chat`, {
+                    message: messageText,
+                    anonymousId: anonymousId,
+                    chatId: activeChatId,
+                });
+                botReply = response.data.reply;
+            }
             // 지역 클릭 처리(16개 구/군) - 청년 공간만
             else if (['중구', '서구', '동구', '영도구', '부산진구', '동래구', '연제구', '금정구', '북구', '사상구', '사하구', '강서구', '남구', '해운대구', '수영구', '기장군'].includes(messageText)) {
                 const response = await axios.post(`${backendUrl}/api/chat`, {

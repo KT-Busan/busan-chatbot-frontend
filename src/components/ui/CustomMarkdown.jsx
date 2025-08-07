@@ -27,7 +27,7 @@ const CustomMarkdown = ({children, onButtonClick, spacesData, anonymousId}) => {
         );
     }
 
-    // 프로그램 지역 선택 마커 확인 및 지역 버튼들 표시
+    // 🔥 수정: 프로그램 지역 선택 마커 확인 및 지역 버튼들 표시
     if (children.includes('[PROGRAM_REGIONS]')) {
         return (
             <ProgramRegionButtons onButtonClick={onButtonClick}/>
