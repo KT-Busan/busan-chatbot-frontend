@@ -18,12 +18,12 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [detailSelectedRegion, setDetailSelectedRegion] = useState('전체');
     const [loading, setLoading] = useState(false);
-    const [loadError, setLoadError] = useState(null); // 🔥 추가: 누락된 상태
+    const [loadError, setLoadError] = useState(null);
 
     // 랜덤 추천 상태 관리
     const [showRandomResult, setShowRandomResult] = useState(false);
 
-    // 🔥 수정: 지역을 가나다순으로 정렬
+    // 지역을 가나다순으로 정렬
     const regions = [
         '강서구', '금정구', '기장군', '남구', '동구', '동래구', '부산진구', '북구',
         '사상구', '사하구', '서구', '수영구', '연제구', '영도구', '중구', '해운대구'
@@ -36,7 +36,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         {value: '상관없음', icon: '❓', label: '상관없음'}
     ];
 
-    // 🔥 수정: 목적을 가나다순으로 정렬 (맨 위 "목적 선택"은 그대로)
+    // 목적을 가나다순으로 정렬
     const purposes = [
         {value: '교육/강연', icon: '🎤', label: '교육/강연'},
         {value: '문화/창작', icon: '🎨', label: '문화/창작'},
@@ -143,7 +143,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setShowConditions(true);
         setIsSearching(true);
         setSearchResults(null);
-        setShowRandomResult(false); // 검색 시 랜덤 결과 숨기기
+        setShowRandomResult(false);
 
         try {
             const searchConditions = [];
@@ -163,7 +163,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             console.log('🔍 검색 요청:', searchMessage);
 
             const isGitHubPages = window.location.hostname.includes('github.io');
-            const backendUrl = 'https://b-bot-backend.onrender.com'; // Render 백엔드 URL
+            const backendUrl = 'https://b-bot-backend.onrender.com';
 
             let apiUrl;
             if (isGitHubPages || !window.location.hostname.includes('localhost')) {
@@ -229,7 +229,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         }
     };
 
-    // 랜덤 추천 기능을 독립적인 API 호출로 수정
+    // 랜덤 추천 기능
     const handleRandomRecommendation = async () => {
         setIsSearching(true);
 
@@ -260,10 +260,9 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             if (response.data && response.data.reply) {
                 onButtonClick('__BOT_RESPONSE__' + response.data.reply);
 
-                // 랜덤 추천 후 추가 랜덤 추천 버튼 표시
                 setShowRandomResult(true);
-                setSearchResults(null); // 기존 검색 결과 숨기기
-                setShowConditions(false); // 조건 표시 숨기기
+                setSearchResults(null);
+                setShowConditions(false);
             } else {
                 throw new Error('랜덤 추천 응답을 받지 못했습니다.');
             }
@@ -293,7 +292,7 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setShowConditions(false);
         setSearchResults(null);
         setIsSearching(false);
-        setShowRandomResult(false); // 랜덤 결과도 리셋
+        setShowRandomResult(false);
     };
 
     // 상세 정보 포맷팅
@@ -304,7 +303,16 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         const introduction = space.introduction || '정보없음';
         const eligibility = space.eligibility || '정보없음';
         const features = space.features || '정보없음';
-        const link = Array.isArray(space.link) ? space.link[0] : space.link || '정보없음';
+
+        // 링크 처리 개선
+        let link_url = '정보없음';
+        if (space.link) {
+            if (Array.isArray(space.link)) {
+                link_url = space.link[0];
+            } else {
+                link_url = space.link;
+            }
+        }
 
         // 인원 정보 포맷팅
         let capacity_info = "인원 제한 없음";
@@ -316,23 +324,29 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             capacity_info = `최소 ${space.capacity_min}명`;
         }
 
-        return `**1️⃣ ${parent_facility} – ${space_name}**
+        return `**🏢 ${parent_facility} – ${space_name}**
+
 ${introduction}
-• 📍 **위치 :** ${location}
-• 👥 **인원 :** ${capacity_info}
-• **지원 대상 :** ${eligibility}
-• 🧰 **특징 :** ${features}
-${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
+
+• 📍 **위치:** ${location}
+• 👥 **인원:** ${capacity_info}
+• **지원 대상:** ${eligibility}
+• 🧰 **특징:** ${features}
+${link_url !== '정보없음' ? `• 🔗 **링크:** ${link_url}` : ''}
+
+---
+
+💡 **사용 가능한 키워드:**
+${space.keywords ? space.keywords.join(', ') : '정보없음'}`;
     };
 
-    // 공간 클릭 시 봇 응답만 표시 (사용자 메시지로 표시하지 않음)
+    // 공간 클릭 시 봇 응답만 표시
     const handleSpaceClick = (space) => {
         const detailMessage = formatSpaceDetail(space);
-        // __BOT_RESPONSE__ 접두사를 추가해서 봇 응답으로만 표시
         onButtonClick('__BOT_RESPONSE__' + detailMessage);
     };
 
-    // 🔥 수정: 지역 목록 생성 - 전체를 맨 위에 고정하고 나머지는 가나다순 정렬
+    // 지역 목록 생성 - 전체를 맨 위에 고정하고 나머지는 가나다순 정렬
     const sortedDetailRegions = mode === 'detail' ?
         ['전체', ...Array.from(new Set(spacesData.map(space => space.location))).sort((a, b) => a.localeCompare(b, 'ko'))] : [];
 
@@ -354,7 +368,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                 </button>
             </div>
 
-            {/* 예약 모드(기존 기능) */}
+            {/* 조건별 검색 모드 */}
             {mode === 'reservation' && (
                 <>
                     <div className="search-header">
@@ -421,7 +435,6 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                                 </button>
                             </div>
 
-                            {/* 랜덤 추천 버튼을 검색 전에도 표시 - 키워드 버튼과 동일한 스타일 */}
                             <div className="filter-section">
                                 <button
                                     className="random-recommend-btn-main"
@@ -454,7 +467,6 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                         </div>
                     )}
 
-                    {/* 조건별 검색 결과 표시 + 항상 랜덤 추천 버튼 포함 */}
                     {searchResults && (
                         <div className="search-results">
                             <div className="results-header">
@@ -483,7 +495,6 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                         </div>
                     )}
 
-                    {/* 랜덤 추천 결과 후 추가 랜덤 추천 버튼 섹션 */}
                     {showRandomResult && (
                         <div className="additional-random-section">
                             <p>💡 다른 랜덤 공간이 궁금하시다면?</p>
@@ -507,13 +518,12 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                 </>
             )}
 
-            {/* 🔥 수정: 상세 모드 - 이미지와 같은 2열 그리드 레이아웃으로 변경 */}
+            {/* 전체 공간 보기 모드 */}
             {mode === 'detail' && (
                 <>
                     <div className="search-header">
                         <h3>🏢 부산 청년 공간 상세 정보</h3>
                         <p>원하는 공간을 클릭하면 상세 정보를 확인할 수 있습니다!</p>
-                        {/* 🔥 수정: 청년 공간 개수를 더 눈에 띄게 표시 */}
                         {spacesData.length > 0 && (
                             <p style={{
                                 margin: '12px 0',
@@ -561,7 +571,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                                 </div>
                             </div>
 
-                            {/* 🔥 수정: 검색 결과를 이미지와 같은 2열 그리드 레이아웃으로 변경 */}
+                            {/* 공간 목록 그리드 */}
                             <div className="spaces-list">
                                 {filteredSpaces.length > 0 ? (
                                     <div className="spaces-grid-detail">
@@ -577,7 +587,9 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                                                 </div>
 
                                                 <div className="space-card-detail-content">
-                                                    {/* 🔥 새로 추가: 키워드 태그들을 상단에 배치 */}
+                                                    <h5 className="space-name">{space.space_name}</h5>
+
+                                                    {/* 키워드 태그들을 상단에 배치 */}
                                                     {space.keywords && space.keywords.length > 0 && (
                                                         <div className="space-keywords-detail">
                                                             {space.keywords.map((keyword, idx) => (
@@ -588,7 +600,7 @@ ${link !== '정보없음' ? `• 🔗 **링크 :** ${link}` : ''}`;
                                                         </div>
                                                     )}
 
-                                                    {/* 🔥 수정: 공간 소개를 더 간결하게 표시 */}
+                                                    {/* 공간 소개를 더 간결하게 표시 */}
                                                     <p className="space-intro-detail">
                                                         {space.introduction && space.introduction.length > 100
                                                             ? space.introduction.substring(0, 100) + "..."

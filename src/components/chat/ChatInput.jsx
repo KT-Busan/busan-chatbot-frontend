@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 
-// 채팅 입력 컴포넌트 - 사용자 메시지 입력 및 전송 처리
 function ChatInput({onSendMessage, disabled = false}) {
-    const [input, setInput] = useState(''); // 입력 필드의 현재 값 상태
+    const [input, setInput] = useState('');
 
-    // 폼 제출 처리 함수(Enter 키 또는 전송 버튼 클릭 시)
     const handleSubmit = (e) => {
         e.preventDefault();
         if (disabled || !input.trim()) return;

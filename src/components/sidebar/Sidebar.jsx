@@ -2,7 +2,6 @@ import React from 'react';
 import ChatHistoryItem from './ChatHistoryItem';
 import {classNames} from '../../utils/helpers';
 
-// 사이드바 컴포넌트 - 채팅 목록, 테마 변경, 새 채팅 생성 기능 제공
 function Sidebar({
                      chats,
                      activeChatId,
@@ -15,12 +14,10 @@ function Sidebar({
                      isMobile,
                      isVisible
                  }) {
-    // 테마 토글 버튼 클릭 처리 함수
     const handleThemeToggle = () => {
         onToggleDarkMode(!isDarkMode);
     };
 
-    // 사이드바의 CSS 클래스명을 조건에 따라 동적으로 생성
     const sidebarClasses = classNames(
         'sidebar',
         isCollapsed && 'collapsed',
@@ -30,7 +27,7 @@ function Sidebar({
 
     return (
         <aside className={sidebarClasses}>
-            {/* 사이드바 상단 영역 (새 채팅, 테마 변경 버튼) */}
+            {/* 사이드바 상단 영역 */}
             <div className="sidebar-header">
                 <div className="sidebar-top">
                     {/* 새 채팅 시작 버튼 */}

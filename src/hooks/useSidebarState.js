@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import {BREAKPOINTS} from '../utils/constants';
 
-// 사이드바 상태 관리
 export const useSidebarState = () => {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(false);

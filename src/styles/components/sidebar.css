@@ -65,6 +65,7 @@
     justify-content: center;
     overflow: hidden;
     position: relative;
+    outline: none;
 }
 
 .sidebar.collapsed:not(.mobile) .new-chat-btn {
@@ -108,6 +109,7 @@
     min-width: 44px;
     height: 44px;
     flex-shrink: 0;
+    outline: none;
 }
 
 .theme-toggle-btn:hover {
@@ -199,6 +201,7 @@
     padding: var(--spacing-xs) var(--spacing-sm);
     cursor: pointer;
     flex-shrink: 0;
+    outline: none;
 }
 
 .sidebar.collapsed:not(.mobile):not(:hover) .delete-chat-btn {

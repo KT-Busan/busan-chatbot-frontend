@@ -3,7 +3,7 @@ import {MAIN_MENU} from '../../utils/constants';
 
 const MainMenuButtons = ({onButtonClick}) => {
     return (
-        <div className="main-menu-container">
+        <div id="main-menu-container">
             {MAIN_MENU.map((item, index) => (
                 <button
                     key={index}

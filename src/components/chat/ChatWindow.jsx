@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import ChatInput from './ChatInput';
 import MessageBubble from './MessageBubble';
 import WelcomeScreen from './WelcomeScreen';
@@ -6,7 +6,6 @@ import MainMenuButtons from '../ui/MainMenuButtons';
 import QuickLinks from '../ui/QuickLinks';
 import botProfileImage from '../../assets/bot-profile.png';
 
-// 메인 채팅 창 컴포넌트
 function ChatWindow({
                         chat,
                         onSendMessage,
@@ -18,23 +17,51 @@ function ChatWindow({
                         anonymousId
                     }) {
     const chatContainerRef = useRef(null);
+    const [showScrollToBottom, setShowScrollToBottom] = useState(false);
 
-    // 새 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
+    const handleScroll = () => {
+        const container = chatContainerRef.current;
+        if (!container) return;
+
+        const {scrollTop, scrollHeight, clientHeight} = container;
+        const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+
+        setShowScrollToBottom(!isNearBottom && chat.messages.length > 0);
+    };
+
+    // 맨 아래로 스크롤하는 함수
+    const scrollToBottom = () => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     useEffect(() => {
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     }, [chat.messages]);
 
-    // 🔥 수정: 버튼 클릭 처리 함수 - 새로운 봇 응답 처리 방식
+    useEffect(() => {
+        const container = chatContainerRef.current;
+        if (container) {
+            container.addEventListener('scroll', handleScroll);
+            handleScroll();
+
+            return () => {
+                container.removeEventListener('scroll', handleScroll);
+            };
+        }
+    }, [chat.messages.length]);
+
     const handleButtonClick = (text) => {
-        // __BOT_RESPONSE__ 접두사가 있는 경우 봇 응답만 표시
         if (text.startsWith('__BOT_RESPONSE__')) {
             const botResponse = text.replace('__BOT_RESPONSE__', '');
-            // 봇 응답만 추가 (isBotResponseOnly = true)
             onSendMessage(botResponse, true);
         } else {
-            // 일반적인 경우: 사용자 메시지 + 봇 응답
             onSendMessage(text);
         }
     };
@@ -77,6 +104,18 @@ function ChatWindow({
                     ))
                 )}
             </div>
+
+            {/* 맨 아래로 스크롤 버튼 */}
+            {showScrollToBottom && (
+                <button
+                    className="scroll-to-bottom-btn"
+                    onClick={scrollToBottom}
+                    aria-label="맨 아래로 스크롤"
+                    title="맨 아래로"
+                >
+                    <span className="scroll-arrow">↓</span>
+                </button>
+            )}
 
             {/* 메인 메뉴 버튼들 */}
             <MainMenuButtons onButtonClick={handleButtonClick}/>
