@@ -79,6 +79,7 @@
     font-family: inherit;
     white-space: nowrap;
     min-height: 48px;
+    outline: none;
 }
 
 .search-detail-btn:hover:not(:disabled) {
@@ -95,7 +96,6 @@
     box-shadow: none;
 }
 
-/* 키워드 버튼과 동일한 스타일로 랜덤 추천 버튼 통일 */
 .random-recommend-btn-main {
     background: var(--sub-button-bg);
     border: 2px solid transparent;
@@ -274,7 +274,6 @@
     font-size: 0.9em;
 }
 
-/* 액션 버튼들을 가로로 배치 */
 .action-buttons {
     display: flex;
     gap: 12px;
@@ -282,7 +281,6 @@
     flex-wrap: wrap;
 }
 
-/* 키워드 버튼과 동일한 스타일로 통일 */
 .random-recommend-btn,
 .new-search-btn {
     background: var(--sub-button-bg);
@@ -305,6 +303,7 @@
     align-items: center;
     justify-content: center;
     flex: 0 1 auto;
+    outline: none;
 }
 
 .random-recommend-btn:hover:not(:disabled),
@@ -327,7 +326,6 @@
     color: var(--text-secondary);
 }
 
-/* 🔥 핵심 수정: 랜덤 추천 결과 후 추가 랜덤 추천 버튼 섹션 - 한 줄 배치 */
 .additional-random-section {
     text-align: center;
     padding: 15px;
@@ -343,7 +341,6 @@
     font-size: 0.9em;
 }
 
-/* 🔥 추가: div 컨테이너에 flex 레이아웃 강제 적용 */
 .additional-random-section > div {
     display: flex !important;
     gap: 8px !important;
@@ -372,8 +369,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* 🔥 수정: margin 제거 */
     margin: 0 !important;
+    outline: none;
 }
 
 .additional-random-btn:hover:not(:disabled) {
@@ -395,7 +392,6 @@
     color: var(--text-secondary);
 }
 
-/* 🔥 추가: additional-random-section 안의 new-search-btn 스타일 통일 */
 .additional-random-section .new-search-btn {
     background: var(--sub-button-bg);
     border: 2px solid transparent;
@@ -416,8 +412,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* 🔥 수정: 인라인 스타일 마진 오버라이드 */
     margin: 0 !important;
+    outline: none;
 }
 
 .additional-random-section .new-search-btn:hover:not(:disabled) {
@@ -430,7 +426,6 @@
     color: white;
 }
 
-/* CustomMarkdown 컴포넌트에서 사용하는 추가 랜덤 추천 버튼 스타일 */
 .markdown-additional-random-section {
     text-align: center;
     padding: 15px;
@@ -446,7 +441,6 @@
     font-size: 0.9em;
 }
 
-/* 🔥 추가: CustomMarkdown의 div 컨테이너에도 flex 레이아웃 강제 적용 */
 .markdown-additional-random-section > div {
     display: flex !important;
     gap: 8px !important;
@@ -475,8 +469,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* 🔥 수정: margin 제거 */
     margin: 0;
+    outline: none;
 }
 
 .markdown-additional-random-btn:hover:not(:disabled) {
@@ -856,7 +850,6 @@
     font-size: 0.9em;
 }
 
-/* 반응형 디자인 */
 @media (max-width: 768px) {
     .space-detail-search {
         padding: 20px;
@@ -891,9 +884,9 @@
     .new-search-btn {
         width: 100%;
         margin: 0;
+        outline: none;
     }
 
-    /* 🔥 수정: 모바일에서도 랜덤 추천 버튼들을 가로로 배치 */
     .additional-random-section > div,
     .markdown-additional-random-section > div {
         display: flex !important;
@@ -914,6 +907,7 @@
         width: auto !important;
         flex: 1;
         max-width: calc(50% - 4px);
+        outline: none;
     }
 
     .mode-tabs {
@@ -1004,6 +998,7 @@
     .markdown-additional-random-btn {
         font-size: 0.85em;
         padding: 10px 16px;
+        outline: none;
     }
 
     .space-card {

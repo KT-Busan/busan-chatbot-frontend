@@ -1,4 +1,3 @@
-// 메인 메뉴 버튼 목록
 export const MAIN_MENU = [
     '행정구역별 확인하기',
     '키워드별 확인하기',
@@ -6,14 +5,12 @@ export const MAIN_MENU = [
     '청년 공간 상세'
 ];
 
-// 하단 고정 외부 링크 목록
 export const QUICK_LINKS = [
     {text: "부산경제진흥원 바로가기", url: "https://www.bepa.kr/kor/view.do?no=1670"},
     {text: "부산청년센터 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
     {text: "부산청년플랫폼 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
 ];
 
-// 키워드별 확인하기 버튼 목록
 export const KEYWORD_BUTTONS = [
     "📝스터디/회의",
     "🎤교육/강연",
@@ -25,7 +22,6 @@ export const KEYWORD_BUTTONS = [
     "🎪행사/이벤트"
 ];
 
-// 부산 16개 지역 목록(프로그램용)
 export const BUSAN_REGIONS_PROGRAMS = [
     '강서구 프로그램', '금정구 프로그램', '기장군 프로그램', '남구 프로그램',
     '동구 프로그램', '동래구 프로그램', '부산진구 프로그램', '북구 프로그램',
@@ -33,7 +29,6 @@ export const BUSAN_REGIONS_PROGRAMS = [
     '연제구 프로그램', '영도구 프로그램', '중구 프로그램', '해운대구 프로그램'
 ];
 
-// 실제 부산청년플랫폼의 정확한 지역별 좌표 데이터
 export const BUSAN_REGIONS = {
     '중구': {
         count: 4,
@@ -149,14 +144,12 @@ export const BUSAN_REGIONS = {
     }
 };
 
-// 반응형 브레이크포인트
 export const BREAKPOINTS = {
     MOBILE: 768,
     TABLET: 1199,
     DESKTOP: 1200
 };
 
-// 애니메이션 지연 시간
 export const ANIMATION_DELAYS = {
     TYPING_DOT_DELAY: 0.2,
     MESSAGE_SLIDE_DURATION: 0.3,

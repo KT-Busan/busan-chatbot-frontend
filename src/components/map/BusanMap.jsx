@@ -5,17 +5,14 @@ const BusanMap = ({onRegionClick, spacesData}) => {
     const [hoveredRegion, setHoveredRegion] = useState(null);
     const [regions, setRegions] = useState(BUSAN_REGIONS);
 
-    // 실제 크롤링 데이터로 지역별 개수 업데이트
     useEffect(() => {
         if (spacesData && spacesData.length > 0) {
             const updatedRegions = {...BUSAN_REGIONS};
 
-            // 각 지역별 청년공간 개수 초기화
             Object.keys(updatedRegions).forEach(region => {
                 updatedRegions[region].count = 0;
             });
 
-            // 각 지역별 청년공간 개수 계산
             spacesData.forEach(space => {
                 const region = space.region;
                 if (updatedRegions[region]) {
@@ -104,7 +101,7 @@ const BusanMap = ({onRegionClick, spacesData}) => {
                 </svg>
             </div>
 
-            {/* 지역 목록 (클릭 가능) - 가나다순 4x4 배열 */}
+            {/* 지역 목록 */}
             <div className="regions-grid">
                 {Object.entries(regions)
                     .sort(([a], [b]) => a.localeCompare(b, 'ko-KR'))

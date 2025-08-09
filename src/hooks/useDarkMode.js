@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import {safeLocalStorage} from '../utils/helpers';
 
-// 다크모드 상태 관리
 export const useDarkMode = () => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const saved = safeLocalStorage.getItem('darkMode');

@@ -120,6 +120,7 @@
     box-shadow: 0 2px 6px var(--shadow-light);
     color: var(--text-primary);
     min-height: 50px;
+    outline: none;
 }
 
 .region-button:hover,
@@ -241,6 +242,7 @@
     font-weight: 600;
     text-align: center;
     white-space: nowrap;
+    outline: none;
 }
 
 .program-region-button:hover {
@@ -281,6 +283,7 @@
     font-weight: 600;
     text-align: center;
     white-space: nowrap;
+    outline: none;
 }
 
 .keyword-button:hover {
@@ -293,7 +296,6 @@
     color: white;
 }
 
-/* 다크모드 대응 */
 [data-theme="dark"] .busan-map-svg {
     background: linear-gradient(135deg, #1e1e2e 0%, #252540 100%);
 }

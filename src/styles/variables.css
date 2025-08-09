@@ -32,35 +32,36 @@
 }
 
 [data-theme="dark"] {
-    --bg-primary: #1a1a1a;
+    --bg-primary: #121212;
     --bg-secondary: #2d2d2d;
     --bg-tertiary: #1e1e2e;
     --bg-quaternary: #252540;
-    --text-primary: #ffffff;
-    --text-secondary: #b4b4b4;
-    --text-tertiary: #888888;
-    --border-color: rgba(255, 255, 255, 0.1);
-    --border-color-hover: #4facfe;
+    --text-primary: #eeeeee;
+    --text-secondary: #cfcfcf;
+    --text-tertiary: #999999;
+    --border-color: rgba(255, 255, 255, 0.15);
+    --border-color-hover: #66b2ff;
     --sidebar-bg: #0f0f0f;
     --sidebar-text: #ffffff;
     --sidebar-hover: #1a1a1a;
     --sidebar-button-bg: rgba(255, 255, 255, 0.05);
     --sidebar-button-hover: rgba(255, 255, 255, 0.15);
-    --message-user-bg: linear-gradient(135deg, #007bff 0%, #4facfe 100%);
-    --message-bot-bg: rgba(45, 45, 45, 0.95);
-    --message-bot-border: rgba(255, 255, 255, 0.1);
-    --input-bg: rgba(45, 45, 45, 0.9);
-    --input-form-bg: #2d2d2d;
+    --message-user-bg: linear-gradient(135deg, #3399ff 0%, #66b2ff 100%);
+    --message-bot-bg: rgba(40, 40, 40, 0.95);
+    --message-bot-border: rgba(255, 255, 255, 0.15);
+    --input-bg: rgba(40, 40, 40, 0.95);
+    --input-form-bg: #1f1f1f;
+    --input-text-color: #eeeeee;
     --shadow-light: rgba(0, 0, 0, 0.3);
     --shadow-medium: rgba(0, 0, 0, 0.5);
-    --welcome-bg: rgba(30, 30, 46, 0.8);
-    --sub-button-bg: #2d2d2d;
+    --welcome-bg: rgba(35, 35, 56, 0.9);
+    --sub-button-bg: #1f1f1f;
     --sub-button-hover-shadow: rgba(79, 172, 254, 0.25);
-    --link-card-bg: rgba(45, 45, 45, 0.95);
-    --thinking-text: #b4b4b4;
-    --hamburger-bg: rgba(79, 172, 254, 0.1);
+    --link-card-bg: rgba(40, 40, 40, 0.95);
+    --thinking-text: #cfcfcf;
+    --hamburger-bg: rgba(102, 178, 255, 0.15);
     --hamburger-hover-bg: rgba(79, 172, 254, 0.2);
-    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --overlay-bg: rgba(0, 0, 0, 0.75);
 }
 
 :root {

@@ -93,6 +93,7 @@
     justify-content: center;
     min-width: 40px;
     height: 40px;
+    outline: none;
 }
 
 .hamburger-btn:hover {
@@ -100,7 +101,6 @@
     transform: scale(1.05);
 }
 
-/* 환영 화면 */
 .welcome-screen {
     display: flex;
     flex-direction: column;
@@ -159,7 +159,6 @@
     transition: color var(--transition-normal);
 }
 
-/* 메시지 스타일 */
 .message {
     display: flex;
     margin-bottom: var(--spacing-lg);
@@ -263,7 +262,6 @@
     text-decoration: underline;
 }
 
-/* 생각 중 인디케이터 스타일 */
 .thinking-indicator {
     display: flex;
     align-items: center;
@@ -310,14 +308,14 @@
     }
 }
 
-/* 채팅 입력 */
 .chat-input-container {
-    padding: var(--spacing-lg) var(--spacing-xl);
+    padding: 10px 16px 10px 30px;
     background: var(--input-bg);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
     transition: all var(--transition-normal);
+    margin-left: 8px;
 }
 
 .chat-input-form {
@@ -367,15 +365,16 @@
     transition: all var(--transition-fast);
     box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
     font-family: inherit;
+    outline: none;
 }
 
 .send-button:hover {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) !important;
     filter: brightness(1.1);
-    transform: translateY(-1px);
+    transform: translateY(-1px) scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
 }
 
-/* 비활성화된 상태 */
 .chat-input:disabled {
     background-color: var(--bg-secondary);
     color: var(--text-tertiary);
@@ -395,4 +394,68 @@
     filter: none;
     transform: none;
     box-shadow: none;
+}
+
+.scroll-to-bottom-btn {
+    position: absolute;
+    bottom: 280px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    background: var(--input-bg);
+    backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 16px var(--shadow-light);
+    transition: all var(--transition-fast);
+    z-index: 1000;
+    animation: fadeInUp 0.3s ease-out;
+    outline: none;
+}
+
+.scroll-to-bottom-btn:hover {
+    transform: translateX(-50%) translateY(-2px) scale(1.05);
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    border-color: transparent;
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+    color: white;
+}
+
+.scroll-to-bottom-btn:active {
+    transform: translateX(-50%) translateY(0) scale(0.98);
+}
+
+.scroll-arrow {
+    display: block;
+    line-height: 1;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-4px);
+    }
+    60% {
+        transform: translateY(-2px);
+    }
+}
+
+@media (max-width: 768px) {
+    .scroll-to-bottom-btn {
+        bottom: 260px;
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
 }
