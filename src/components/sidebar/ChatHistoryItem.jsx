@@ -6,10 +6,14 @@ const ChatHistoryItem = ({
                              isCollapsed,
                              isMobile,
                              onSelect,
-                             onDelete
+                             onDelete,
+                             canDelete
                          }) => {
     const handleDeleteClick = (e) => {
         e.stopPropagation();
+        if (!canDelete) {
+            return;
+        }
         if (window.confirm(`'${chat.title}' 대화를 정말 삭제하시겠습니까?`)) {
             onDelete(chat.id);
         }
@@ -27,13 +31,16 @@ const ChatHistoryItem = ({
                     : chat.title
                 }
             </span>
-            <button
-                className="delete-chat-btn"
-                onClick={handleDeleteClick}
-                title="대화 삭제"
-            >
-                {isCollapsed && !isMobile ? '×' : '...'}
-            </button>
+            {/* canDelete가 true일 때만 삭제 버튼 표시 */}
+            {canDelete && (
+                <button
+                    className="delete-chat-btn"
+                    onClick={handleDeleteClick}
+                    title="대화 삭제"
+                >
+                    {isCollapsed && !isMobile ? '×' : '...'}
+                </button>
+            )}
         </li>
     );
 };

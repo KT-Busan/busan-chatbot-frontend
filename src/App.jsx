@@ -75,7 +75,20 @@ function App() {
         fetchHistory();
     }, [anonymousId, backendUrl]);
 
+    const findEmptyChat = (chatsObj) => {
+        return Object.values(chatsObj).find(chat =>
+            chat.messages.length === 0 && chat.isInitial
+        );
+    };
+
     const createNewChat = (currentChats = chats) => {
+        // 이미 빈 채팅이 있으면 그 채팅으로 이동
+        const existingEmptyChat = findEmptyChat(currentChats);
+        if (existingEmptyChat) {
+            setActiveChatId(existingEmptyChat.id);
+            return;
+        }
+
         const newChatId = generateChatId();
         const newChat = {
             id: newChatId,
@@ -89,6 +102,13 @@ function App() {
     };
 
     const deleteChat = async (chatIdToDelete) => {
+        const chatToDelete = chats[chatIdToDelete];
+
+        if (!chatToDelete || (chatToDelete.messages.length === 0 && chatToDelete.isInitial)) {
+            console.log("빈 채팅은 삭제할 수 없습니다.");
+            return;
+        }
+
         const originalChats = {...chats};
         const newChats = {...originalChats};
         delete newChats[chatIdToDelete];
@@ -111,6 +131,11 @@ function App() {
             setChats(originalChats);
             alert("채팅 삭제에 실패했습니다. 다시 시도해주세요.");
         }
+    };
+
+    const canDeleteChat = (chatId) => {
+        const chat = chats[chatId];
+        return chat && !(chat.messages.length === 0 && chat.isInitial);
     };
 
     const selectChat = (chatId) => {
@@ -258,6 +283,7 @@ function App() {
                 onNewChat={() => createNewChat()}
                 onSelectChat={selectChat}
                 onDeleteChat={deleteChat}
+                canDeleteChat={canDeleteChat}
                 isDarkMode={isDarkMode}
                 onToggleDarkMode={setIsDarkMode}
                 isCollapsed={isSidebarCollapsed}
