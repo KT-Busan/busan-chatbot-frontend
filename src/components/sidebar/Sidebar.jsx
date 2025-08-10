@@ -8,6 +8,7 @@ function Sidebar({
                      onNewChat,
                      onSelectChat,
                      onDeleteChat,
+                     canDeleteChat,
                      isDarkMode,
                      onToggleDarkMode,
                      isCollapsed,
@@ -113,6 +114,7 @@ function Sidebar({
                             isMobile={isMobile}
                             onSelect={onSelectChat}
                             onDelete={onDeleteChat}
+                            canDelete={canDeleteChat(chat.id)}
                         />
                     ))}
                 </ul>
