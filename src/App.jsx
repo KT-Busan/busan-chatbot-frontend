@@ -33,6 +33,20 @@ function App() {
 
     const backendUrl = getBackendUrl();
 
+    const handleGoToHome = () => {
+        if (activeChatId && chats[activeChatId]) {
+            setChats(prevChats => ({
+                ...prevChats,
+                [activeChatId]: {
+                    ...prevChats[activeChatId],
+                    messages: [],
+                    isInitial: true,
+                    title: '새로운 대화'
+                }
+            }));
+        }
+    };
+
     useEffect(() => {
         console.log(`🚀 Backend URL: ${backendUrl}`);
     }, [backendUrl]);
@@ -249,6 +263,8 @@ function App() {
                 isCollapsed={isSidebarCollapsed}
                 isMobile={isMobile}
                 isVisible={sidebarVisible}
+                onToggleSidebar={toggleSidebar}
+                onGoToHome={handleGoToHome}
             />
 
             {/* 메인 채팅 영역 */}

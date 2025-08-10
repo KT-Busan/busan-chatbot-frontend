@@ -1,15 +1,59 @@
 /* 메인 메뉴 컨테이너 */
+.menu-toggle-container {
+    padding: 0 var(--chat-padding);
+    margin-top: 12px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-toggle-btn {
+    width: clamp(240px, 50%, 680px);
+    margin: 0 auto;
+    border: 1px solid transparent;
+    background: linear-gradient(var(--welcome-bg, #fff), var(--welcome-bg, #fff)) padding-box,
+    linear-gradient(135deg, #007bff 0%, #8e44ad 100%) border-box;
+    border-radius: 16px;
+    padding: 10px 14px;
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 4px 16px var(--shadow-light);
+    transition: filter var(--transition-normal),
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    margin-bottom: 12px;
+}
+
+.menu-toggle-btn > span {
+    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.menu-toggle-btn:hover {
+    filter: opacity(0.9);
+    box-shadow: 0 6px 18px var(--shadow-light);
+}
+
+.menu-toggle-btn:active {
+    transform: translateY(1px);
+}
+
 #main-menu-container {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
-    padding: 20px 16px 20px 30px;
+    padding: 20px var(--chat-padding);
     background: var(--input-bg);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
     transition: all var(--transition-normal);
-    justify-content: center;
 }
 
 .main-menu-btn {
@@ -62,11 +106,11 @@
 }
 
 .quick-replies-container {
-    padding: 10px 16px 10px 30px;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
+    padding: 10px var(--chat-padding);
     flex-shrink: 0;
     background: var(--input-bg);
     backdrop-filter: blur(10px);
@@ -264,6 +308,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     transition: color var(--transition-normal);
 }
@@ -276,6 +321,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     transition: color var(--transition-normal);
 }
