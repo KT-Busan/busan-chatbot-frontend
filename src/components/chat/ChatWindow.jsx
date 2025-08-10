@@ -4,6 +4,7 @@ import MessageBubble from './MessageBubble';
 import WelcomeScreen from './WelcomeScreen';
 import MainMenuButtons from '../ui/MainMenuButtons';
 import QuickLinks from '../ui/QuickLinks';
+import MenuToggle from '../ui/MenuToggle';
 import botProfileImage from '../../assets/bot-profile.png';
 
 function ChatWindow({
@@ -18,6 +19,7 @@ function ChatWindow({
                     }) {
     const chatContainerRef = useRef(null);
     const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleScroll = () => {
         const container = chatContainerRef.current;
@@ -29,7 +31,6 @@ function ChatWindow({
         setShowScrollToBottom(!isNearBottom && chat.messages.length > 0);
     };
 
-    // 맨 아래로 스크롤하는 함수
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTo({
@@ -71,15 +72,6 @@ function ChatWindow({
             {/* 메시지가 있을 때만 헤더 표시 */}
             {chat.messages.length > 0 && (
                 <header className="chat-header">
-                    <button
-                        className="hamburger-btn"
-                        onClick={onToggleSidebar}
-                        title={isSidebarCollapsed ? '사이드바 열기' : '사이드바 닫기'}
-                        aria-label={isSidebarCollapsed ? '사이드바 열기' : '사이드바 닫기'}
-                    >
-                        {isSidebarCollapsed ? '☰' : '✕'}
-                    </button>
-
                     <img src={botProfileImage} alt="Bot Profile" className="header-profile-pic"/>
                     <div className="header-title">
                         <strong>B-BOT</strong>
@@ -108,7 +100,7 @@ function ChatWindow({
             {/* 맨 아래로 스크롤 버튼 */}
             {showScrollToBottom && (
                 <button
-                    className="scroll-to-bottom-btn"
+                    className={`scroll-to-bottom-btn ${isMenuOpen ? 'menu-open' : 'menu-closed'}`}
                     onClick={scrollToBottom}
                     aria-label="맨 아래로 스크롤"
                     title="맨 아래로"
@@ -117,11 +109,16 @@ function ChatWindow({
                 </button>
             )}
 
-            {/* 메인 메뉴 버튼들 */}
-            <MainMenuButtons onButtonClick={handleButtonClick}/>
+            {/* 메뉴 토글 버튼 */}
+            <MenuToggle open={isMenuOpen} onToggle={() => setIsMenuOpen((v) => !v)}/>
 
-            {/* 하단 고정 외부 링크들 */}
-            <QuickLinks/>
+            {/* 토글로 제어되는 메뉴 그룹 */}
+            {isMenuOpen && (
+                <div id="main-menu-group">
+                    <MainMenuButtons onButtonClick={handleButtonClick}/>
+                    <QuickLinks/>
+                </div>
+            )}
 
             {/* 채팅 입력 컴포넌트 */}
             <ChatInput onSendMessage={onSendMessage} disabled={isThinking}/>

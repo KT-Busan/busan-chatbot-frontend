@@ -1,3 +1,11 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --chat-padding: clamp(16px, 4vw, 40px);
+}
+
 @font-face {
     font-family: 'Busan';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/Busan.woff2') format('woff2');
