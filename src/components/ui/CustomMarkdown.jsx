@@ -4,7 +4,6 @@ import BusanMap from '../map/BusanMap';
 import KeywordButtons from '../ui/KeywordButtons';
 import ProgramRegionButtons from '../ui/ProgramRegionButtons';
 import SpaceDetailSearch from '../ui/SpaceDetailSearch';
-import {removeMarker} from '../../utils/helpers';
 
 const CustomMarkdown = ({children, onButtonClick, spacesData, anonymousId}) => {
     if (!children) return null;

@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../../styles/components/space-detail-search.css';
 
 const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
-    // 기존 예약 기능 상태
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedCapacity, setSelectedCapacity] = useState('');
     const [selectedPurpose, setSelectedPurpose] = useState('');
@@ -11,7 +10,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
     const [searchResults, setSearchResults] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
 
-    // 상세 보기 기능 상태
     const [mode, setMode] = useState('reservation'); // 'reservation' 또는 'detail'
     const [spacesData, setSpacesData] = useState([]);
     const [filteredSpaces, setFilteredSpaces] = useState([]);
@@ -20,10 +18,8 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
     const [loading, setLoading] = useState(false);
     const [loadError, setLoadError] = useState(null);
 
-    // 랜덤 추천 상태 관리
     const [showRandomResult, setShowRandomResult] = useState(false);
 
-    // 지역을 가나다순으로 정렬
     const regions = [
         '강서구', '금정구', '기장군', '남구', '동구', '동래구', '부산진구', '북구',
         '사상구', '사하구', '서구', '수영구', '연제구', '영도구', '중구', '해운대구'
@@ -36,7 +32,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         {value: '상관없음', icon: '❓', label: '상관없음'}
     ];
 
-    // 목적을 가나다순으로 정렬
     const purposes = [
         {value: '교육/강연', icon: '🎤', label: '교육/강연'},
         {value: '문화/창작', icon: '🎨', label: '문화/창작'},
@@ -48,24 +43,20 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         {value: '휴식/놀이', icon: '🧘', label: '휴식/놀이'}
     ];
 
-    // 상세 모드일 때 데이터 로드
     useEffect(() => {
         if (mode === 'detail') {
             loadSpacesData();
         }
     }, [mode]);
 
-    // 상세 모드 검색 및 필터링
     useEffect(() => {
         if (mode === 'detail') {
             let filtered = spacesData;
 
-            // 지역 필터
             if (detailSelectedRegion !== '전체') {
                 filtered = filtered.filter(space => space.location === detailSelectedRegion);
             }
 
-            // 검색어 필터
             if (searchTerm) {
                 filtered = filtered.filter(space =>
                     (space.space_name && space.space_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -81,19 +72,16 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         const hostname = window.location.hostname;
         console.log('🔍 현재 호스트:', hostname);
 
-        // GitHub Pages 또는 배포 환경에서는 항상 Render 백엔드 사용
         if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
             console.log('🌐 GitHub Pages - Render 백엔드 사용');
             return 'https://b-bot-backend.onrender.com';
         }
 
-        // 로컬 개발 환경
         if (hostname === 'localhost' || hostname === '127.0.0.1') {
             console.log('🏠 로컬 개발 환경');
             return 'http://localhost:5001';
         }
 
-        // 기본값: 프로덕션 백엔드
         console.log('🌐 기본 프로덕션 환경');
         return 'https://b-bot-backend.onrender.com';
     };
@@ -106,7 +94,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             const backendUrl = getBackendUrl();
             console.log('🔗 백엔드 URL:', backendUrl);
 
-            // 백엔드 API 호출
             console.log('📡 백엔드 API 호출 시도...');
             const response = await axios.get(`${backendUrl}/api/spaces/busan-youth`, {
                 timeout: 15000
@@ -131,7 +118,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         }
     };
 
-    // 조건별 검색 기능
     const handleSearch = async () => {
         if (!selectedRegion && !selectedCapacity && !selectedPurpose) {
             alert('지역, 인원, 이용 목적 중 하나는 반드시 선택해주세요.');
@@ -229,7 +215,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         }
     };
 
-    // 랜덤 추천 기능
     const handleRandomRecommendation = async () => {
         setIsSearching(true);
 
@@ -295,7 +280,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         setShowRandomResult(false);
     };
 
-    // 상세 정보 포맷팅
     const formatSpaceDetail = (space) => {
         const parent_facility = space.parent_facility || '정보없음';
         const space_name = space.space_name || '정보없음';
@@ -304,7 +288,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
         const eligibility = space.eligibility || '정보없음';
         const features = space.features || '정보없음';
 
-        // 링크 처리 개선
         let link_url = '정보없음';
         if (space.link) {
             if (Array.isArray(space.link)) {
@@ -314,7 +297,6 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             }
         }
 
-        // 인원 정보 포맷팅
         let capacity_info = "인원 제한 없음";
         if (space.capacity_min && space.capacity_max) {
             capacity_info = `최소 ${space.capacity_min}명 ~ 최대 ${space.capacity_max}명`;
@@ -324,29 +306,40 @@ const SpaceDetailSearch = ({onButtonClick, anonymousId}) => {
             capacity_info = `최소 ${space.capacity_min}명`;
         }
 
-        return `**🏢 ${parent_facility} – ${space_name}**
+        let result = `🏢 ${parent_facility} - ${space_name}\n\n`;
 
-${introduction}
+        result += `${introduction}\n\n`;
 
-• 📍 **위치:** ${location}
-• 👥 **인원:** ${capacity_info}
-• **지원 대상:** ${eligibility}
-• 🧰 **특징:** ${features}
-${link_url !== '정보없음' ? `• 🔗 **링크:** ${link_url}` : ''}
+        result += `\u00A0\u00A0📍 위치 : `;
+        result += `${location}\n`;
 
----
+        result += `\u00A0\u00A0👥 인원 : `;
+        result += `${capacity_info}\n`;
 
-💡 **사용 가능한 키워드:**
-${space.keywords ? space.keywords.join(', ') : '정보없음'}`;
+        result += `\u00A0\u00A0🎯 지원 대상 : `;
+        result += `${eligibility}\n`;
+
+        result += `\u00A0\u00A0🧰 특징 : `;
+        result += `${features}\n`;
+
+        if (link_url !== '정보없음') {
+            result += `\u00A0\u00A0🔗 링크 : `;
+            result += `[자세히 보기](${link_url})\n`;
+        }
+
+        if (space.keywords && space.keywords.length > 0) {
+            result += `\u00A0\u00A0🏷️ 사용 가능한 키워드 : `;
+            result += `${space.keywords.join(', ')}\n`;
+        }
+
+        return result;
     };
 
-    // 공간 클릭 시 봇 응답만 표시
     const handleSpaceClick = (space) => {
         const detailMessage = formatSpaceDetail(space);
         onButtonClick('__BOT_RESPONSE__' + detailMessage);
     };
 
-    // 지역 목록 생성 - 전체를 맨 위에 고정하고 나머지는 가나다순 정렬
     const sortedDetailRegions = mode === 'detail' ?
         ['전체', ...Array.from(new Set(spacesData.map(space => space.location))).sort((a, b) => a.localeCompare(b, 'ko'))] : [];
 
