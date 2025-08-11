@@ -82,7 +82,6 @@ function App() {
     };
 
     const createNewChat = (currentChats = chats) => {
-        // 이미 빈 채팅이 있으면 그 채팅으로 이동
         const existingEmptyChat = findEmptyChat(currentChats);
         if (existingEmptyChat) {
             setActiveChatId(existingEmptyChat.id);
