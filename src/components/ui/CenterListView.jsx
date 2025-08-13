@@ -90,7 +90,6 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
 
     const handleCenterClick = (centerName) => {
         const message = `${centerName} 상세보기`;
-        console.log(`📤 센터 클릭: "${message}"`);
         onButtonClick(message, false);
     };
 
