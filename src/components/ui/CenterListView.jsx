@@ -31,16 +31,38 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
         try {
             const backendUrl = getBackendUrl();
 
-            const [centersResponse, keywordResponse] = await Promise.all([
-                axios.get(`${backendUrl}/api/spaces/cache-data`, {timeout: 15000}),
-                axios.get(`${backendUrl}/api/spaces/keyword-data`, {timeout: 15000})
-            ]);
+            let centersResponse = null;
+            let keywordResponse = null;
+            let retries = 3;
 
-            if (centersResponse.data && centersResponse.data.success &&
-                keywordResponse.data && keywordResponse.data.success) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    console.log(`📡 API 호출 시도 ${i + 1}/${retries}`);
 
+                    const responses = await Promise.all([
+                        axios.get(`${backendUrl}/api/spaces/cache-data`, {timeout: 15000}),
+                        axios.get(`${backendUrl}/api/spaces/keyword-data`, {timeout: 15000})
+                    ]);
+
+                    centersResponse = responses[0];
+                    keywordResponse = responses[1];
+
+                    console.log(`✅ API 호출 성공 (시도 ${i + 1})`);
+                    break;
+
+                } catch (apiError) {
+                    console.error(`❌ API 호출 실패 (시도 ${i + 1}):`, apiError);
+                    if (i === retries - 1) throw apiError;
+
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+
+            if (centersResponse?.data?.success && keywordResponse?.data?.success) {
                 const centers = centersResponse.data.data || [];
                 const keywords = keywordResponse.data.data || [];
+
+                console.log(`📊 로드된 데이터: 센터 ${centers.length}개, 키워드 ${keywords.length}개`);
 
                 const mergedCenters = centers.map(center => {
                     const keywordInfo = keywords.find(k => k.parent_facility === center.name);
@@ -54,7 +76,7 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
                 setCentersData(mergedCenters);
                 console.log(`✅ ${mergedCenters.length}개 센터 데이터 로드 성공`);
             } else {
-                throw new Error('센터 데이터 형식 오류');
+                throw new Error('센터 데이터 형식 오류 또는 API 응답 실패');
             }
 
         } catch (error) {
@@ -68,6 +90,7 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
 
     const handleCenterClick = (centerName) => {
         const message = `${centerName} 상세보기`;
+        console.log(`📤 센터 클릭: "${message}"`);
         onButtonClick(message, false);
     };
 
