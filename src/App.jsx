@@ -20,6 +20,7 @@ import './styles/components/ui.css';
 import './styles/components/map.css';
 import './styles/components/space-detail-search.css';
 import './styles/responsive.css';
+import './styles/components/center-cards.css';
 
 function App() {
     const [chats, setChats] = useState({});
@@ -198,13 +199,13 @@ function App() {
         try {
             let botReply = '';
 
-            if (messageText === '행정구역별 확인하기') {
+            if (messageText === '33개 센터 전체보기') {
+                botReply = `[CENTER_LIST_VIEW]`;
+            } else if (messageText === '지역별 센터찾기') {
                 botReply = `[REGION_MAP]`;
-            } else if (messageText === '키워드별 확인하기') {
-                botReply = `[KEYWORD_BUTTONS]`;
-            } else if (messageText === '청년 공간 상세') {
-                botReply = `[SPACE_DETAIL_SEARCH]`;
-            } else if (messageText === '청년 공간 프로그램 확인하기') {
+            } else if (messageText === '조건별 대여공간 검색') {
+                botReply = `[SPACE_CONDITION_SEARCH]`;
+            } else if (messageText === '청년공간 프로그램') {
                 botReply = `[PROGRAM_REGIONS]`;
             } else if (['📝스터디/회의', '🎤교육/강연', '👥커뮤니티', '🚀진로/창업', '🎨문화/창작', '🛠작업/창작실', '🧘휴식/놀이', '🎪행사/이벤트'].includes(messageText)) {
                 const response = await axios.post(`${backendUrl}/api/chat`, {
