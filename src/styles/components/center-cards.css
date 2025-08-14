@@ -372,7 +372,18 @@
 
     .center-card,
     .rental-space-card {
-        padding: 16px;
+        padding: 8px !important;
+        min-height: 60px !important;
+    }
+
+    .center-name,
+    .space-name {
+        font-size: 11px !important;
+    }
+
+    .center-introduction,
+    .space-intro {
+        font-size: 9px !important;
     }
 
     .center-card-header,

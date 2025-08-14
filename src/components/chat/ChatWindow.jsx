@@ -21,6 +21,10 @@ function ChatWindow({
     const [showScrollToBottom, setShowScrollToBottom] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    const handleMenuToggle = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     const handleScroll = () => {
         const container = chatContainerRef.current;
         if (!container) return;
@@ -64,6 +68,10 @@ function ChatWindow({
             onSendMessage(botResponse, true);
         } else {
             onSendMessage(text);
+        }
+
+        if (isMobile) {
+            setIsMenuOpen(false);
         }
     };
 
@@ -109,15 +117,24 @@ function ChatWindow({
                 </button>
             )}
 
-            {/* 메뉴 토글 버튼 */}
-            <MenuToggle open={isMenuOpen} onToggle={() => setIsMenuOpen((v) => !v)}/>
+            {/* 메뉴 토글 버튼 - 메뉴 상태에 따라 위치 변경 */}
+            <div className={`menu-toggle-container ${isMenuOpen ? 'menu-open' : ''}`}>
+                <MenuToggle open={isMenuOpen} onToggle={handleMenuToggle}/>
+            </div>
 
             {/* 토글로 제어되는 메뉴 그룹 */}
             {isMenuOpen && (
-                <div id="main-menu-group">
-                    <MainMenuButtons onButtonClick={handleButtonClick}/>
-                    <QuickLinks/>
-                </div>
+                <>
+                    {/* 메인 메뉴 버튼들 */}
+                    <div id="main-menu-container">
+                        <MainMenuButtons onButtonClick={handleButtonClick}/>
+                    </div>
+
+                    {/* 서브 메뉴 (바로가기) */}
+                    <div className="quick-replies-container">
+                        <QuickLinks onButtonClick={handleButtonClick}/>
+                    </div>
+                </>
             )}
 
             {/* 채팅 입력 컴포넌트 */}

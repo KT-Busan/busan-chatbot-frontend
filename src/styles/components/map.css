@@ -369,9 +369,17 @@
         flex-wrap: wrap;
     }
 
-    .regions-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 4px;
+    .regions-grid-4x4,
+    .program-regions-grid-4x4 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 4px !important;
+    }
+
+    .region-program-button,
+    .program-region-button {
+        padding: 6px 4px !important;
+        font-size: 9px !important;
+        min-height: 32px !important;
     }
 
     .region-button {
@@ -401,18 +409,13 @@
     }
 
     .keyword-button {
-        padding: 12px 8px;
-        min-height: 50px;
-        font-size: 0.8em;
+        padding: 8px 6px !important;
+        font-size: 9px !important;
+        min-height: 36px !important;
     }
 
     .program-region-section {
         padding: 20px;
-    }
-
-    .program-regions-grid-4x4 {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
     }
 
     .program-region-button {

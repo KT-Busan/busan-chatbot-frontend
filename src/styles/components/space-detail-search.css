@@ -1094,3 +1094,33 @@
         line-height: 1.4;
     }
 }
+
+@media (max-width: 768px) {
+    .sub-button {
+        padding: 4px 6px !important;
+        font-size: 9px !important;
+        min-height: 24px !important;
+    }
+
+    .link-card {
+        margin: 6px 0 !important;
+    }
+
+    .link-card-image {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .link-card-content {
+        padding: 6px 8px !important;
+        min-height: 50px !important;
+    }
+
+    .link-card-title {
+        font-size: 11px !important;
+    }
+
+    .link-card-description {
+        font-size: 9px !important;
+    }
+}
