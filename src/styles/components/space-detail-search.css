@@ -852,23 +852,33 @@
 
 @media (max-width: 768px) {
     .space-detail-search {
-        padding: 20px;
+        padding: 8px !important;
+        margin: 6px 0 !important;
     }
 
     .search-filters-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 6px !important;
+    }
+
+    .search-header h3 {
+        font-size: 12px !important;
+    }
+
+    .search-header p {
+        font-size: 9px !important;
     }
 
     .filter-select {
-        min-width: unset;
-        width: 100%;
+        padding: 6px 8px !important;
+        font-size: 10px !important;
+        min-width: 80px !important;
     }
 
     .search-detail-btn,
     .random-recommend-btn-main {
-        width: 100%;
-        padding: 15px 20px;
+        padding: 6px 10px !important;
+        font-size: 9px !important;
+        min-height: 28px !important;
     }
 
     .recommendation-section {
@@ -881,10 +891,11 @@
     }
 
     .random-recommend-btn,
-    .new-search-btn {
-        width: 100%;
-        margin: 0;
-        outline: none;
+    .new-search-btn,
+    .additional-random-btn {
+        padding: 4px 8px !important;
+        font-size: 8px !important;
+        min-height: 24px !important;
     }
 
     .additional-random-section > div,
@@ -895,7 +906,6 @@
         justify-content: center !important;
     }
 
-    .additional-random-btn,
     .additional-random-section .new-search-btn {
         width: auto !important;
         margin: 0 !important;
@@ -1097,9 +1107,10 @@
 
 @media (max-width: 768px) {
     .sub-button {
-        padding: 4px 6px !important;
-        font-size: 9px !important;
-        min-height: 24px !important;
+        padding: 2px 4px !important;
+        font-size: 8px !important;
+        min-height: 20px !important;
+        border-radius: 10px !important;
     }
 
     .link-card {

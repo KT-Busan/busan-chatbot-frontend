@@ -20,6 +20,47 @@ function ChatWindow({
     const chatContainerRef = useRef(null);
     const [showScrollToBottom, setShowScrollToBottom] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+    useEffect(() => {
+        if (!isMobile) return;
+
+        const handleResize = () => {
+            const heightDiff = window.innerHeight - document.documentElement.clientHeight;
+            setIsKeyboardVisible(heightDiff > 150);
+        };
+
+        const handleVisualViewportChange = () => {
+            if (window.visualViewport) {
+                const heightDiff = window.innerHeight - window.visualViewport.height;
+                setIsKeyboardVisible(heightDiff > 150);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleVisualViewportChange);
+        }
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleVisualViewportChange);
+            }
+        };
+    }, [isMobile]);
+
+    useEffect(() => {
+        if (isKeyboardVisible) {
+            document.body.classList.add('keyboard-visible');
+        } else {
+            document.body.classList.remove('keyboard-visible');
+        }
+
+        return () => {
+            document.body.classList.remove('keyboard-visible');
+        };
+    }, [isKeyboardVisible]);
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -117,7 +158,7 @@ function ChatWindow({
                 </button>
             )}
 
-            {/* 메뉴 토글 버튼 - 메뉴 상태에 따라 위치 변경 */}
+            {/* 메뉴 토글 버튼 */}
             <div className={`menu-toggle-container ${isMenuOpen ? 'menu-open' : ''}`}>
                 <MenuToggle open={isMenuOpen} onToggle={handleMenuToggle}/>
             </div>
