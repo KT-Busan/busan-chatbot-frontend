@@ -143,6 +143,7 @@
     font-size: 2.8em;
     font-weight: 800;
     margin-bottom: var(--spacing-sm);
+    margin-left: 60px;
 }
 
 .welcome-screen span.gradient-text {
@@ -460,27 +461,24 @@
 
 @media (max-width: 768px) {
     .scroll-to-bottom-btn {
-        bottom: 200px !important;
-        width: 24px !important;
-        height: 24px !important;
-        font-size: 10px !important;
+        bottom: 250px !important;
         z-index: 106 !important;
     }
 
     .scroll-to-bottom-btn.menu-closed {
-        bottom: 140px;
-    }
-
-    .scroll-to-bottom-btn.menu-open {
         bottom: 180px !important;
     }
 
+    .scroll-to-bottom-btn.menu-open {
+        bottom: 250px !important;
+    }
+
     .keyboard-visible .scroll-to-bottom-btn {
-        bottom: calc(env(keyboard-height, 0px) + 200px) !important;
+        bottom: 250px !important;
     }
 
     .keyboard-visible .scroll-to-bottom-btn.menu-open {
-        bottom: calc(env(keyboard-height, 0px) + 180px) !important;
+        bottom: 250px !important;
     }
 }
 
@@ -563,6 +561,7 @@
         background: var(--input-bg) !important;
         backdrop-filter: blur(10px) !important;
         border-top: 1px solid var(--border-color) !important;
+        transition: bottom 0.3s ease !important;
     }
 
     .chat-messages {

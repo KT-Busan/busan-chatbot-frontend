@@ -425,15 +425,15 @@
     }
 
     .quick-reply-link {
-        padding: 3px 5px !important;
-        font-size: 9px !important;
+        padding: 6px 10px !important;
+        font-size: 10px !important;
         white-space: nowrap !important;
-        flex-shrink: 1 !important;
+        flex-shrink: 0 !important;
         min-width: 0 !important;
     }
 
     .quick-reply-link .gradient-text {
-        font-size: 9px !important;
+        font-size: 10px !important;
     }
 
     .menu-toggle-container {
@@ -460,7 +460,9 @@
     }
 
     .chat-messages {
-        padding-bottom: 260px;
+        padding-bottom: 220px !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
     }
 }
 
@@ -479,63 +481,64 @@
     }
 
     .keyboard-visible .chat-input-container {
-        bottom: env(keyboard-height, 0px) !important;
+        bottom: 0 !important;
     }
 
     .menu-toggle-container {
         position: fixed !important;
-        bottom: 80px !important;
+        bottom: 70px !important;
         left: 0 !important;
         right: 0 !important;
         z-index: 104 !important;
-        padding: 4px 12px !important;
-        background: var(--input-bg) !important;
-        backdrop-filter: blur(10px) !important;
-        border-top: 1px solid var(--border-color) !important;
+        padding: 8px 16px !important;
+        background: transparent !important;
         transition: bottom 0.3s ease !important;
+        border: none !important;
     }
 
     .menu-toggle-container.menu-open {
-        bottom: 160px !important;
+        bottom: 70px !important;
     }
 
     .keyboard-visible .menu-toggle-container {
-        bottom: calc(env(keyboard-height, 0px) + 80px) !important;
+        bottom: 70px !important;
     }
 
     .keyboard-visible .menu-toggle-container.menu-open {
-        bottom: calc(env(keyboard-height, 0px) + 160px) !important;
+        bottom: 70px !important;;
     }
 
     .menu-toggle-btn {
-        width: clamp(160px, 60%, 280px) !important;
-        padding: 6px 8px !important;
-        font-size: 10px !important;
+        width: clamp(200px, 80%, 400px) !important;
+        padding: 8px 12px !important;
+        font-size: 13px !important;
         margin: 0 auto !important;
         display: block !important;
+        border: 1px solid var(--border-color) !important;
+        background: var(--input-bg) !important;
+        backdrop-filter: blur(10px) !important;
     }
 
     .quick-replies-container {
         position: fixed !important;
-        bottom: 120px !important;
+        bottom: 110px !important;
         left: 0 !important;
         right: 0 !important;
         z-index: 103 !important;
         background: var(--input-bg) !important;
         backdrop-filter: blur(10px) !important;
         border-top: 1px solid var(--border-color) !important;
-        padding: 4px 8px !important;
+        padding: 6px 12px !important;
         display: flex !important;
         justify-content: center !important;
         flex-wrap: nowrap !important;
-        gap: 3px !important;
-        overflow: visible !important;
-        white-space: nowrap !important;
+        gap: 6px !important;
+        overflow-x: auto !important;
         transition: bottom 0.3s ease !important;
     }
 
     .keyboard-visible .quick-replies-container {
-        bottom: calc(env(keyboard-height, 0px) + 120px) !important;
+        bottom: 110px !important;
     }
 
     .quick-reply-link {
@@ -552,22 +555,22 @@
 
     #main-menu-container {
         position: fixed !important;
-        bottom: 120px !important;
+        bottom: 150px !important;
         left: 0 !important;
         right: 0 !important;
         z-index: 102 !important;
         background: var(--input-bg) !important;
         backdrop-filter: blur(10px) !important;
         border-top: 1px solid var(--border-color) !important;
-        padding: 4px 6px !important;
+        padding: 8px 12px !important;
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 3px !important;
+        gap: 6px !important;
         transition: bottom 0.3s ease !important;
     }
 
     .keyboard-visible #main-menu-container {
-        bottom: calc(env(keyboard-height, 0px) + 120px) !important;
+        bottom: 150px !important;
     }
 
     .main-menu-btn {
@@ -586,6 +589,6 @@
     }
 
     .keyboard-visible .chat-messages {
-        padding-bottom: calc(env(keyboard-height, 0px) + 180px) !important;
+        padding-bottom: 220px !important;
     }
 }
