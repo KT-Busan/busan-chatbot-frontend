@@ -542,3 +542,39 @@
         height: 40px;
     }
 }
+
+@media (max-width: 768px) {
+    .chat-input-container {
+        padding: 8px 12px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--input-bg);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid var(--border-color);
+        z-index: 100;
+    }
+
+    .chat-messages {
+        padding-bottom: 80px;
+    }
+
+    .menu-toggle-container {
+        position: fixed;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        z-index: 101;
+        padding: 8px 16px;
+        background: transparent;
+    }
+
+    .menu-toggle-btn {
+        width: clamp(200px, 80%, 400px);
+        padding: 8px 12px;
+        font-size: 13px;
+        margin: 0 auto;
+        display: block;
+    }
+}
