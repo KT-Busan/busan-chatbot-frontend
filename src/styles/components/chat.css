@@ -315,7 +315,6 @@
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
     transition: all var(--transition-normal);
-    margin-left: 8px;
 }
 
 .chat-input-form {
@@ -398,7 +397,7 @@
 
 .scroll-to-bottom-btn {
     position: absolute;
-    bottom: 280px;
+    bottom: 300px;
     left: 50%;
     transform: translateX(-50%);
     width: 40px;
@@ -453,19 +452,27 @@
 
 @media (max-width: 768px) {
     .scroll-to-bottom-btn {
-        bottom: 260px;
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
+        bottom: 140px;
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+
+    .scroll-to-bottom-btn.menu-closed {
+        bottom: 140px;
+    }
+
+    .scroll-to-bottom-btn.menu-open {
+        bottom: 180px;
     }
 }
 
 .scroll-to-bottom-btn.menu-closed {
-    bottom: 140px;
+    bottom: 170px;
 }
 
 .scroll-to-bottom-btn.menu-open {
-    bottom: 290px;
+    bottom: 320px;
 }
 
 .menu-toggle-btn:hover {
@@ -491,12 +498,47 @@
     box-shadow: 0 4px 16px var(--shadow-light);
 }
 
+.chat-warning {
+    text-align: center;
+    margin-top: 8px;
+}
+
+.chat-warning p {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+}
+
 @media (max-width: 768px) {
-    .scroll-to-bottom-btn.menu-closed {
-        bottom: 120px;
+    .message {
+        padding: 0 12px;
+        margin-bottom: 12px;
     }
 
-    .scroll-to-bottom-btn.menu-open {
-        bottom: 230px;
+    .message-bubble {
+        max-width: 85%;
+        padding: 10px 12px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .user-message .message-bubble {
+        margin-left: 8px;
+    }
+
+    .bot-message .message-bubble {
+        margin-right: 8px;
+    }
+
+    .message-profile-pic {
+        width: 28px;
+        height: 28px;
+        margin: 0 6px;
+    }
+
+    .header-profile-pic {
+        width: 40px;
+        height: 40px;
     }
 }

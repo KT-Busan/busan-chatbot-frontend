@@ -35,9 +35,10 @@ function Sidebar({
 
     const sidebarClasses = classNames(
         'sidebar',
-        isCollapsed && 'collapsed',
+        isCollapsed && !isMobile && 'collapsed',
         isMobile && 'mobile',
-        !isVisible && 'hidden'
+        isMobile && !isVisible && 'hidden',
+        isMobile && isVisible && 'show'
     );
 
     return (
@@ -71,18 +72,20 @@ function Sidebar({
                         {isDarkMode ? '☀️' : '🌙'}
                     </button>
 
-                    {/* 사이드바 닫기 버튼 */}
-                    <button
-                        className="sidebar-close-btn"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onToggleSidebar();
-                        }}
-                        title="사이드바 닫기"
-                        aria-label="사이드바 닫기"
-                    >
-                        ☰
-                    </button>
+                    {/* 사이드바 닫기 버튼 - 모바일에서만 표시 */}
+                    {isMobile && (
+                        <button
+                            className="sidebar-close-btn"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onToggleSidebar();
+                            }}
+                            title="사이드바 닫기"
+                            aria-label="사이드바 닫기"
+                        >
+                            ✕
+                        </button>
+                    )}
                 </div>
 
                 {/* 새 채팅 시작 버튼 */}
@@ -95,7 +98,9 @@ function Sidebar({
                     title="새 채팅 시작하기"
                 >
                     <span className="new-chat-icon">✚</span>
-                    <span className="new-chat-text">새 채팅 시작하기</span>
+                    {(!isCollapsed || isMobile) && (
+                        <span className="new-chat-text">새 채팅 시작하기</span>
+                    )}
                 </button>
             </div>
 
@@ -104,20 +109,22 @@ function Sidebar({
 
             {/* 채팅 목록 영역 */}
             <nav className="chat-history">
-                <ul>
-                    {chats.map((chat) => (
-                        <ChatHistoryItem
-                            key={chat.id}
-                            chat={chat}
-                            isActive={chat.id === activeChatId}
-                            isCollapsed={isCollapsed}
-                            isMobile={isMobile}
-                            onSelect={onSelectChat}
-                            onDelete={onDeleteChat}
-                            canDelete={canDeleteChat(chat.id)}
-                        />
-                    ))}
-                </ul>
+                {(!isCollapsed || isMobile) && (
+                    <ul>
+                        {chats.map((chat) => (
+                            <ChatHistoryItem
+                                key={chat.id}
+                                chat={chat}
+                                isActive={chat.id === activeChatId}
+                                isCollapsed={isCollapsed}
+                                isMobile={isMobile}
+                                onSelect={onSelectChat}
+                                onDelete={onDeleteChat}
+                                canDelete={canDeleteChat(chat.id)}
+                            />
+                        ))}
+                    </ul>
+                )}
             </nav>
         </aside>
     );
