@@ -33,9 +33,14 @@ function ChatInput({onSendMessage, disabled = false}) {
                     className={`send-button ${disabled ? 'disabled' : ''}`}
                     disabled={disabled}
                 >
-                    {disabled ? '생각 중...' : '전송'} {/* 상태에 따른 버튼 텍스트 변경 */}
+                    {disabled ? '생각 중...' : '전송'}
                 </button>
             </form>
+
+            {/* 경고 문구 */}
+            <div className="chat-warning">
+                <p>B-BOT은 실수를 할 수 있습니다. 응답을 다시 한 번 확인해주세요.</p>
+            </div>
         </div>
     );
 }

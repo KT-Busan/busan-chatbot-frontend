@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Sidebar from './components/sidebar/Sidebar';
 import ChatWindow from './components/chat/ChatWindow';
+import MobileHamburger from './components/ui/MobileHamburger';
 import {useDarkMode} from './hooks/useDarkMode';
 import {useSidebarState} from './hooks/useSidebarState';
 import {
@@ -33,6 +34,12 @@ function App() {
     const {isSidebarCollapsed, setIsSidebarCollapsed, isMobile, toggleSidebar} = useSidebarState();
 
     const backendUrl = getBackendUrl();
+
+    useEffect(() => {
+        if (isMobile) {
+            setIsSidebarCollapsed(true);
+        }
+    }, [isMobile, setIsSidebarCollapsed]);
 
     const handleGoToHome = () => {
         if (activeChatId && chats[activeChatId]) {
@@ -143,6 +150,10 @@ function App() {
         if (isMobile) {
             setIsSidebarCollapsed(true);
         }
+    };
+
+    const handleMobileMenuToggle = () => {
+        setIsSidebarCollapsed(!isSidebarCollapsed);
     };
 
     const handleSendMessage = async (messageText, isBotResponseOnly = false) => {
@@ -268,6 +279,14 @@ function App() {
 
     return (
         <div className="app-container">
+            {/* 모바일 햄버거 버튼 */}
+            {isMobile && (
+                <MobileHamburger
+                    onClick={handleMobileMenuToggle}
+                    isVisible={isSidebarCollapsed}
+                />
+            )}
+
             {/* 모바일 환경에서 사이드바가 열려 있을 때 배경 오버레이 */}
             {isMobile && !isSidebarCollapsed && (
                 <div
@@ -296,7 +315,7 @@ function App() {
             {/* 메인 채팅 영역 */}
             <main className={classNames(
                 'chat-main',
-                isSidebarCollapsed && 'sidebar-collapsed'
+                isSidebarCollapsed && !isMobile && 'sidebar-collapsed'
             )}>
                 {activeChat ? (
                     <ChatWindow
