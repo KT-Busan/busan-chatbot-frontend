@@ -384,13 +384,14 @@
 @media (max-width: 768px) {
     #main-menu-container {
         position: fixed !important;
-        bottom: 150px !important;
+        bottom: 70px !important;
         left: 0 !important;
         right: 0 !important;
         z-index: 102 !important;
-        background: var(--input-bg) !important;
+        background: var(--welcome-bg) !important;
         backdrop-filter: blur(10px) !important;
         border-top: 1px solid var(--border-color) !important;
+        border-bottom: none !important;
         padding: 5px 8px !important;
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -417,25 +418,33 @@
         padding: 6px 10px !important;
         background: var(--input-bg) !important;
         backdrop-filter: blur(10px) !important;
-        border-top: 1px solid var(--border-color) !important;
+        border-top: none !important;
         transition: bottom 0.3s ease !important;
+        height: 110px !important;
+    }
+
+    .chat-messages {
+        padding-bottom: 250px !important;
+        padding-left: 6px !important;
+        padding-right: 6px !important;
     }
 
     .quick-replies-container {
         position: fixed !important;
-        bottom: 110px !important;
+        bottom: 55px !important;
         left: 0 !important;
         right: 0 !important;
         z-index: 103 !important;
-        background: var(--input-bg) !important;
+        background: var(--welcome-bg) !important;
         backdrop-filter: blur(10px) !important;
+        border-top: none !important;
         border-top: 1px solid var(--border-color) !important;
         padding: 3px 5px !important;
         display: flex !important;
         justify-content: center !important;
         flex-wrap: wrap !important;
         gap: 4px !important;
-        max-height: 40px !important;
+        max-height: 45px !important;
         overflow: visible !important;
         transition: bottom 0.3s ease !important;
     }
@@ -454,7 +463,6 @@
 
     .menu-toggle-container {
         position: fixed !important;
-        bottom: 70px !important;
         left: 0 !important;
         right: 0 !important;
         z-index: 104 !important;
@@ -464,8 +472,12 @@
         border: none !important;
     }
 
+    .menu-toggle-container:not(.menu-open) {
+        bottom: 120px !important;
+    }
+
     .menu-toggle-container.menu-open {
-        bottom: 70px !important;
+        bottom: 270px !important;
     }
 
     .menu-toggle-btn {
@@ -492,18 +504,24 @@
     .keyboard-visible .chat-input-container {
         bottom: 0 !important;
     }
+
     .keyboard-visible .menu-toggle-container {
-        bottom: 70px !important;
+        bottom: 300px !important;
     }
 
     .keyboard-visible .menu-toggle-container.menu-open {
-        bottom: 70px !important;;
+        bottom: 300px !important;;
     }
 
     .keyboard-visible .quick-replies-container {
         bottom: 110px !important;
     }
+
     .keyboard-visible .chat-messages {
-        padding-bottom: 220px !important;
+        padding-bottom: 270px !important;
+    }
+
+    .keyboard-visible .scroll-to-bottom-btn {
+        bottom: 280px !important;
     }
 }

@@ -73,7 +73,7 @@
     }
 
     .chat-input-container {
-        padding: 8px 12px;
+        padding: 6px 10px;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -330,83 +330,74 @@
     }
 }
 
-@media (max-width: 375px) {
-    .quick-reply-link {
-        padding: 10px var(--spacing-lg);
-        width: 100%;
-        box-sizing: border-box;
-    }
+/*@media (max-width: 375px) {*/
+/*    .quick-reply-link {*/
+/*        padding: 10px var(--spacing-lg);*/
+/*        width: 100%;*/
+/*        box-sizing: border-box;*/
+/*    }*/
 
-    .quick-reply-link .gradient-text {
-        font-size: var(--font-size-sm);
-    }
+/*    .quick-reply-link .gradient-text {*/
+/*        font-size: var(--font-size-sm);*/
+/*    }*/
 
-    .sub-button {
-        padding: 6px var(--spacing-sm);
-        font-size: 0.7em;
-        min-height: 28px;
-    }
+/*    .sub-button {*/
+/*        padding: 6px var(--spacing-sm);*/
+/*        font-size: 0.7em;*/
+/*        min-height: 28px;*/
+/*    }*/
 
-    .regions-grid-4x4 {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-xs);
-    }
+/*    .regions-grid-4x4 {*/
+/*        grid-template-columns: repeat(2, 1fr);*/
+/*        gap: var(--spacing-xs);*/
+/*    }*/
 
-    .region-program-button {
-        padding: var(--spacing-sm) var(--spacing-xs);
-        font-size: var(--font-size-xs);
-        min-height: 40px;
-    }
+/*    .region-program-button {*/
+/*        padding: var(--spacing-sm) var(--spacing-xs);*/
+/*        font-size: var(--font-size-xs);*/
+/*        min-height: 40px;*/
+/*    }*/
 
-    .busan-map-container {
-        padding: var(--spacing-md);
-    }
+/*    .busan-map-container {*/
+/*        padding: var(--spacing-md);*/
+/*    }*/
 
-    .map-header h3 {
-        font-size: var(--font-size-lg);
-    }
+/*    .map-header h3 {*/
+/*        font-size: var(--font-size-lg);*/
+/*    }*/
 
-    .map-header p {
-        font-size: var(--font-size-sm);
-    }
+/*    .map-header p {*/
+/*        font-size: var(--font-size-sm);*/
+/*    }*/
 
-    .regions-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 3px;
-    }
+/*    .regions-grid {*/
+/*        grid-template-columns: repeat(2, 1fr);*/
+/*        gap: 3px;*/
+/*    }*/
 
-    .region-button {
-        padding: 6px 3px;
-        min-height: 40px;
-    }
+/*    .region-button {*/
+/*        padding: 6px 3px;*/
+/*        min-height: 40px;*/
+/*    }*/
 
-    .region-button .region-name {
-        font-size: var(--font-size-xs);
-    }
+/*    .region-button .region-name {*/
+/*        font-size: var(--font-size-xs);*/
+/*    }*/
 
-    .region-button .region-count {
-        font-size: 0.65em;
-    }
+/*    .region-button .region-count {*/
+/*        font-size: 0.65em;*/
+/*    }*/
 
-    .map-legend {
-        gap: var(--spacing-sm);
-        padding: var(--spacing-sm);
-    }
+/*    .map-legend {*/
+/*        gap: var(--spacing-sm);*/
+/*        padding: var(--spacing-sm);*/
+/*    }*/
 
-    .legend-item {
-        font-size: var(--font-size-xs);
-    }
+/*    .legend-item {*/
+/*        font-size: var(--font-size-xs);*/
+/*    }*/
 
-    .region-name-text {
-        font-size: 8px !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .menu-toggle-btn {
-        width: clamp(200px, 80%, 400px);
-        padding: 8px 12px;
-        font-size: 13px;
-        margin-bottom: 8px;
-    }
-}
+/*    .region-name-text {*/
+/*        font-size: 8px !important;*/
+/*    }*/
+/*}*/

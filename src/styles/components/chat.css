@@ -467,7 +467,7 @@
         left: 0 !important;
         right: 0 !important;
         z-index: 105 !important;
-        padding: 6px 10px !important;
+        padding: 20px 10px !important;
         background: var(--input-bg) !important;
         backdrop-filter: blur(10px) !important;
         border-top: 1px solid var(--border-color) !important;
@@ -519,35 +519,17 @@
         font-size: 11px !important;
     }
 
-    .menu-toggle-btn {
-        width: clamp(200px, 80%, 400px);
-        padding: 8px 12px;
-        font-size: 13px;
-        margin: 0 auto;
-        display: block;
-    }
-
-    .menu-toggle-container {
-        position: fixed;
-        bottom: 80px;
-        left: 0;
-        right: 0;
-        z-index: 101;
-        padding: 8px 16px;
-        background: transparent;
-    }
-
     .scroll-to-bottom-btn {
         bottom: 250px !important;
         z-index: 106 !important;
     }
 
     .scroll-to-bottom-btn.menu-closed {
-        bottom: 180px !important;
+        bottom: 120px !important;
     }
 
     .scroll-to-bottom-btn.menu-open {
-        bottom: 250px !important;
+        bottom: 280px !important;
     }
 
     .keyboard-visible .scroll-to-bottom-btn {
