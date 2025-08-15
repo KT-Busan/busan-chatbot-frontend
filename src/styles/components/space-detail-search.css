@@ -1,4 +1,4 @@
-/* 청년 공간 상세 검색 컴포넌트 스타일 */
+/* 청년 공간 상세 검색 컴포넌트 스타일 space-detail-search.css */
 .space-detail-search {
     background: var(--welcome-bg);
     border-radius: 12px;
@@ -188,15 +188,6 @@
     color: var(--text-secondary);
     margin: 0;
     font-size: 0.9em;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
 }
 
 .search-results {
@@ -963,6 +954,74 @@
     .search-footer {
         padding-top: 12px;
     }
+
+    .spaces-grid-detail {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .space-card-detail {
+        padding: 16px;
+        min-height: 160px;
+    }
+
+    .space-card-detail-header {
+        margin-bottom: 12px;
+        gap: 8px;
+    }
+
+    .space-facility-name {
+        font-size: 1em;
+    }
+
+    .space-region-badge {
+        font-size: 0.7em;
+        padding: 3px 6px;
+        min-width: 40px;
+    }
+
+    .space-keywords-detail {
+        gap: 4px;
+        margin-bottom: 10px;
+    }
+
+    .keyword-tag-detail {
+        font-size: 0.7em;
+        padding: 3px 6px;
+    }
+
+    .space-intro-detail {
+        font-size: 0.8em;
+    }
+
+    .sub-button {
+        padding: 2px 4px !important;
+        font-size: 8px !important;
+        min-height: 20px !important;
+        border-radius: 10px !important;
+    }
+
+    .link-card {
+        margin: 6px 0 !important;
+    }
+
+    .link-card-image {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .link-card-content {
+        padding: 6px 8px !important;
+        min-height: 50px !important;
+    }
+
+    .link-card-title {
+        font-size: 11px !important;
+    }
+
+    .link-card-description {
+        font-size: 9px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1035,50 +1094,7 @@
         font-size: 0.65em;
         padding: 1px 4px;
     }
-}
 
-@media (max-width: 768px) {
-    .spaces-grid-detail {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .space-card-detail {
-        padding: 16px;
-        min-height: 160px;
-    }
-
-    .space-card-detail-header {
-        margin-bottom: 12px;
-        gap: 8px;
-    }
-
-    .space-facility-name {
-        font-size: 1em;
-    }
-
-    .space-region-badge {
-        font-size: 0.7em;
-        padding: 3px 6px;
-        min-width: 40px;
-    }
-
-    .space-keywords-detail {
-        gap: 4px;
-        margin-bottom: 10px;
-    }
-
-    .keyword-tag-detail {
-        font-size: 0.7em;
-        padding: 3px 6px;
-    }
-
-    .space-intro-detail {
-        font-size: 0.8em;
-    }
-}
-
-@media (max-width: 480px) {
     .space-card-detail {
         padding: 14px;
         min-height: 140px;
@@ -1105,33 +1121,11 @@
     }
 }
 
-@media (max-width: 768px) {
-    .sub-button {
-        padding: 2px 4px !important;
-        font-size: 8px !important;
-        min-height: 20px !important;
-        border-radius: 10px !important;
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
     }
-
-    .link-card {
-        margin: 6px 0 !important;
-    }
-
-    .link-card-image {
-        width: 50px !important;
-        height: 50px !important;
-    }
-
-    .link-card-content {
-        padding: 6px 8px !important;
-        min-height: 50px !important;
-    }
-
-    .link-card-title {
-        font-size: 11px !important;
-    }
-
-    .link-card-description {
-        font-size: 9px !important;
+    100% {
+        transform: rotate(360deg);
     }
 }

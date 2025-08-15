@@ -1,4 +1,4 @@
-/* 사이드바 기본 설정 */
+/* 사이드바 기본 설정 sidebar.css */
 .sidebar {
     position: fixed;
     top: 0;
@@ -141,14 +141,14 @@
     margin: 8px 0;
 }
 
+.sidebar.collapsed:not(.mobile) .chat-history {
+    display: none;
+}
+
 .chat-history {
     flex-grow: 1;
     overflow-y: auto;
     margin-top: 0;
-}
-
-.sidebar.collapsed:not(.mobile) .chat-history {
-    display: none;
 }
 
 .chat-history ul {
@@ -180,6 +180,28 @@
     color: white;
 }
 
+.chat-history-item:hover .delete-chat-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
+.chat-history::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-history::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-history::-webkit-scrollbar-thumb {
+    background: var(--sidebar-button-bg);
+    border-radius: 3px;
+}
+
+.chat-history::-webkit-scrollbar-thumb:hover {
+    background: var(--sidebar-button-hover);
+}
+
 .chat-title {
     white-space: nowrap;
     overflow: hidden;
@@ -208,11 +230,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.chat-history-item:hover .delete-chat-btn {
-    opacity: 1;
-    visibility: visible;
 }
 
 .delete-chat-btn:hover {
@@ -250,26 +267,7 @@
     .sidebar-divider {
         margin: 8px 0;
     }
-}
 
-.chat-history::-webkit-scrollbar {
-    width: 6px;
-}
-
-.chat-history::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.chat-history::-webkit-scrollbar-thumb {
-    background: var(--sidebar-button-bg);
-    border-radius: 3px;
-}
-
-.chat-history::-webkit-scrollbar-thumb:hover {
-    background: var(--sidebar-button-hover);
-}
-
-@media (max-width: 768px) {
     .sidebar.mobile.hidden {
         transform: translateX(-100%);
     }

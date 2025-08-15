@@ -1,4 +1,4 @@
-/* 부산 지도 컴포넌트 스타일 */
+/* 부산 지도 컴포넌트 스타일 map.css */
 .busan-map-container {
     background: var(--welcome-bg);
     border-radius: 16px;
@@ -11,6 +11,20 @@
 .busan-map-container.enlarged {
     padding: 35px;
     margin: 25px 0;
+}
+
+.busan-map-svg {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f0f8ff 0%, #e8f4fd 100%);
+    box-shadow: 0 4px 16px var(--shadow-light);
+}
+
+.busan-map-svg.enlarged {
+    max-width: 1000px;
+    min-height: 500px;
 }
 
 .map-header {
@@ -48,18 +62,8 @@
     margin-bottom: 20px;
 }
 
-.busan-map-svg {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #f0f8ff 0%, #e8f4fd 100%);
-    box-shadow: 0 4px 16px var(--shadow-light);
-}
-
-.busan-map-svg.enlarged {
-    max-width: 1000px;
-    min-height: 500px;
+.map-tooltip {
+    display: none;
 }
 
 .region-polygon {
@@ -72,6 +76,10 @@
     opacity: 1;
 }
 
+.region-polygon:hover + .region-name-text {
+    color: white;
+}
+
 .region-marker {
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     cursor: pointer;
@@ -82,21 +90,6 @@
     transition: all 0.2s ease;
     pointer-events: none;
     user-select: none;
-}
-
-.hover-tooltip {
-    pointer-events: none;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.space-count {
-    font-family: inherit;
-    transition: all 0.2s ease;
-    pointer-events: none;
-}
-
-.map-tooltip {
-    display: none;
 }
 
 .regions-grid {
@@ -128,27 +121,44 @@
     background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    color: white;
 }
 
 .region-button .region-name {
     font-size: 0.85em;
     font-weight: 600;
     margin-bottom: 2px;
-    color: inherit;
+    color: #2d3748;
+    opacity: 1;
 }
 
 .region-button .region-count {
     font-size: 0.75em;
     opacity: 0.8;
-    color: inherit;
+    color: #2d3748;
+    opacity: 1;
 }
 
 .region-button:hover .region-name,
-.region-button.hovered .region-name,
+.region-button.hovered .region-name {
+    color: white;
+}
+
 .region-button:hover .region-count,
 .region-button.hovered .region-count {
     color: white;
     opacity: 1;
+}
+
+.space-count {
+    font-family: inherit;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+.hover-tooltip {
+    pointer-events: none;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .keyword-section {
@@ -296,6 +306,19 @@
     color: white;
 }
 
+.welcome-map-section {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.welcome-screen .busan-map-container {
+    margin: 0;
+    background: rgba(248, 249, 255, 0.9);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 8px 32px var(--shadow-light);
+}
+
 [data-theme="dark"] .busan-map-svg {
     background: linear-gradient(135deg, #1e1e2e 0%, #252540 100%);
 }
@@ -311,19 +334,6 @@
 
 [data-theme="dark"] .map-instruction {
     background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
-}
-
-.welcome-map-section {
-    margin-top: 24px;
-    width: 100%;
-    max-width: 800px;
-}
-
-.welcome-screen .busan-map-container {
-    margin: 0;
-    background: rgba(248, 249, 255, 0.9);
-    border: 2px solid var(--border-color);
-    box-shadow: 0 8px 32px var(--shadow-light);
 }
 
 [data-theme="dark"] .welcome-screen .busan-map-container {
