@@ -188,7 +188,6 @@
     font-size: 2.8em;
     font-weight: 800;
     margin-bottom: var(--spacing-sm);
-    margin-left: 60px;
 }
 
 .welcome-screen span.gradient-text {
@@ -452,8 +451,11 @@
 @media (max-width: 768px) {
     .chat-messages {
         padding-bottom: 250px !important;
-        padding-left: 8px !important;
-        padding-right: 8px !important;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        overflow-x: hidden !important;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
 
     .chat-input {
@@ -489,29 +491,81 @@
     }
 
     .message {
-        padding: 0 12px;
+        padding: 0 4px;
         margin-bottom: 12px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .message-content {
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .message-profile-pic {
         width: 28px;
         height: 28px;
         margin: 0 6px;
+        flex-shrink: 0;
     }
 
-    .message-bubble {
-        max-width: 85%;
-        padding: 10px 12px;
-        font-size: 14px;
-        line-height: 1.4;
+    .message-bubble * {
+        max-width: 100%;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        box-sizing: border-box;
+    }
+
+    .message-bubble a,
+    .message-bubble span,
+    .message-bubble div {
+        max-width: 100%;
+        display: inline-block;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .user-message .message-content {
+        width: 100%;
+        max-width: 100%;
     }
 
     .user-message .message-bubble {
-        margin-left: 8px;
+        max-width: calc(100% - 50px) !important;
+        width: auto;
+        min-width: 0;
+        margin-left: 2px;
+        padding: 10px 10px;
+        font-size: 14px;
+        line-height: 1.4;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        box-sizing: border-box;
     }
 
     .bot-message .message-bubble {
-        margin-right: 8px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .bot-message .message-bubble {
+        background: var(--message-bot-bg);
+        color: var(--text-primary);
+        max-width: calc(100% - 30px) !important;
+        width: auto;
+        min-width: 0;
+        border: 1px solid var(--message-bot-border);
+        margin-right: 2px;
+        padding: 8px 8px;
+        font-size: 14px;
+        line-height: 1.4;
+        word-wrap: break-word;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        box-sizing: border-box;
     }
 
     .send-button {
@@ -520,16 +574,16 @@
     }
 
     .scroll-to-bottom-btn {
-        bottom: 250px !important;
+        bottom: 200px !important;
         z-index: 106 !important;
     }
 
     .scroll-to-bottom-btn.menu-closed {
-        bottom: 120px !important;
+        bottom: 130px !important;
     }
 
     .scroll-to-bottom-btn.menu-open {
-        bottom: 280px !important;
+        bottom: 260px !important;
     }
 
     .keyboard-visible .scroll-to-bottom-btn {

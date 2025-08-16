@@ -194,15 +194,26 @@ input, textarea, select {
 @media (max-width: 768px) {
     .chat-main {
         margin-left: 0;
+        transition: transform var(--transition-normal);
     }
 
     .chat-main.sidebar-collapsed {
         margin-left: 0;
+        transform: translateX(0);
+    }
+
+    .chat-main.sidebar-open {
+        transform: translateX(240px);
     }
 
     .mobile-hamburger-btn {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .mobile-hamburger-btn.sidebar-open {
+        transform: translateX(240px);
+        transition: transform var(--transition-normal);
     }
 }

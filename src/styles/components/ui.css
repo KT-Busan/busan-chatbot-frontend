@@ -420,11 +420,11 @@
         backdrop-filter: blur(10px) !important;
         border-top: none !important;
         transition: bottom 0.3s ease !important;
-        height: 110px !important;
+        height: 80px !important;
     }
 
     .chat-messages {
-        padding-bottom: 250px !important;
+        padding-bottom: 100px !important;
         padding-left: 6px !important;
         padding-right: 6px !important;
     }
@@ -473,11 +473,11 @@
     }
 
     .menu-toggle-container:not(.menu-open) {
-        bottom: 120px !important;
+        bottom: 85px !important;
     }
 
     .menu-toggle-container.menu-open {
-        bottom: 270px !important;
+        bottom: 215px !important;
     }
 
     .menu-toggle-btn {
@@ -486,15 +486,77 @@
         font-size: 11px !important;
         margin: 0 auto !important;
         display: block !important;
-        border: 1px solid var(--border-color) !important;
-        background: var(--input-bg) !important;
+
+        /* 기존 스타일 유지하면서 그라데이션 테두리와 배경 추가 */
+        border: 1.2px solid transparent !important;
+        background: linear-gradient(var(--welcome-bg, #fff), var(--welcome-bg, #fff)) padding-box,
+        linear-gradient(135deg, #007bff 0%, #8e44ad 100%) border-box !important;
+        border-radius: 16px !important;
         backdrop-filter: blur(10px) !important;
+        box-shadow: 0 4px 16px var(--shadow-light) !important;
+        transition: filter var(--transition-normal),
+        box-shadow var(--transition-normal),
+        transform var(--transition-normal) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        cursor: pointer !important;
+        outline: none !important;
+        font-weight: 600 !important;
     }
 
-    .chat-messages {
-        padding-bottom: 180px !important;
-        padding-left: 6px !important;
-        padding-right: 6px !important;
+    /* 버튼 내부 span 스타일 - 그라데이션 텍스트 */
+    .menu-toggle-btn > span {
+        background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        display: block !important;
+        transition: all var(--transition-normal) !important;
+    }
+
+    /* 호버 효과 */
+    .menu-toggle-btn:hover {
+        filter: opacity(0.9) !important;
+        box-shadow: 0 6px 20px var(--shadow-medium) !important;
+        transform: translateY(-2px) !important;
+        background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) !important;
+        border: 2px solid transparent !important;
+        background-origin: border-box !important;
+        background-clip: border-box !important;
+    }
+
+    .menu-toggle-btn:hover > span {
+        background: none !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        color: white !important;
+        -webkit-text-fill-color: white !important;
+    }
+
+    /* 클릭/터치 시 스타일 - 글자가 사라지지 않도록 수정 */
+    .menu-toggle-btn:active,
+    .menu-toggle-btn:focus {
+        transform: translateY(0) !important;
+        box-shadow: 0 4px 16px var(--shadow-light) !important;
+        outline: none !important;
+    }
+
+    .menu-toggle-btn:active > span,
+    .menu-toggle-btn:focus > span {
+        background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* 터치 후 포커스 해제를 위한 추가 스타일 */
+    .menu-toggle-btn:focus:not(:focus-visible) {
+        outline: none !important;
     }
 
     .keyboard-visible #main-menu-container {
@@ -509,8 +571,12 @@
         bottom: 300px !important;
     }
 
+    .keyboard-visible .menu-toggle-container:not(.menu-open) {
+        bottom: 300px !important;
+    }
+
     .keyboard-visible .menu-toggle-container.menu-open {
-        bottom: 300px !important;;
+        bottom: 300px !important;
     }
 
     .keyboard-visible .quick-replies-container {

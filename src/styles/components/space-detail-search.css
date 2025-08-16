@@ -849,6 +849,60 @@
 
     .search-filters-container {
         gap: 6px !important;
+    }.search-filters-container {
+         display: flex !important;
+         flex-direction: column !important;
+         gap: 12px !important;
+         margin-bottom: 16px !important;
+         width: 100% !important;
+     }
+
+    .filter-section {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .filter-section label {
+        font-weight: 600 !important;
+        margin-bottom: 6px !important;
+        color: var(--text-primary) !important;
+        font-size: 10px !important;
+    }
+
+    .filter-select {
+        padding: 8px 10px !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 6px !important;
+        background: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+        font-size: 10px !important;
+        transition: all 0.2s ease !important;
+        font-family: inherit !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .filter-select:focus {
+        outline: none !important;
+        border-color: var(--border-color-hover) !important;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1) !important;
+    }
+
+    .search-detail-btn,
+    .random-recommend-btn-main {
+        padding: 8px 12px !important;
+        font-size: 9px !important;
+        min-height: 32px !important;
+        width: 100% !important;
+        margin-top: 8px !important;
+    }
+
+    /* 버튼들을 세로로 배치 */
+    .search-filters-container .search-detail-btn,
+    .search-filters-container .random-recommend-btn-main {
+        order: 10 !important;
+        margin-top: 8px !important;
     }
 
     .search-header h3 {

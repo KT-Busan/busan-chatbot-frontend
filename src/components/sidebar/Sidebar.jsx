@@ -33,6 +33,11 @@ function Sidebar({
         }
     };
 
+    const handleHamburgerClick = (e) => {
+        e.stopPropagation();
+        onToggleSidebar();
+    };
+
     const sidebarClasses = classNames(
         'sidebar',
         isCollapsed && !isMobile && 'collapsed',
@@ -58,6 +63,18 @@ function Sidebar({
                     >
                         <span className="logo-text">B-BOT</span>
                     </button>
+
+                    {/* PC에서만 보이는 햄버거 버튼 */}
+                    {!isMobile && (
+                        <button
+                            className="sidebar-hamburger-btn"
+                            onClick={handleHamburgerClick}
+                            title="사이드바 토글"
+                            aria-label="사이드바 토글"
+                        >
+                            ☰
+                        </button>
+                    )}
 
                     {/* 다크모드 토글 버튼 */}
                     <button

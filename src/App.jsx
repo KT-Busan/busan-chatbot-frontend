@@ -239,6 +239,13 @@ function App() {
                     chatId: activeChatId,
                 });
                 botReply = response.data.reply;
+            } else if (messageText.endsWith(' 상세보기')) {
+                const response = await axios.post(`${backendUrl}/api/chat`, {
+                    message: messageText,
+                    anonymousId: anonymousId,
+                    chatId: activeChatId,
+                });
+                botReply = response.data.reply;
             } else {
                 const response = await axios.post(`${backendUrl}/api/chat`, {
                     message: messageText,
@@ -284,6 +291,10 @@ function App() {
                 <MobileHamburger
                     onClick={handleMobileMenuToggle}
                     isVisible={isSidebarCollapsed}
+                    className={classNames(
+                        'mobile-hamburger-btn',
+                        !isSidebarCollapsed && 'sidebar-open'
+                    )}
                 />
             )}
 
@@ -315,7 +326,8 @@ function App() {
             {/* 메인 채팅 영역 */}
             <main className={classNames(
                 'chat-main',
-                isSidebarCollapsed && !isMobile && 'sidebar-collapsed'
+                isSidebarCollapsed && !isMobile && 'sidebar-collapsed',
+                isMobile && !isSidebarCollapsed && 'sidebar-open'
             )}>
                 {activeChat ? (
                     <ChatWindow

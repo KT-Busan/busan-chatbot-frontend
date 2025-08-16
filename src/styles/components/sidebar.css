@@ -42,9 +42,20 @@
     margin-bottom: 12px;
 }
 
+.sidebar-hamburger-btn {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.sidebar-hamburger-btn:hover {
+    background: var(--sidebar-button-hover);
+    transform: scale(1.1);
+}
+
 .logo-btn,
 .theme-toggle-btn,
-.sidebar-close-btn {
+.sidebar-close-btn,
+.sidebar-hamburger-btn {
     background: transparent;
     border: none;
     color: var(--sidebar-text);
@@ -63,7 +74,8 @@
 
 .logo-btn:hover,
 .theme-toggle-btn:hover,
-.sidebar-close-btn:hover {
+.sidebar-close-btn:hover,
+.sidebar-hamburger-btn:hover {
     background: var(--sidebar-button-hover);
     transform: scale(1.05);
 }
@@ -239,6 +251,8 @@
 @media (max-width: 768px) {
     .sidebar {
         padding: 8px;
+        width: 240px;
+        transition: transform var(--transition-normal);
     }
 
     .logo-btn,
@@ -274,5 +288,9 @@
 
     .sidebar.mobile.show {
         transform: translateX(0);
+    }
+
+    .sidebar-hamburger-btn {
+        display: none;
     }
 }
