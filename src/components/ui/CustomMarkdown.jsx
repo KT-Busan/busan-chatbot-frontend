@@ -100,36 +100,79 @@ const CustomMarkdown = ({children, onButtonClick, spacesData, anonymousId}) => {
     }
 
     const processText = (text) => {
-        const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-        const parts = [];
-        let lastIndex = 0;
-        let match;
+        if (typeof text !== 'string') {
+            return text;
+        }
 
-        while ((match = linkRegex.exec(text)) !== null) {
-            if (match.index > lastIndex) {
-                parts.push(text.slice(lastIndex, match.index));
+        const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+        const linkParts = [];
+        let lastLinkIndex = 0;
+        let linkMatch;
+
+        while ((linkMatch = linkRegex.exec(text)) !== null) {
+            if (linkMatch.index > lastLinkIndex) {
+                linkParts.push(text.slice(lastLinkIndex, linkMatch.index));
             }
 
-            parts.push(
+            linkParts.push(
                 <a
-                    key={match.index}
-                    href={match[2]}
+                    key={`link-${linkMatch.index}`}
+                    href={linkMatch[2]}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="message-link"
                 >
-                    {match[1]}
+                    {linkMatch[1]}
                 </a>
             );
 
-            lastIndex = match.index + match[0].length;
+            lastLinkIndex = linkMatch.index + linkMatch[0].length;
         }
 
-        if (lastIndex < text.length) {
-            parts.push(text.slice(lastIndex));
+        if (lastLinkIndex < text.length) {
+            linkParts.push(text.slice(lastLinkIndex));
         }
 
-        return parts.length > 1 ? parts : text;
+        const textWithLinks = linkParts.length > 1 ? linkParts : [text];
+
+        const processedParts = [];
+
+        textWithLinks.forEach((part, partIndex) => {
+            if (typeof part === 'string') {
+                const boldRegex = /\*\*([^*]+)\*\*/g;
+                const boldParts = [];
+                let lastBoldIndex = 0;
+                let boldMatch;
+
+                while ((boldMatch = boldRegex.exec(part)) !== null) {
+                    if (boldMatch.index > lastBoldIndex) {
+                        boldParts.push(part.slice(lastBoldIndex, boldMatch.index));
+                    }
+
+                    boldParts.push(
+                        <strong key={`bold-${partIndex}-${boldMatch.index}`}>
+                            {boldMatch[1]}
+                        </strong>
+                    );
+
+                    lastBoldIndex = boldMatch.index + boldMatch[0].length;
+                }
+
+                if (lastBoldIndex < part.length) {
+                    boldParts.push(part.slice(lastBoldIndex));
+                }
+
+                if (boldParts.length > 1) {
+                    processedParts.push(...boldParts);
+                } else {
+                    processedParts.push(part);
+                }
+            } else {
+                processedParts.push(part);
+            }
+        });
+
+        return processedParts.length > 1 ? processedParts : processedParts[0] || text;
     };
 
     const lines = children.split('\n');
@@ -137,8 +180,6 @@ const CustomMarkdown = ({children, onButtonClick, spacesData, anonymousId}) => {
     return (
         <div className="message-text">
             {lines.map((line, index) => {
-                const processedLine = processText(line);
-
                 if (line.trim() === '') {
                     return <br key={index}/>;
                 }
@@ -169,17 +210,11 @@ const CustomMarkdown = ({children, onButtonClick, spacesData, anonymousId}) => {
                     );
                 }
 
-                const boldRegex = /\*\*([^*]+)\*\*/g;
-                if (boldRegex.test(line)) {
-                    const boldProcessedLine = line.replace(boldRegex, '<strong>$1</strong>');
-                    return (
-                        <p key={index} dangerouslySetInnerHTML={{__html: processText(boldProcessedLine)}}/>
-                    );
-                }
+                const processedLine = processText(line);
 
                 return (
                     <p key={index}>
-                        {Array.isArray(processedLine) ? processedLine : processedLine}
+                        {processedLine}
                     </p>
                 );
             })}
