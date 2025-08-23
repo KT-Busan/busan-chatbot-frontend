@@ -8,7 +8,7 @@ export const MAIN_MENU = [
 export const QUICK_LINKS = [
     {text: "부산경제진흥원 바로가기", url: "https://www.bepa.kr/kor/view.do?no=1670"},
     {text: "부산청년센터 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
-    {text: "부산청년플랫폼 바로가기", url: "https://young.busan.go.kr/bycenter/index.nm"},
+    {text: "부산청년플랫폼 바로가기", url: "https://young.busan.go.kr/index.nm"},
 ];
 
 export const KEYWORD_BUTTONS = [

@@ -45,7 +45,6 @@ const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
                 );
 
                 setRentalSpaces(centerSpaces);
-                console.log(`✅ ${centerName}의 ${centerSpaces.length}개 대여공간 로드 성공`);
             } else {
                 throw new Error('대여공간 데이터 형식 오류');
             }

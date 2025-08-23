@@ -4,12 +4,13 @@
     justify-content: center;
     flex-wrap: nowrap;
     gap: var(--spacing-sm);
-    padding: 8px var(--chat-padding);
+    padding: 8px 10px;
     background: var(--input-bg);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
     transition: all var(--transition-normal);
+    width: 100%;
 }
 
 .main-menu-btn {
@@ -19,7 +20,7 @@
     background-origin: border-box;
     background-clip: padding-box, border-box;
     border-radius: var(--border-radius-medium);
-    padding: 15px var(--spacing-lg);
+    padding: 15px 10px;
     font-size: var(--font-size-md);
     font-weight: 600;
     cursor: pointer;
@@ -30,8 +31,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
-    min-width: 350px;
-    max-width: 350px;
     outline: none;
 }
 

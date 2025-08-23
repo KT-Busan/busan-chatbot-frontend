@@ -36,19 +36,15 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
 
     const getBackendUrl = () => {
         const hostname = window.location.hostname;
-        console.log('🔍 현재 호스트:', hostname);
 
         if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-            console.log('🌐 GitHub Pages - Render 백엔드 사용');
             return 'https://b-bot-backend.onrender.com';
         }
 
         if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            console.log('🏠 로컬 개발 환경');
             return 'http://localhost:5001';
         }
 
-        console.log('🌐 기본 프로덕션 환경');
         return 'https://b-bot-backend.onrender.com';
     };
 
@@ -80,8 +76,6 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
                 chatId: chatId
             };
 
-            console.log('🔍 검색 요청:', searchMessage);
-
             const isGitHubPages = window.location.hostname.includes('github.io');
             const backendUrl = 'https://b-bot-backend.onrender.com';
 
@@ -92,16 +86,12 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
                 apiUrl = '/api/chat';
             }
 
-            console.log('📡 사용할 API URL:', apiUrl);
-
             const response = await axios.post(apiUrl, requestData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 timeout: 30000,
             });
-
-            console.log('📥 백엔드 응답:', response.data);
 
             if (response.data && response.data.reply) {
                 onButtonClick('__BOT_RESPONSE__' + response.data.reply);

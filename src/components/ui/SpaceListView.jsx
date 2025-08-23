@@ -33,19 +33,15 @@ const SpaceListView = ({onButtonClick, anonymousId}) => {
 
     const getBackendUrl = () => {
         const hostname = window.location.hostname;
-        console.log('🔍 현재 호스트:', hostname);
 
         if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-            console.log('🌐 GitHub Pages - Render 백엔드 사용');
             return 'https://b-bot-backend.onrender.com';
         }
 
         if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            console.log('🏠 로컬 개발 환경');
             return 'http://localhost:5001';
         }
 
-        console.log('🌐 기본 프로덕션 환경');
         return 'https://b-bot-backend.onrender.com';
     };
 
@@ -55,9 +51,6 @@ const SpaceListView = ({onButtonClick, anonymousId}) => {
 
         try {
             const backendUrl = getBackendUrl();
-            console.log('🔗 백엔드 URL:', backendUrl);
-
-            console.log('📡 백엔드 API 호출 시도...');
             const response = await axios.get(`${backendUrl}/api/spaces/busan-youth`, {
                 timeout: 15000
             });
@@ -65,7 +58,6 @@ const SpaceListView = ({onButtonClick, anonymousId}) => {
             if (response.data && response.data.success && response.data.data) {
                 setSpacesData(response.data.data);
                 setFilteredSpaces(response.data.data);
-                console.log(`✅ 백엔드에서 ${response.data.count}개 데이터 로드 성공`);
                 return;
             } else {
                 throw new Error('백엔드 응답 형식 오류');
@@ -250,7 +242,7 @@ const SpaceListView = ({onButtonClick, anonymousId}) => {
                             }
                         </p>
                         <p className="usage-tip">
-                            💡 <strong>사용법:</strong> 원하는 공간을 클릭하면 채팅으로 상세 정보가 전송됩니다!
+                            💡 <b>사용법:</b> 원하는 공간을 클릭하면 채팅으로 상세 정보가 전송됩니다!
                         </p>
                     </div>
                 </>
