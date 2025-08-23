@@ -29,10 +29,8 @@ function App() {
     const [anonymousId] = useState(getAnonymousId());
     const [isThinking, setIsThinking] = useState(false);
     const [spacesData, setSpacesData] = useState([]);
-
     const [isDarkMode, setIsDarkMode] = useDarkMode();
     const {isSidebarCollapsed, setIsSidebarCollapsed, isMobile, toggleSidebar} = useSidebarState();
-
     const backendUrl = getBackendUrl();
 
     useEffect(() => {
@@ -55,9 +53,7 @@ function App() {
         }
     };
 
-    useEffect(() => {
-        console.log(`🚀 Backend URL: ${backendUrl}`);
-    }, [backendUrl]);
+    useEffect(() => {}, [backendUrl]);
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -112,7 +108,6 @@ function App() {
         const chatToDelete = chats[chatIdToDelete];
 
         if (!chatToDelete || (chatToDelete.messages.length === 0 && chatToDelete.isInitial)) {
-            console.log("빈 채팅은 삭제할 수 없습니다.");
             return;
         }
 

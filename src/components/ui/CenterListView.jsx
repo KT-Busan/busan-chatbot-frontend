@@ -47,7 +47,6 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
                     centersResponse = responses[0];
                     keywordResponse = responses[1];
 
-                    console.log(`✅ API 호출 성공 (시도 ${i + 1})`);
                     break;
 
                 } catch (apiError) {
@@ -62,8 +61,6 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
                 const centers = centersResponse.data.data || [];
                 const keywords = keywordResponse.data.data || [];
 
-                console.log(`📊 로드된 데이터: 센터 ${centers.length}개, 키워드 ${keywords.length}개`);
-
                 const mergedCenters = centers.map(center => {
                     const keywordInfo = keywords.find(k => k.parent_facility === center.name);
                     return {
@@ -74,7 +71,6 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
                 });
 
                 setCentersData(mergedCenters);
-                console.log(`✅ ${mergedCenters.length}개 센터 데이터 로드 성공`);
             } else {
                 throw new Error('센터 데이터 형식 오류 또는 API 응답 실패');
             }
@@ -137,7 +133,7 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
         <div className="center-list-view">
             <div className="center-list-header">
                 <h3>🏢 부산 청년 센터 전체보기</h3>
-                <p>총 <strong>{centersData.length}개</strong>의 청년 센터가 있습니다.</p>
+                <p>총 <b>{centersData.length}개</b>의 청년 센터가 있습니다.</p>
                 <p>원하는 센터를 클릭하면 상세 정보와 대여 가능한 공간을 확인할 수 있어요!</p>
             </div>
 
@@ -174,17 +170,13 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
                                 </div>
                             )}
                         </div>
-
-                        <div className="center-card-footer">
-                            <span className="center-click-hint">클릭하여 상세보기 →</span>
-                        </div>
                     </div>
                 ))}
             </div>
 
             <div className="center-list-footer">
                 <p className="usage-tip">
-                    💡 <strong>사용법:</strong> 원하는 센터 카드를 클릭하면 상세 정보와 대여 가능한 공간들을 확인할 수 있습니다!
+                    💡 <b>사용법:</b> 원하는 센터 카드를 클릭하면 상세 정보와 대여 가능한 공간들을 확인할 수 있습니다!
                 </p>
             </div>
         </div>

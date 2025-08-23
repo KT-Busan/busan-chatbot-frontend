@@ -11,19 +11,15 @@ export const generateChatId = () => `chat_${Date.now()}`;
 
 export const getBackendUrl = () => {
     const hostname = window.location.hostname;
-    console.log(`🔍 현재 호스트: ${hostname}`);
 
     if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-        console.log('🌐 GitHub Pages - Render 백엔드 사용');
         return 'https://b-bot-backend.onrender.com';
     }
 
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
-        console.log('🏠 로컬 개발 환경');
         return 'http://localhost:5001';
     }
 
-    console.log('🌐 기본 프로덕션 환경');
     return 'https://b-bot-backend.onrender.com';
 };
 
