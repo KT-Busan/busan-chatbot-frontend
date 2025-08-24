@@ -205,7 +205,7 @@ function App() {
         try {
             let botReply = '';
 
-            if (messageText === '33개 센터 전체보기') {
+            if (messageText === '34개 센터 전체보기') {
                 botReply = `[CENTER_LIST_VIEW]`;
             } else if (messageText === '지역별 센터찾기') {
                 botReply = `[REGION_MAP]`;
