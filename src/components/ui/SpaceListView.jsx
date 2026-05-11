@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import { fetchBusanYouth } from '../../api';
 import '../../styles/components/space-detail-search.css';
 
 const SpaceListView = ({onButtonClick, anonymousId}) => {
@@ -31,29 +31,12 @@ const SpaceListView = ({onButtonClick, anonymousId}) => {
         setFilteredSpaces(filtered);
     }, [spacesData, searchTerm, selectedRegion]);
 
-    const getBackendUrl = () => {
-        const hostname = window.location.hostname;
-
-        if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-            return 'https://b-bot-backend.onrender.com';
-        }
-
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return 'http://localhost:5001';
-        }
-
-        return 'https://b-bot-backend.onrender.com';
-    };
-
     const loadSpacesData = async () => {
         setLoading(true);
         setLoadError(null);
 
         try {
-            const backendUrl = getBackendUrl();
-            const response = await axios.get(`${backendUrl}/api/spaces/busan-youth`, {
-                timeout: 15000
-            });
+            const response = await fetchBusanYouth();
 
             if (response.data && response.data.success && response.data.data) {
                 setSpacesData(response.data.data);
@@ -130,7 +113,7 @@ const SpaceListView = ({onButtonClick, anonymousId}) => {
 
     const handleSpaceClick = (space) => {
         const detailMessage = formatSpaceDetail(space);
-        onButtonClick('__BOT_RESPONSE__' + detailMessage);
+        onButtonClick(detailMessage, true);
     };
 
     const sortedRegions = ['전체', ...Array.from(new Set(spacesData.map(space => space.location))).sort((a, b) => a.localeCompare(b, 'ko'))];

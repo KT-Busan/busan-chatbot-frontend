@@ -10,16 +10,13 @@ export const getAnonymousId = () => {
 export const generateChatId = () => `chat_${Date.now()}`;
 
 export const getBackendUrl = () => {
-    const hostname = window.location.hostname;
-
-    if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-        return 'https://busan-chatbot-backend.onrender.com';
+    if (import.meta.env.VITE_BACKEND_URL) {
+        return import.meta.env.VITE_BACKEND_URL;
     }
-
+    const hostname = window.location.hostname;
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
         return 'http://localhost:5001';
     }
-
     return 'https://busan-chatbot-backend.onrender.com';
 };
 

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import Sidebar from './components/sidebar/Sidebar';
 import ChatWindow from './components/chat/ChatWindow';
 import MobileHamburger from './components/ui/MobileHamburger';
@@ -8,10 +7,10 @@ import {useSidebarState} from './hooks/useSidebarState';
 import {
     getAnonymousId,
     generateChatId,
-    getBackendUrl,
     getSidebarVisibility,
     classNames
 } from './utils/helpers';
+import { sendChatMessage, fetchHistory, deleteChat as deleteChatApi } from './api';
 
 import './styles/variables.css';
 import './styles/globals.css';
@@ -31,7 +30,6 @@ function App() {
     const [spacesData, setSpacesData] = useState([]);
     const [isDarkMode, setIsDarkMode] = useDarkMode();
     const {isSidebarCollapsed, setIsSidebarCollapsed, isMobile, toggleSidebar} = useSidebarState();
-    const backendUrl = getBackendUrl();
 
     useEffect(() => {
         if (isMobile) {
@@ -53,15 +51,13 @@ function App() {
         }
     };
 
-    useEffect(() => {}, [backendUrl]);
-
     useEffect(() => {
-        const fetchHistory = async () => {
+        const loadHistory = async () => {
             if (!anonymousId) return;
 
             try {
-                const response = await axios.get(`${backendUrl}/api/history/${anonymousId}`);
-                const history = response.data;
+                const response = await fetchHistory(anonymousId);
+                const history = response.data?.data ?? response.data;
 
                 if (history && Object.keys(history).length > 0) {
                     setChats(history);
@@ -71,13 +67,12 @@ function App() {
                 }
             } catch (error) {
                 console.error("채팅 기록 로딩 실패:", error);
-                console.error(`Backend URL: ${backendUrl}`);
                 createNewChat({});
             }
         };
 
-        fetchHistory();
-    }, [anonymousId, backendUrl]);
+        loadHistory();
+    }, [anonymousId]);
 
     const findEmptyChat = (chatsObj) => {
         return Object.values(chatsObj).find(chat =>
@@ -126,10 +121,9 @@ function App() {
         }
 
         try {
-            await axios.delete(`${backendUrl}/api/chat/${chatIdToDelete}`);
+            await deleteChatApi(chatIdToDelete);
         } catch (error) {
             console.error("채팅 삭제 실패:", error);
-            console.error(`Backend URL: ${backendUrl}`);
             setChats(originalChats);
             alert("채팅 삭제에 실패했습니다. 다시 시도해주세요.");
         }
@@ -202,51 +196,20 @@ function App() {
             return {[activeChatId]: chatToUpdate, ...otherChats};
         });
 
+        const LOCAL_RESPONSES = {
+            '34개 센터 전체보기': '[CENTER_LIST_VIEW]',
+            '지역별 센터찾기': '[REGION_MAP]',
+            '조건별 대여공간 검색': '[SPACE_CONDITION_SEARCH]',
+            '청년공간 프로그램': '[PROGRAM_REGIONS]',
+        };
+
         try {
             let botReply = '';
 
-            if (messageText === '34개 센터 전체보기') {
-                botReply = `[CENTER_LIST_VIEW]`;
-            } else if (messageText === '지역별 센터찾기') {
-                botReply = `[REGION_MAP]`;
-            } else if (messageText === '조건별 대여공간 검색') {
-                botReply = `[SPACE_CONDITION_SEARCH]`;
-            } else if (messageText === '청년공간 프로그램') {
-                botReply = `[PROGRAM_REGIONS]`;
-            } else if (['📝스터디/회의', '🎤교육/강연', '👥커뮤니티', '🚀진로/창업', '🎨문화/창작', '🛠작업/창작실', '🧘휴식/놀이', '🎪행사/이벤트'].includes(messageText)) {
-                const response = await axios.post(`${backendUrl}/api/chat`, {
-                    message: messageText,
-                    anonymousId: anonymousId,
-                    chatId: activeChatId,
-                });
-                botReply = response.data.reply;
-            } else if (messageText.endsWith(' 프로그램')) {
-                const response = await axios.post(`${backendUrl}/api/chat`, {
-                    message: messageText,
-                    anonymousId: anonymousId,
-                    chatId: activeChatId,
-                });
-                botReply = response.data.reply;
-            } else if (['중구', '서구', '동구', '영도구', '부산진구', '동래구', '연제구', '금정구', '북구', '사상구', '사하구', '강서구', '남구', '해운대구', '수영구', '기장군'].includes(messageText)) {
-                const response = await axios.post(`${backendUrl}/api/chat`, {
-                    message: messageText,
-                    anonymousId: anonymousId,
-                    chatId: activeChatId,
-                });
-                botReply = response.data.reply;
-            } else if (messageText.endsWith(' 상세보기')) {
-                const response = await axios.post(`${backendUrl}/api/chat`, {
-                    message: messageText,
-                    anonymousId: anonymousId,
-                    chatId: activeChatId,
-                });
-                botReply = response.data.reply;
+            if (LOCAL_RESPONSES[messageText]) {
+                botReply = LOCAL_RESPONSES[messageText];
             } else {
-                const response = await axios.post(`${backendUrl}/api/chat`, {
-                    message: messageText,
-                    anonymousId: anonymousId,
-                    chatId: activeChatId,
-                });
+                const response = await sendChatMessage(messageText, anonymousId, activeChatId);
                 botReply = response.data.reply;
             }
 

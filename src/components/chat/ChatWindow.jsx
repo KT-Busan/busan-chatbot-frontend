@@ -103,13 +103,8 @@ function ChatWindow({
         }
     }, [chat.messages.length]);
 
-    const handleButtonClick = (text) => {
-        if (text.startsWith('__BOT_RESPONSE__')) {
-            const botResponse = text.replace('__BOT_RESPONSE__', '');
-            onSendMessage(botResponse, true);
-        } else {
-            onSendMessage(text);
-        }
+    const handleButtonClick = (text, isBotResponseOnly = false) => {
+        onSendMessage(text, isBotResponseOnly);
 
         if (isMobile) {
             setIsMenuOpen(false);

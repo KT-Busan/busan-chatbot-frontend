@@ -1,24 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import { fetchCacheData, fetchKeywordData } from '../../api';
 
 const CenterListView = ({onButtonClick, anonymousId}) => {
     const [centersData, setCentersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const getBackendUrl = () => {
-        const hostname = window.location.hostname;
-
-        if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-            return 'https://b-bot-backend.onrender.com';
-        }
-
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return 'http://localhost:5001';
-        }
-
-        return 'https://b-bot-backend.onrender.com';
-    };
 
     useEffect(() => {
         loadCentersData();
@@ -29,30 +15,19 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
         setError(null);
 
         try {
-            const backendUrl = getBackendUrl();
-
             let centersResponse = null;
             let keywordResponse = null;
-            let retries = 3;
+            const retries = 3;
 
             for (let i = 0; i < retries; i++) {
                 try {
-                    console.log(`📡 API 호출 시도 ${i + 1}/${retries}`);
-
-                    const responses = await Promise.all([
-                        axios.get(`${backendUrl}/api/spaces/cache-data`, {timeout: 15000}),
-                        axios.get(`${backendUrl}/api/spaces/keyword-data`, {timeout: 15000})
-                    ]);
-
+                    const responses = await Promise.all([fetchCacheData(), fetchKeywordData()]);
                     centersResponse = responses[0];
                     keywordResponse = responses[1];
-
                     break;
-
                 } catch (apiError) {
                     console.error(`❌ API 호출 실패 (시도 ${i + 1}):`, apiError);
                     if (i === retries - 1) throw apiError;
-
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 }
             }

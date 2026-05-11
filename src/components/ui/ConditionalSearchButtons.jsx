@@ -1,48 +1,28 @@
 import React, {useState} from 'react';
-import axios from 'axios';
+import { sendChatMessage } from '../../api';
 
 const ConditionalSearchButtons = ({onButtonClick, anonymousId}) => {
     const [isLoading, setIsLoading] = useState(false);
-
-    const getBackendUrl = () => {
-        const hostname = window.location.hostname;
-        if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-            return 'https://b-bot-backend.onrender.com';
-        }
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return 'http://localhost:5001';
-        }
-        return 'https://b-bot-backend.onrender.com';
-    };
 
     const handleRandomRecommendation = async () => {
         setIsLoading(true);
         try {
             const finalAnonymousId = anonymousId || `temp_user_${Date.now()}`;
-            const backendUrl = getBackendUrl();
+            const response = await sendChatMessage('✨ 랜덤 추천', finalAnonymousId, `random_${Date.now()}`);
 
-            const response = await axios.post(`${backendUrl}/api/chat`, {
-                message: '✨ 랜덤 추천',
-                anonymousId: finalAnonymousId,
-                chatId: `random_${Date.now()}`
-            }, {
-                headers: {'Content-Type': 'application/json'},
-                timeout: 30000,
-            });
-
-            if (response.data && response.data.reply) {
-                onButtonClick('__BOT_RESPONSE__' + response.data.reply);
+            if (response.data?.reply) {
+                onButtonClick(response.data.reply, true);
             }
         } catch (error) {
             console.error('랜덤 추천 중 오류:', error);
-            onButtonClick('__BOT_RESPONSE__랜덤 추천 중 오류가 발생했습니다. 다시 시도해주세요.');
+            onButtonClick('랜덤 추천 중 오류가 발생했습니다. 다시 시도해주세요.', true);
         } finally {
             setIsLoading(false);
         }
     };
 
     const handleNewSearch = () => {
-        onButtonClick('__BOT_RESPONSE__[SPACE_CONDITION_SEARCH]');
+        onButtonClick('[SPACE_CONDITION_SEARCH]', true);
     };
 
     return (

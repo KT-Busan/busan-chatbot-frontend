@@ -1,24 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import { fetchBusanYouth } from '../../api';
 
 const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
     const [rentalSpaces, setRentalSpaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const getBackendUrl = () => {
-        const hostname = window.location.hostname;
-
-        if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-            return 'https://b-bot-backend.onrender.com';
-        }
-
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return 'http://localhost:5001';
-        }
-
-        return 'https://b-bot-backend.onrender.com';
-    };
 
     useEffect(() => {
         if (centerName) {
@@ -31,11 +17,7 @@ const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
         setError(null);
 
         try {
-            const backendUrl = getBackendUrl();
-
-            const response = await axios.get(`${backendUrl}/api/spaces/busan-youth`, {
-                timeout: 15000
-            });
+            const response = await fetchBusanYouth();
 
             if (response.data && response.data.success && response.data.data) {
                 const allSpaces = response.data.data;
@@ -103,7 +85,7 @@ const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
         };
 
         const detailMessage = formatSpaceDetail(space);
-        onButtonClick(`__BOT_RESPONSE__${detailMessage}`);
+        onButtonClick(detailMessage, true);
     };
 
     const formatKeywords = (keywords) => {

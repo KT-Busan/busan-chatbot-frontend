@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import axios from 'axios';
+import { sendChatMessage } from '../../api';
 import '../../styles/components/space-detail-search.css';
 
 const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
@@ -34,20 +34,6 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
         {value: '휴식/놀이', icon: '🧘', label: '휴식/놀이'}
     ];
 
-    const getBackendUrl = () => {
-        const hostname = window.location.hostname;
-
-        if (hostname.includes('github.io') || hostname.includes('kt-busan.github.io')) {
-            return 'https://b-bot-backend.onrender.com';
-        }
-
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return 'http://localhost:5001';
-        }
-
-        return 'https://b-bot-backend.onrender.com';
-    };
-
     const handleSearch = async () => {
         if (!selectedRegion && !selectedCapacity && !selectedPurpose) {
             alert('지역, 인원, 이용 목적 중 하나는 반드시 선택해주세요.');
@@ -55,7 +41,6 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
         }
 
         const finalAnonymousId = anonymousId || `temp_user_${Date.now()}`;
-
         setShowConditions(true);
         setIsSearching(true);
         setSearchResults(null);
@@ -68,42 +53,14 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
             if (selectedPurpose) searchConditions.push(`목적=${selectedPurpose}`);
 
             const searchMessage = `조건별 검색: ${searchConditions.join('|')}`;
-            const chatId = `search_${Date.now()}`;
+            const response = await sendChatMessage(searchMessage, finalAnonymousId, `search_${Date.now()}`);
 
-            const requestData = {
-                message: searchMessage,
-                anonymousId: finalAnonymousId,
-                chatId: chatId
-            };
-
-            const isGitHubPages = window.location.hostname.includes('github.io');
-            const backendUrl = 'https://b-bot-backend.onrender.com';
-
-            let apiUrl;
-            if (isGitHubPages || !window.location.hostname.includes('localhost')) {
-                apiUrl = `${backendUrl}/api/chat`;
-            } else {
-                apiUrl = '/api/chat';
-            }
-
-            const response = await axios.post(apiUrl, requestData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                timeout: 30000,
-            });
-
-            if (response.data && response.data.reply) {
-                onButtonClick('__BOT_RESPONSE__' + response.data.reply);
-
+            if (response.data?.reply) {
+                onButtonClick(response.data.reply, true);
                 setSearchResults({
                     success: true,
                     message: '검색 결과를 표시했습니다!',
-                    conditions: {
-                        region: selectedRegion,
-                        capacity: selectedCapacity,
-                        purpose: selectedPurpose
-                    }
+                    conditions: { region: selectedRegion, capacity: selectedCapacity, purpose: selectedPurpose }
                 });
             } else {
                 throw new Error('검색 응답을 받지 못했습니다.');
@@ -111,28 +68,22 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
 
         } catch (error) {
             console.error('❌ 검색 중 오류:', error);
-            console.error('❌ 요청 URL:', error.config?.url);
 
             let errorMessage = '검색 중 오류가 발생했습니다.';
-
             if (error.code === 'ECONNABORTED') {
                 errorMessage = '요청 시간이 초과되었습니다. Render 서버가 깨어나는 중일 수 있습니다.';
             } else if (error.response?.status === 404) {
-                errorMessage = 'API 엔드포인트를 찾을 수 없습니다. 백엔드 서버를 확인해주세요.';
+                errorMessage = 'API 엔드포인트를 찾을 수 없습니다.';
             } else if (error.response?.status === 500) {
                 errorMessage = '서버 내부 오류가 발생했습니다.';
             } else if (!error.response) {
-                errorMessage = '백엔드 서버에 연결할 수 없습니다. 서버 상태를 확인해주세요.';
+                errorMessage = '백엔드 서버에 연결할 수 없습니다.';
             }
 
             setSearchResults({
                 success: false,
                 message: errorMessage,
-                conditions: {
-                    region: selectedRegion,
-                    capacity: selectedCapacity,
-                    purpose: selectedPurpose
-                }
+                conditions: { region: selectedRegion, capacity: selectedCapacity, purpose: selectedPurpose }
             });
         } finally {
             setIsSearching(false);
@@ -144,31 +95,10 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
 
         try {
             const finalAnonymousId = anonymousId || `temp_user_${Date.now()}`;
+            const response = await sendChatMessage('✨ 랜덤 추천', finalAnonymousId, `random_${Date.now()}`);
 
-            const isGitHubPages = window.location.hostname.includes('github.io');
-            const backendUrl = 'https://b-bot-backend.onrender.com';
-
-            let apiUrl;
-            if (isGitHubPages || !window.location.hostname.includes('localhost')) {
-                apiUrl = `${backendUrl}/api/chat`;
-            } else {
-                apiUrl = '/api/chat';
-            }
-
-            const response = await axios.post(apiUrl, {
-                message: '✨ 랜덤 추천',
-                anonymousId: finalAnonymousId,
-                chatId: `random_${Date.now()}`
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                timeout: 30000,
-            });
-
-            if (response.data && response.data.reply) {
-                onButtonClick('__BOT_RESPONSE__' + response.data.reply);
-
+            if (response.data?.reply) {
+                onButtonClick(response.data.reply, true);
                 setShowRandomResult(true);
                 setSearchResults(null);
                 setShowConditions(false);
@@ -178,17 +108,10 @@ const SpaceConditionSearch = ({onButtonClick, anonymousId}) => {
 
         } catch (error) {
             console.error('랜덤 추천 중 오류:', error);
-
-            let errorMessage = '랜덤 추천 중 오류가 발생했습니다.';
-            if (error.code === 'ECONNABORTED') {
-                errorMessage = '요청 시간이 초과되었습니다. 서버가 준비 중일 수 있습니다.';
-            }
-
-            setSearchResults({
-                success: false,
-                message: errorMessage,
-                isRandom: true
-            });
+            const errorMessage = error.code === 'ECONNABORTED'
+                ? '요청 시간이 초과되었습니다. 서버가 준비 중일 수 있습니다.'
+                : '랜덤 추천 중 오류가 발생했습니다.';
+            setSearchResults({ success: false, message: errorMessage, isRandom: true });
         } finally {
             setIsSearching(false);
         }
