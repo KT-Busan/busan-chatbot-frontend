@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { fetchBusanYouth } from '../../api';
 import '../../styles/components/space-detail-search.css';
 
-const SpaceListView = ({onButtonClick, anonymousId}) => {
+const SpaceListView = ({onButtonClick}) => {
     const [spacesData, setSpacesData] = useState([]);
     const [filteredSpaces, setFilteredSpaces] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -142,6 +142,9 @@ const SpaceListView = ({onButtonClick, anonymousId}) => {
             ) : loadError ? (
                 <div className="loading">
                     <p>❌ {loadError}</p>
+                    <button onClick={loadSpacesData} className="retry-btn">
+                        🔄 다시 시도
+                    </button>
                 </div>
             ) : (
                 <>

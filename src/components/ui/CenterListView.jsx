@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { fetchCacheData, fetchKeywordData } from '../../api';
 
-const CenterListView = ({onButtonClick, anonymousId}) => {
+const CenterListView = ({onButtonClick}) => {
     const [centersData, setCentersData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -68,7 +68,7 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
         if (!keywords) return [];
 
         if (typeof keywords === 'string') {
-            return [keywords.replace(/[\[\]]/g, '').trim()];
+            return [keywords.replace(/[[\]]/g, '').trim()];
         }
 
         if (!Array.isArray(keywords)) {
@@ -78,7 +78,7 @@ const CenterListView = ({onButtonClick, anonymousId}) => {
 
         return keywords.map(keyword => {
             if (typeof keyword === 'string') {
-                return keyword.replace(/[\[\]]/g, '').trim();
+                return keyword.replace(/[[\]]/g, '').trim();
             }
             return keyword;
         });

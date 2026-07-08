@@ -10,7 +10,7 @@ import {
     getSidebarVisibility,
     classNames
 } from './utils/helpers';
-import { sendChatMessage, fetchHistory, deleteChat as deleteChatApi } from './api';
+import { sendChatMessage, fetchHistory, fetchCacheData, deleteChat as deleteChatApi } from './api';
 
 import './styles/variables.css';
 import './styles/globals.css';
@@ -73,6 +73,20 @@ function App() {
 
         loadHistory();
     }, [anonymousId]);
+
+    useEffect(() => {
+        const loadSpacesData = async () => {
+            try {
+                const response = await fetchCacheData();
+                const spaces = response.data?.data ?? [];
+                setSpacesData(spaces);
+            } catch (error) {
+                console.error("공간 지도 데이터 로딩 실패:", error);
+            }
+        };
+
+        loadSpacesData();
+    }, []);
 
     const findEmptyChat = (chatsObj) => {
         return Object.values(chatsObj).find(chat =>
@@ -292,8 +306,6 @@ function App() {
                         chat={activeChat}
                         onSendMessage={handleSendMessage}
                         isThinking={isThinking}
-                        onToggleSidebar={toggleSidebar}
-                        isSidebarCollapsed={isSidebarCollapsed}
                         isMobile={isMobile}
                         spacesData={spacesData}
                         anonymousId={anonymousId}

@@ -65,6 +65,10 @@
 }
 
 :root {
+    --accent-gradient: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+}
+
+:root {
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
     --transition-slow: 0.5s ease;

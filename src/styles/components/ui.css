@@ -16,7 +16,7 @@
 .main-menu-btn {
     background: var(--sub-button-bg);
     border: 2px solid transparent;
-    background-image: linear-gradient(var(--sub-button-bg), var(--sub-button-bg)), linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background-image: linear-gradient(var(--sub-button-bg), var(--sub-button-bg)), var(--accent-gradient);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     border-radius: var(--border-radius-medium);
@@ -35,7 +35,7 @@
 }
 
 .main-menu-btn span {
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background: var(--accent-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -44,7 +44,7 @@
 }
 
 .main-menu-btn:hover {
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background: var(--accent-gradient);
     border: 2px solid transparent;
     background-origin: border-box;
     background-clip: border-box;
@@ -74,7 +74,7 @@
     margin: 0 auto;
     border: 1.2px solid transparent;
     background: linear-gradient(var(--welcome-bg, #fff), var(--welcome-bg, #fff)) padding-box,
-    linear-gradient(135deg, #007bff 0%, #8e44ad 100%) border-box;
+    var(--accent-gradient) border-box;
     border-radius: 16px;
     padding: 10px 14px;
     font-size: var(--font-size-md);
@@ -89,7 +89,7 @@
 }
 
 .menu-toggle-btn > span {
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background: var(--accent-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -119,7 +119,7 @@
 
 .quick-reply-link {
     display: inline-block;
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background: var(--accent-gradient);
     color: white;
     border: none;
     border-radius: 999px;
@@ -177,7 +177,7 @@
 .sub-button {
     background: var(--sub-button-bg);
     border: 2px solid transparent;
-    background-image: linear-gradient(var(--sub-button-bg), var(--sub-button-bg)), linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background-image: linear-gradient(var(--sub-button-bg), var(--sub-button-bg)), var(--accent-gradient);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     border-radius: 20px;
@@ -202,7 +202,7 @@
 }
 
 .sub-button:hover {
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background: var(--accent-gradient);
     border: 2px solid transparent;
     background-origin: border-box;
     background-clip: border-box;
@@ -226,7 +226,7 @@
     padding: var(--spacing-md) var(--spacing-sm);
     background: var(--sub-button-bg);
     border: 2px solid transparent;
-    background-image: linear-gradient(var(--sub-button-bg), var(--sub-button-bg)), linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background-image: linear-gradient(var(--sub-button-bg), var(--sub-button-bg)), var(--accent-gradient);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     border-radius: var(--border-radius-small);
@@ -241,7 +241,7 @@
 }
 
 .region-program-button:hover {
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background: var(--accent-gradient);
     border: 2px solid transparent;
     background-origin: border-box;
     background-clip: border-box;
@@ -277,7 +277,7 @@
     width: 80px;
     height: 80px;
     overflow: hidden;
-    background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%);
+    background: var(--accent-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -489,7 +489,7 @@
         /* 기존 스타일 유지하면서 그라데이션 테두리와 배경 추가 */
         border: 1.2px solid transparent !important;
         background: linear-gradient(var(--welcome-bg, #fff), var(--welcome-bg, #fff)) padding-box,
-        linear-gradient(135deg, #007bff 0%, #8e44ad 100%) border-box !important;
+        var(--accent-gradient) border-box !important;
         border-radius: 16px !important;
         backdrop-filter: blur(10px) !important;
         box-shadow: 0 4px 16px var(--shadow-light) !important;
@@ -504,7 +504,7 @@
 
     /* 버튼 내부 span 스타일 - 그라데이션 텍스트 */
     .menu-toggle-btn > span {
-        background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) !important;
+        background: var(--accent-gradient) !important;
         -webkit-background-clip: text !important;
         background-clip: text !important;
         color: transparent !important;
@@ -520,7 +520,7 @@
         filter: opacity(0.9) !important;
         box-shadow: 0 6px 20px var(--shadow-medium) !important;
         transform: translateY(-2px) !important;
-        background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) !important;
+        background: var(--accent-gradient) !important;
         border: 2px solid transparent !important;
         background-origin: border-box !important;
         background-clip: border-box !important;
@@ -544,7 +544,7 @@
 
     .menu-toggle-btn:active > span,
     .menu-toggle-btn:focus > span {
-        background: linear-gradient(135deg, #007bff 0%, #8e44ad 100%) !important;
+        background: var(--accent-gradient) !important;
         -webkit-background-clip: text !important;
         background-clip: text !important;
         color: transparent !important;

@@ -3,7 +3,8 @@ import { getBackendUrl } from '../utils/helpers';
 
 const getClient = () => {
     const baseURL = getBackendUrl();
-    return axios.create({ baseURL, timeout: 30000 });
+    // Render 무료 티어는 콜드스타트 시 첫 응답이 30초를 넘기기도 하므로 여유있게 설정
+    return axios.create({ baseURL, timeout: 45000 });
 };
 
 export const sendChatMessage = (message, anonymousId, chatId) =>

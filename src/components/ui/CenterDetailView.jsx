@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { fetchBusanYouth } from '../../api';
 
-const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
+const CenterDetailView = ({centerName, onButtonClick}) => {
     const [rentalSpaces, setRentalSpaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -92,7 +92,7 @@ const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
         if (!keywords) return [];
 
         if (typeof keywords === 'string') {
-            return [keywords.replace(/[\[\]]/g, '').trim()];
+            return [keywords.replace(/[[\]]/g, '').trim()];
         }
 
         if (!Array.isArray(keywords)) {
@@ -102,7 +102,7 @@ const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
 
         return keywords.map(keyword => {
             if (typeof keyword === 'string') {
-                return keyword.replace(/[\[\]]/g, '').trim();
+                return keyword.replace(/[[\]]/g, '').trim();
             }
             return keyword;
         });

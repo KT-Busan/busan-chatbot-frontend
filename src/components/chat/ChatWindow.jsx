@@ -11,8 +11,6 @@ function ChatWindow({
                         chat,
                         onSendMessage,
                         isThinking,
-                        onToggleSidebar,
-                        isSidebarCollapsed,
                         isMobile,
                         spacesData,
                         anonymousId
