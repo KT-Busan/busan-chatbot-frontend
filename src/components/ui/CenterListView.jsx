@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { fetchCacheData, fetchKeywordData } from '../../api';
+import ErrorState from './ErrorState';
 
 const CenterListView = ({onButtonClick}) => {
     const [centersData, setCentersData] = useState([]);
@@ -94,14 +95,7 @@ const CenterListView = ({onButtonClick}) => {
     }
 
     if (error) {
-        return (
-            <div className="center-list-error">
-                <p>❌ {error}</p>
-                <button onClick={loadCentersData} className="retry-btn">
-                    🔄 다시 시도
-                </button>
-            </div>
-        );
+        return <ErrorState message={error} onRetry={loadCentersData}/>;
     }
 
     return (

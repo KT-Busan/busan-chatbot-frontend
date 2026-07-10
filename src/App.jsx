@@ -11,6 +11,7 @@ import {
     classNames
 } from './utils/helpers';
 import { sendChatMessage, fetchHistory, fetchCacheData, deleteChat as deleteChatApi } from './api';
+import { CENTER_LIST_LABEL_SUFFIX } from './utils/constants';
 
 import './styles/variables.css';
 import './styles/globals.css';
@@ -61,7 +62,9 @@ function App() {
 
                 if (history && Object.keys(history).length > 0) {
                     setChats(history);
-                    setActiveChatId(Object.keys(history)[0]);
+                    // 최초 접속 시 지난 대화가 아닌 새 대화(메인 화면)로 시작하도록 함
+                    // 과거 대화 목록은 사이드바에 그대로 남아 클릭하면 이어볼 수 있음
+                    createNewChat(history);
                 } else {
                     createNewChat({});
                 }
@@ -211,7 +214,6 @@ function App() {
         });
 
         const LOCAL_RESPONSES = {
-            '34개 센터 전체보기': '[CENTER_LIST_VIEW]',
             '지역별 센터찾기': '[REGION_MAP]',
             '조건별 대여공간 검색': '[SPACE_CONDITION_SEARCH]',
             '청년공간 프로그램': '[PROGRAM_REGIONS]',
@@ -220,7 +222,9 @@ function App() {
         try {
             let botReply = '';
 
-            if (LOCAL_RESPONSES[messageText]) {
+            if (messageText.endsWith(CENTER_LIST_LABEL_SUFFIX)) {
+                botReply = '[CENTER_LIST_VIEW]';
+            } else if (LOCAL_RESPONSES[messageText]) {
                 botReply = LOCAL_RESPONSES[messageText];
             } else {
                 const response = await sendChatMessage(messageText, anonymousId, activeChatId);
@@ -309,6 +313,7 @@ function App() {
                         isMobile={isMobile}
                         spacesData={spacesData}
                         anonymousId={anonymousId}
+                        centerCount={spacesData.length}
                     />
                 ) : null}
             </main>

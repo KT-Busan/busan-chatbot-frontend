@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { fetchBusanYouth } from '../../api';
+import ErrorState from './ErrorState';
 import '../../styles/components/space-detail-search.css';
 
 const SpaceListView = ({onButtonClick}) => {
@@ -140,12 +141,7 @@ const SpaceListView = ({onButtonClick}) => {
                     <p>🔄 청년 공간 데이터를 불러오는 중...</p>
                 </div>
             ) : loadError ? (
-                <div className="loading">
-                    <p>❌ {loadError}</p>
-                    <button onClick={loadSpacesData} className="retry-btn">
-                        🔄 다시 시도
-                    </button>
-                </div>
+                <ErrorState message={loadError} onRetry={loadSpacesData}/>
             ) : (
                 <>
                     {/* 검색 및 필터 */}

@@ -13,7 +13,8 @@ function ChatWindow({
                         isThinking,
                         isMobile,
                         spacesData,
-                        anonymousId
+                        anonymousId,
+                        centerCount
                     }) {
     const chatContainerRef = useRef(null);
     const [showScrollToBottom, setShowScrollToBottom] = useState(false);
@@ -161,7 +162,7 @@ function ChatWindow({
                 <>
                     {/* 메인 메뉴 버튼들 */}
                     <div id="main-menu-container">
-                        <MainMenuButtons onButtonClick={handleButtonClick}/>
+                        <MainMenuButtons onButtonClick={handleButtonClick} centerCount={centerCount}/>
                     </div>
 
                     {/* 서브 메뉴 (바로가기) */}

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { fetchBusanYouth } from '../../api';
+import ErrorState from './ErrorState';
 
 const CenterDetailView = ({centerName, onButtonClick}) => {
     const [rentalSpaces, setRentalSpaces] = useState([]);
@@ -118,69 +119,87 @@ const CenterDetailView = ({centerName, onButtonClick}) => {
     }
 
     if (error) {
-        return (
-            <div className="center-detail-error">
-                <p>❌ {error}</p>
-                <button onClick={loadRentalSpaces} className="retry-btn">
-                    🔄 다시 시도
-                </button>
-            </div>
-        );
+        return <ErrorState message={error} onRetry={loadRentalSpaces}/>;
     }
+
+    const renderSpaceGrid = (spaces) => (
+        <div className="rental-spaces-grid">
+            {spaces.map((space, index) => (
+                <div
+                    key={index}
+                    className="rental-space-card"
+                    onClick={() => handleSpaceClick(space)}
+                >
+                    <div className="rental-space-card-header">
+                        <h4 className="space-name">{space.space_name}</h4>
+                        {space.capacity_max && (
+                            <div className="capacity-badge">
+                                👥 {space.capacity_min ? `${space.capacity_min}-` : ''}
+                                {space.capacity_max}명
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="rental-space-card-content">
+                        {space.keywords && space.keywords.length > 0 ? (
+                            <div className="space-keywords">
+                                {formatKeywords(space.keywords).map((keyword, idx) => (
+                                    <span key={idx} className="keyword-tag-small">
+                                        {keyword}
+                                    </span>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="space-keywords">
+                                <span className="keyword-tag-small" style={{opacity: 0.5}}>키워드 없음</span>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="rental-space-card-footer">
+                        <span className="space-click-hint">클릭하여 상세보기 →</span>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+
+    // space_type이 없는 기존 데이터는 대관 공간으로 취급해 기존 화면과 동일하게 노출
+    const rentalOnly = rentalSpaces.filter(space => space.space_type !== 'open_use');
+    const openUseOnly = rentalSpaces.filter(space => space.space_type === 'open_use');
 
     return (
         <div className="center-detail-view">
-            <div className="rental-spaces-header">
-                <hr className="header-divider"/>
-                <h3>{centerName} - 대여 가능한 공간</h3>
-            </div>
+            {rentalOnly.length > 0 && (
+                <>
+                    <div className="rental-spaces-header">
+                        <hr className="header-divider"/>
+                        <h3>{centerName} - 대관 가능 공간</h3>
+                    </div>
+                    {renderSpaceGrid(rentalOnly)}
+                </>
+            )}
 
-            {rentalSpaces.length > 0 && (
-                <div className="rental-spaces-grid">
-                    {rentalSpaces.map((space, index) => (
-                        <div
-                            key={index}
-                            className="rental-space-card"
-                            onClick={() => handleSpaceClick(space)}
-                        >
-                            <div className="rental-space-card-header">
-                                <h4 className="space-name">{space.space_name}</h4>
-                                {space.capacity_max && (
-                                    <div className="capacity-badge">
-                                        👥 {space.capacity_min ? `${space.capacity_min}-` : ''}
-                                        {space.capacity_max}명
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="rental-space-card-content">
-                                {space.keywords && space.keywords.length > 0 ? (
-                                    <div className="space-keywords">
-                                        {formatKeywords(space.keywords).map((keyword, idx) => (
-                                            <span key={idx} className="keyword-tag-small">
-                                                {keyword}
-                                            </span>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="space-keywords">
-                                        <span className="keyword-tag-small" style={{opacity: 0.5}}>키워드 없음</span>
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="rental-space-card-footer">
-                                <span className="space-click-hint">클릭하여 상세보기 →</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+            {openUseOnly.length > 0 && (
+                <>
+                    <div className="rental-spaces-header">
+                        <hr className="header-divider"/>
+                        <h3>{centerName} - 상시 이용 가능 공간</h3>
+                    </div>
+                    {renderSpaceGrid(openUseOnly)}
+                </>
             )}
 
             {rentalSpaces.length === 0 && (
-                <p style={{textAlign: 'center', color: 'var(--text-secondary)'}}>
-                    현재 등록된 대여 가능한 공간이 없습니다.
-                </p>
+                <>
+                    <div className="rental-spaces-header">
+                        <hr className="header-divider"/>
+                        <h3>{centerName} - 대여 가능한 공간</h3>
+                    </div>
+                    <p style={{textAlign: 'center', color: 'var(--text-secondary)'}}>
+                        현재 등록된 대여 가능한 공간이 없습니다.
+                    </p>
+                </>
             )}
         </div>
     );

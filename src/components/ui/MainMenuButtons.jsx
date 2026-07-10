@@ -1,10 +1,12 @@
 import React from 'react';
-import {MAIN_MENU} from '../../utils/constants';
+import {getMainMenu} from '../../utils/constants';
 
-const MainMenuButtons = ({onButtonClick}) => {
+const MainMenuButtons = ({onButtonClick, centerCount}) => {
+    const mainMenu = getMainMenu(centerCount);
+
     return (
         <div id="main-menu-container">
-            {MAIN_MENU.map((item, index) => (
+            {mainMenu.map((item, index) => (
                 <button
                     key={index}
                     className="main-menu-btn"

@@ -1,5 +1,8 @@
-export const MAIN_MENU = [
-    '34개 센터 전체보기',
+// 센터 전체보기 버튼 라벨은 실제 데이터 개수를 세어 동적으로 생성한다 (하드코딩 금지)
+export const CENTER_LIST_LABEL_SUFFIX = '개 센터 전체보기';
+
+export const getMainMenu = (centerCount) => [
+    `${centerCount > 0 ? centerCount : ''}${CENTER_LIST_LABEL_SUFFIX}`,
     '지역별 센터찾기',
     '조건별 대여공간 검색',
     '청년공간 프로그램'

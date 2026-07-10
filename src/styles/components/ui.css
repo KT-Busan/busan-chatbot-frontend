@@ -1,3 +1,30 @@
+/* 공통 에러 상태(ErrorState) */
+.error-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.error-state-message {
+    color: var(--text-secondary, #6b7280);
+    margin-bottom: 16px;
+}
+
+.error-state-retry-btn {
+    background: var(--primary-color, #2563eb);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius-medium, 8px);
+    padding: 10px 20px;
+    font-size: var(--font-size-sm, 0.9em);
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity var(--transition-normal, 0.2s);
+}
+
+.error-state-retry-btn:hover {
+    opacity: 0.85;
+}
+
 /* 메인 메뉴 컨테이너 ui.css */
 #main-menu-container {
     display: flex;
