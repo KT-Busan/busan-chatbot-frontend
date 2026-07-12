@@ -346,6 +346,111 @@
     font-weight: 500;
 }
 
+.report-error-container {
+    margin: 0 0 16px 0;
+}
+
+.report-error-toggle-btn {
+    background: var(--sub-button-bg);
+    border: 1.5px solid var(--border-color-hover);
+    color: var(--text-primary);
+    border-radius: var(--border-radius-medium);
+    padding: 8px 14px;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.report-error-toggle-btn:hover {
+    background: var(--accent-gradient);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.report-error-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    background: var(--message-bot-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-medium);
+    padding: var(--spacing-lg);
+    max-width: 480px;
+    box-shadow: 0 1px 4px var(--shadow-light);
+}
+
+.report-error-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.report-error-select,
+.report-error-textarea {
+    font-family: inherit;
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+    background: var(--input-form-bg, #fff);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-small);
+    padding: 8px 10px;
+    resize: vertical;
+}
+
+.report-error-message {
+    color: #ef4444;
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.report-error-success {
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    background: var(--message-bot-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-medium);
+    padding: 10px 14px;
+    margin: 0;
+    max-width: 480px;
+}
+
+.report-error-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+}
+
+.report-error-cancel-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: var(--border-radius-small);
+    padding: 6px 12px;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+}
+
+.report-error-submit-btn {
+    background: var(--accent-gradient);
+    border: none;
+    color: white;
+    border-radius: var(--border-radius-small);
+    padding: 6px 14px;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.report-error-submit-btn:disabled,
+.report-error-cancel-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 [data-theme="dark"] .center-card,
 [data-theme="dark"] .rental-space-card {
     border: 2px solid transparent;

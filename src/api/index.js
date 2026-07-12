@@ -27,3 +27,6 @@ export const fetchRentalSpaces = (centerName) =>
 
 export const fetchBusanYouth = () =>
     getClient().get('/api/spaces/busan-youth', { timeout: 15000 });
+
+export const submitErrorReport = (payload) =>
+    getClient().post('/api/reports', payload);

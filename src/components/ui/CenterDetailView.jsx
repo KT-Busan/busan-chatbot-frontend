@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { fetchBusanYouth } from '../../api';
 import ErrorState from './ErrorState';
+import ReportErrorButton from './ReportErrorButton';
 
-const CenterDetailView = ({centerName, onButtonClick}) => {
+const CenterDetailView = ({centerName, onButtonClick, anonymousId}) => {
     const [rentalSpaces, setRentalSpaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -109,19 +110,6 @@ const CenterDetailView = ({centerName, onButtonClick}) => {
         });
     };
 
-    if (loading) {
-        return (
-            <div className="center-detail-loading">
-                <div className="loading-spinner"></div>
-                <p>🔄 {centerName}의 대여 가능한 공간을 불러오는 중...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return <ErrorState message={error} onRetry={loadRentalSpaces}/>;
-    }
-
     const renderSpaceGrid = (spaces) => (
         <div className="rental-spaces-grid">
             {spaces.map((space, index) => (
@@ -170,35 +158,50 @@ const CenterDetailView = ({centerName, onButtonClick}) => {
 
     return (
         <div className="center-detail-view">
-            {rentalOnly.length > 0 && (
-                <>
-                    <div className="rental-spaces-header">
-                        <hr className="header-divider"/>
-                        <h3>{centerName} - 대관 가능 공간</h3>
-                    </div>
-                    {renderSpaceGrid(rentalOnly)}
-                </>
+            <ReportErrorButton centerName={centerName} anonymousId={anonymousId}/>
+
+            {loading && (
+                <div className="center-detail-loading">
+                    <div className="loading-spinner"></div>
+                    <p>🔄 {centerName}의 대여 가능한 공간을 불러오는 중...</p>
+                </div>
             )}
 
-            {openUseOnly.length > 0 && (
-                <>
-                    <div className="rental-spaces-header">
-                        <hr className="header-divider"/>
-                        <h3>{centerName} - 상시 이용 가능 공간</h3>
-                    </div>
-                    {renderSpaceGrid(openUseOnly)}
-                </>
-            )}
+            {!loading && error && <ErrorState message={error} onRetry={loadRentalSpaces}/>}
 
-            {rentalSpaces.length === 0 && (
+            {!loading && !error && (
                 <>
-                    <div className="rental-spaces-header">
-                        <hr className="header-divider"/>
-                        <h3>{centerName} - 대여 가능한 공간</h3>
-                    </div>
-                    <p style={{textAlign: 'center', color: 'var(--text-secondary)'}}>
-                        현재 등록된 대여 가능한 공간이 없습니다.
-                    </p>
+                    {rentalOnly.length > 0 && (
+                        <>
+                            <div className="rental-spaces-header">
+                                <hr className="header-divider"/>
+                                <h3>{centerName} - 대관 가능 공간</h3>
+                            </div>
+                            {renderSpaceGrid(rentalOnly)}
+                        </>
+                    )}
+
+                    {openUseOnly.length > 0 && (
+                        <>
+                            <div className="rental-spaces-header">
+                                <hr className="header-divider"/>
+                                <h3>{centerName} - 상시 이용 가능 공간</h3>
+                            </div>
+                            {renderSpaceGrid(openUseOnly)}
+                        </>
+                    )}
+
+                    {rentalSpaces.length === 0 && (
+                        <>
+                            <div className="rental-spaces-header">
+                                <hr className="header-divider"/>
+                                <h3>{centerName} - 대여 가능한 공간</h3>
+                            </div>
+                            <p style={{textAlign: 'center', color: 'var(--text-secondary)'}}>
+                                현재 등록된 대여 가능한 공간이 없습니다.
+                            </p>
+                        </>
+                    )}
                 </>
             )}
         </div>
